@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>Objective-C笔记(5) | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="包括内存的分块，类加载，对象在内存中的位置，方法保存的位置。 内存中的五大区域 栈：存储局部变量； 堆：手动申请的字节空间，malloc、calloc、realloc函数； BSS段：存储未被初始化的全局变量、静态变量； 数据段：也是常量区，存储已被初始化的全局变量、静态变量，常量数据； 代码段：存储代码。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C笔记(5)">
+<meta property="og:url" content="http://www.sdman.tech/2020/02/16/Objective-C%E7%AC%94%E8%AE%B0-5/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="包括内存的分块，类加载，对象在内存中的位置，方法保存的位置。 内存中的五大区域 栈：存储局部变量； 堆：手动申请的字节空间，malloc、calloc、realloc函数； BSS段：存储未被初始化的全局变量、静态变量； 数据段：也是常量区，存储已被初始化的全局变量、静态变量，常量数据； 代码段：存储代码。">
+<meta property="og:image" content="http://www.sdman.tech/2020/02/16/Objective-C%E7%AC%94%E8%AE%B0-5/isa.png">
+<meta property="article:published_time" content="2020-02-16T08:44:03.000Z">
+<meta property="article:modified_time" content="2020-02-26T21:52:16.000Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="Objective-C">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.sdman.tech/2020/02/16/Objective-C%E7%AC%94%E8%AE%B0-5/isa.png">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.png">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.png" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">努力学习Swift中</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.png" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>努力学习Swift中<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-Objective-C笔记-5" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Objective-C笔记(5)
+    </h1>
+  
+
+        
+        <a href="/2020/02/16/Objective-C%E7%AC%94%E8%AE%B0-5/" class="archive-article-date">
+  	<time datetime="2020-02-16T08:44:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>包括内存的分块，类加载，对象在内存中的位置，方法保存的位置。</p>
+<h2 id="内存中的五大区域"><a href="#内存中的五大区域" class="headerlink" title="内存中的五大区域"></a>内存中的五大区域</h2><ul>
+<li><strong>栈</strong>：存储局部变量；</li>
+<li><strong>堆</strong>：手动申请的字节空间，malloc、calloc、realloc函数；</li>
+<li><strong>BSS段</strong>：存储未被初始化的全局变量、静态变量；</li>
+<li><strong>数据段</strong>：也是常量区，存储已被初始化的全局变量、静态变量，常量数据；</li>
+<li><strong>代码段</strong>：存储代码。</li>
+</ul>
+<a id="more"></a>
+
+<h2 id="类加载"><a href="#类加载" class="headerlink" title="类加载"></a>类加载</h2><ol>
+<li><strong>在创建对象时，是需要访问类的；</strong></li>
+<li><strong>声明一个类的指针变量时，也会访问类；</strong>程序运行期间，当某个类被第一次访问到的时候，会将这个类存储到代码段的区域，这个过程叫做<strong>类加载</strong>。</li>
+</ol>
+<h2 id="对象在内存中是如何存储的"><a href="#对象在内存中是如何存储的" class="headerlink" title="对象在内存中是如何存储的"></a>对象在内存中是如何存储的</h2><p>假设这个对象在main函数中创建，<code>Person *p1 = [Person new]</code>也就是一个局部变量；</p>
+<p><code>Person *p1;</code></p>
+<p>一开始会在栈内存申请一块空间，在栈内存中声明一个Person类型的指针变量p1，p1只能存储地址；</p>
+<p>然后<code>[Person new]</code>调用new方法创建对象；</p>
+<h3 id="new做的事情："><a href="#new做的事情：" class="headerlink" title="new做的事情："></a>new做的事情：</h3><ol>
+<li>在<strong>堆内存</strong>中申请一块合适大小的空间；</li>
+<li>在这个空间中<strong>根据类的模板创建对象</strong>(在对象中依次声明类定义的属性，还有一个指向保存在代码段的类的指针<strong>isa</strong>)；</li>
+<li>初始化对象的属性；</li>
+<li>返回对象的地址给p1。</li>
+</ol>
+<img src="/2020/02/16/Objective-C%E7%AC%94%E8%AE%B0-5/isa.png" class="" title="Objective-C笔记-5">
+
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ol>
+<li><strong>保存在堆内存中的对象只有属性没有方法；除了类本身的属性之外还有一个指向代码段的指针isa；</strong></li>
+<li><strong>访问对象属性的过程</strong>：指针名-&gt;属性名，根据指针保存的地址找到堆中的对象，再去寻找对象的属性；</li>
+<li><strong>调用方法的过程</strong>：先根据指针找到对象，对象发现要调用方法，再根据对象的isa指针找到保存在代码段的类，然后调用类里面的方法。</li>
+</ol>
+<h2 id="为什么不把方法保存在对象中"><a href="#为什么不把方法保存在对象中" class="headerlink" title="为什么不把方法保存在对象中"></a>为什么不把方法保存在对象中</h2><p>若放在对象中，一个类生成多个对象，每个对象保存同一个类模板的属性和方法，每个类属性之间互不影响，而<strong>方法实现的代码都是一样的</strong>，会造成堆内存的浪费，所以把它放到一个共用的区域——代码段。</p>
+<p><strong>所以同一个类不同对象的isa指针保存相同的值。</strong></p>
+<p>出错请联系我。</p>
+<hr>
+<p>参考视频系列</p>
+<p><a href="https://www.bilibili.com/video/av69033036?p=29" target="_blank" rel="noopener">传智播客 iOS开发基础班—Objective-C学习</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2020/02/16/Objective-C%E7%AC%94%E8%AE%B0-5/" title="sdman111无聊的博客">http://www.sdman.tech/2020/02/16/Objective-C%E7%AC%94%E8%AE%B0-5/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Objective-C</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2020/02/17/Objective-C%E7%AC%94%E8%AE%B0-6/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Objective-C笔记(6)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/02/15/OC%E6%96%B9%E6%B3%95%E5%A3%B0%E6%98%8E%E4%B8%8E%E8%B0%83%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">OC方法声明与调用</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2020/02/16/Objective-C%E7%AC%94%E8%AE%B0-5/" class="leancloud_visitors" data-flag-title="Objective-C笔记(5)">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2020/02/16/Objective-C笔记-5/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存中的五大区域"><span class="toc-number">1.</span> <span class="toc-text">内存中的五大区域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#类加载"><span class="toc-number">2.</span> <span class="toc-text">类加载</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#对象在内存中是如何存储的"><span class="toc-number">3.</span> <span class="toc-text">对象在内存中是如何存储的</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#new做的事情："><span class="toc-number">3.1.</span> <span class="toc-text">new做的事情：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-number">3.2.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么不把方法保存在对象中"><span class="toc-number">4.</span> <span class="toc-text">为什么不把方法保存在对象中</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2020/02/16/Objective-C%E7%AC%94%E8%AE%B0-5/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2020 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">技术暂时小白的大二学生,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

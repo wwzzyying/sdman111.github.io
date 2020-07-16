@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>OLED结构和发光原理 | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="OLED相对于LCD来说不需要独立的背光层，所以厚度上优势明显，且基板材料也不一定需要玻璃，是生产柔性显示屏的最佳材料；同时也因为各个像素独立发光且不需要LCD液晶层那样的遮光功能，所以对比度更高。  下面就从OLED结构讲起…">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OLED结构和发光原理">
+<meta property="og:url" content="http://www.sdman.tech/2019/09/03/OLED%E7%BB%93%E6%9E%84%E5%92%8C%E5%8F%91%E5%85%89%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="OLED相对于LCD来说不需要独立的背光层，所以厚度上优势明显，且基板材料也不一定需要玻璃，是生产柔性显示屏的最佳材料；同时也因为各个像素独立发光且不需要LCD液晶层那样的遮光功能，所以对比度更高。  下面就从OLED结构讲起…">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g6mdk0bjw1j20nt0g4wik.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g6mrmykr3uj20aq07qmy1.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g6mroegkj4j20h808lt91.jpg">
+<meta property="article:published_time" content="2019-09-03T05:20:38.000Z">
+<meta property="article:modified_time" content="2019-12-06T16:18:36.000Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="OLED">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g6mdk0bjw1j20nt0g4wik.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.png">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.png" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">努力学习Swift中</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.png" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>努力学习Swift中<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-OLED结构和发光原理" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OLED结构和发光原理
+    </h1>
+  
+
+        
+        <a href="/2019/09/03/OLED%E7%BB%93%E6%9E%84%E5%92%8C%E5%8F%91%E5%85%89%E5%8E%9F%E7%90%86/" class="archive-article-date">
+  	<time datetime="2019-09-03T05:20:38.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-09-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <meta name="referrer" content="no-referrer" />
+OLED相对于LCD来说不需要独立的背光层，所以厚度上优势明显，且基板材料也不一定需要玻璃，是生产柔性显示屏的最佳材料；同时也因为各个像素独立发光且不需要LCD液晶层那样的遮光功能，所以对比度更高。
+
+<p>下面就从OLED结构讲起…</p>
+<a id="more"></a>
+
+<h2 id="OLED膜层结构"><a href="#OLED膜层结构" class="headerlink" title="OLED膜层结构"></a>OLED膜层结构</h2><p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g6mdk0bjw1j20nt0g4wik.jpg" alt=""></p>
+<blockquote>
+<p>包括有<strong>阳极</strong>（Anode)、<strong>空穴注入层</strong>（HIL，Hole Injection Layer），<strong>空穴传输层</strong>（HTL，Hole Tranport Layer），<strong>发光层</strong>（EML，Emission layer），<strong>电子传输层</strong>（ETL，Electron Transport Layer)和 <strong>阴极</strong>（Cathode），有的的还有<strong>空穴阻挡层</strong>（HBL，HoleBlock Layer），<strong>电子阻挡层</strong>(EBL，Electron<br>Block Layer），和<strong>封装层</strong>（CPL，Capping Layer）。</p>
+</blockquote>
+<p><strong>电子注入层</strong>和<strong>空穴注入层</strong>：降低从阴极注入电子的势垒，使电子能从阴极有效地注入到OLED器件中。降低从阳极注入空穴的势垒，使空穴能从阳极有效地注入到OLED器件中。</p>
+<p><strong>空穴传输层</strong>和<strong>电子传输层</strong>：为了改变因电子和空穴传输速度不同导致复合发光位置发生的差异</p>
+<hr>
+<h2 id="发光原理"><a href="#发光原理" class="headerlink" title="发光原理"></a>发光原理</h2><p>说OLED发光原理之前先说一下LED发光原理：</p>
+<h3 id="LED发光原理"><a href="#LED发光原理" class="headerlink" title="LED发光原理"></a>LED发光原理</h3><p><strong>LED光源</strong>是一种<strong>半导体固态光源</strong>，核心部分是由<strong>P型半导体</strong>和<strong>N型半导体</strong>构成的掺杂半导体，而掺杂半导体中间就是关键的<strong>PN结</strong>。</p>
+<p>PN结是半导体器件构成的基础，同时也是一切半导体器件的“元概念”和技术的起始点</p>
+<p>所谓<strong>PN结，就是在一块本征半导体上分别掺入三价元素(硼或者铟和铝)和五价元素(磷、砷、锑)形成P型(空穴型)和N型(电子型)半导体区域，当交界处形成的内电场引起的多子扩散和少子漂移达到动态平衡时，空间电荷区电荷数不再变化，PN结宽度稳定，PN结形成。</strong></p>
+<p><strong>空间电荷区对于空穴和电子这些载流子而言是一中能量势垒，也就是PN结势垒，它具有一定的高度和宽度；高度随着半导体掺杂浓度降低和温度的提高而降低，直到温度高至本征激发，也就是有的价电子能摆脱原子核和共价键的束缚参与导电、成为自由电子时，势垒高度变为0。</strong>而厚度也跟掺杂浓度和温度有关，但和高度变化不同，厚度是随掺杂浓度提高而减薄的。</p>
+<p>空间电荷区内电场方向从带正电的N区到带负电的P区，而载流子方向恰恰相反，所以内电场会阻碍载流子的扩散，导致PN结势垒依旧存在，但是空间电荷区内电场会使N区少数载流子空穴往P区漂移，P区少数载流子电子往N区漂移，电子和空穴各自结合，空间电荷区电荷数减少，内电场减弱，空间电荷区变窄，PN结势垒减弱。</p>
+<p>所以想要突破势垒，可以给PN结加上一个<strong>正偏电压</strong>，P区接高电位，N区接低电位，形成与内电场相反的电场，促进内部扩散运动，使空间电荷区电荷数减少，减弱势垒。</p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g6mrmykr3uj20aq07qmy1.jpg" alt=""></p>
+<p>所以，当不通电时，LED这个半导体固体光源内部由于能量势垒存在使得电子和空穴无法发生扩散，无法扩散导致无法结合，这样能量无法释放，作为能量载体之一的光能也无法出现；当加入正偏电压后，扩散运动加强，PN结区域出现空穴和电子的结合，能量有一部分以光为载体释放。<strong>这种发光的现象就称为电致发光</strong>。</p>
+<h3 id="OLED发光原理"><a href="#OLED发光原理" class="headerlink" title="OLED发光原理"></a>OLED发光原理</h3><p>空穴和电子在发光层复合，发出能量，能量被发光层的有机发光物质的分子吸收，使其从基态跃迁到激发态，激发态不稳定，受激分子从激发态回到基态，辐射跃迁而产生发光现象。过程其实和LED发光过程差不多，同样是电致发光；</p>
+<p>1）载流子的注入：在直流低压高电场驱动下，空穴和电子分别从阳极和阴极注入到夹在两电极间的有机层中。</p>
+<p>2) 载流子的迁移：注入的空穴和电子分别由空穴传输层和电子传输层迁移到发光层中。</p>
+<p>3) 载流子的复合：空穴和电子在发光层中相遇，并产生激子。</p>
+<p>4) 激子的迁移：激子在电场作用下将能量传递给有机发光分子，并激发有机分子中的电子从基态跃迁到激发态。</p>
+<p>5) 复合发光。当激子由激发态以辐射跃迁的方式回到基态，就可以观察到电致发光现象，发射光的颜色由激发态到基态的能级差所决定。</p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g6mroegkj4j20h808lt91.jpg" alt=""></p>
+<hr>
+<h2 id="烧屏"><a href="#烧屏" class="headerlink" title="烧屏"></a>烧屏</h2><p>说到这个就要知道发光层的有机聚合物材料的发光寿命是有限的，且因为各个像素点剩余寿命不同，会出现局部位置发光效率出现差异，导致图像显示出问题。所以烧屏的问题肯定就是局部的像素点寿命减少，发光效率降低。</p>
+<hr>
+<p>照片来源：</p>
+<p>电子发烧友</p>
+<p>百度百科</p>
+<p><a href="https://www.jianshu.com/p/1699cfd3e1b4" target="_blank" rel="noopener">OLED各层的作用</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2019/09/03/OLED%E7%BB%93%E6%9E%84%E5%92%8C%E5%8F%91%E5%85%89%E5%8E%9F%E7%90%86/" title="sdman111无聊的博客">http://www.sdman.tech/2019/09/03/OLED%E7%BB%93%E6%9E%84%E5%92%8C%E5%8F%91%E5%85%89%E5%8E%9F%E7%90%86/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">OLED</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/09/10/%E8%A1%A1%E9%87%8F%E7%AE%97%E6%B3%95%E6%95%88%E7%8E%87%E7%9A%84%E6%8C%87%E6%A0%87/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          衡量算法效率的指标
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/26/LCD%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84%E7%BB%84%E6%88%90/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">LCD内部结构组成</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2019/09/03/OLED%E7%BB%93%E6%9E%84%E5%92%8C%E5%8F%91%E5%85%89%E5%8E%9F%E7%90%86/" class="leancloud_visitors" data-flag-title="OLED结构和发光原理">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2019/09/03/OLED结构和发光原理/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#OLED膜层结构"><span class="toc-number">1.</span> <span class="toc-text">OLED膜层结构</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#发光原理"><span class="toc-number">2.</span> <span class="toc-text">发光原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#LED发光原理"><span class="toc-number">2.1.</span> <span class="toc-text">LED发光原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#OLED发光原理"><span class="toc-number">2.2.</span> <span class="toc-text">OLED发光原理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#烧屏"><span class="toc-number">3.</span> <span class="toc-text">烧屏</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2019/09/03/OLED%E7%BB%93%E6%9E%84%E5%92%8C%E5%8F%91%E5%85%89%E5%8E%9F%E7%90%86/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2020 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">技术暂时小白的大二学生,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>TSP旅行商问题 | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="先看一下NP完全问题：P类问题： 存在多项式时间算法的问题。 (P：polynominal，多项式)  NP类问题： 能在多项式时间内验证得出一个正确解的问题。(NP:Nondeterministic polynominal，非确定性多项式)">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TSP旅行商问题">
+<meta property="og:url" content="http://www.sdman.tech/2019/12/06/TSP%E6%97%85%E8%A1%8C%E5%95%86%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="先看一下NP完全问题：P类问题： 存在多项式时间算法的问题。 (P：polynominal，多项式)  NP类问题： 能在多项式时间内验证得出一个正确解的问题。(NP:Nondeterministic polynominal，非确定性多项式)">
+<meta property="og:image" content="https://i.loli.net/2019/12/07/PeGVNR2Yu865wbK.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/12/07/WN9edbaoP2VXfUD.png">
+<meta property="article:published_time" content="2019-12-06T11:04:13.000Z">
+<meta property="article:modified_time" content="2019-12-06T16:18:42.000Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="NP问题">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/12/07/PeGVNR2Yu865wbK.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.png">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.png" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">努力学习Swift中</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.png" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>努力学习Swift中<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-TSP旅行商问题" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TSP旅行商问题
+    </h1>
+  
+
+        
+        <a href="/2019/12/06/TSP%E6%97%85%E8%A1%8C%E5%95%86%E9%97%AE%E9%A2%98/" class="archive-article-date">
+  	<time datetime="2019-12-06T11:04:13.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-12-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <meta name="referrer" content="no-referrer" />
+
+<h3 id="先看一下NP完全问题："><a href="#先看一下NP完全问题：" class="headerlink" title="先看一下NP完全问题："></a>先看一下NP完全问题：</h3><p><strong>P类问题</strong>： 存在多项式时间算法的问题。 (P：polynominal，多项式) </p>
+<p><strong>NP类问题</strong>： 能在多项式时间内验证得出一个正确解的问题。(NP:Nondeterministic polynominal，非确定性多项式)  </p>
+<a id="more"></a>
+
+<p>而P类问题是NP类问题的子集，因为一个问题存在多项式时间算法即代表能在多项式时间内验证，那么除了P类问题集合的其他区域存在着不确定是否有多项式时间算法，也就是这一个NP问题我可以在多项式时间内验证得出解，但不一定找得到多项式时间的算法</p>
+<p><strong>多项式时间</strong>：指的是一个问题的计算时间不大于问题大小n的多项式倍数。m(n)=O(n^k) 此k为一常量值</p>
+<p>引用上课讲的著名NP类问题： 一个售货员必须访问n个城市，恰好访问每个城市一次，并最终回到出发城市。<br>售货员从城市i到城市j的旅行费用是一个整数，旅行所需的全部费用是他旅行经过的的各边费用之和，而售货员希望使整个旅行费用最低。把旅行商问题模型化为一个n个顶点的完全图，一个售货员走一条<a href="https://baike.baidu.com/item/%E5%93%88%E5%AF%86%E9%A1%BF%E5%9B%9E%E8%B7%AF/5575399?fromtitle=%E5%93%88%E5%AF%86%E5%B0%94%E9%A1%BF%E5%9B%9E%E8%B7%AF&fromid=6651493&fr=aladdin" target="_blank" rel="noopener">哈密尔顿回路</a>恰好访问每个城市一次，问题是你可能刚好猜出来一条最短的路径，但单纯的用枚举法来列举的话会有(n-1)! 种可能，那么满足了NP类问题，那么是否存在 一个多项式时间的算法，使得每次都能得出结果呢？也就是<strong>NP=P？，即是否所有能在多项式时间内得出正确解的问题，都是具有多项式时间算法的问题呢？</strong></p>
+<p>旅行商问题已经被证明是NP完全问题，NPC问题—— NP中的某些问题的复杂性与整个类的复杂性相关联.这些问题中任何一个如果存在多项式时间的算法,那么所有NP问题都是多项式时间可解的，这些问题被称为NP-完全问题(NPC问题) 。</p>
+<p>算法导论35章近似算法中——如果一个问题是NP完全的，就不太可能找到一个能给出准确解的多项式时间算法，但这并不意味着没有希望了，解决NP完全问题至少有三种方法—第一、如果实际输入的规模比较小，则用具有指数运行时间的算法来解决问题就很理想了；第二、或许能将一些重要的、多项式时间可解的特殊情况隔离出来；第三、仍有可能在多项式时间里找到（最坏情况或平均情况）的近似最优解。在实践中，近似最优解常常就足够好了。能返回近似最优解的算法称为近似算法。</p>
+<hr>
+<p>解题思路：</p>
+<p>老师说了一个TS算法，查了一下就是禁忌搜索算法，避免陷入局部最优的局面。而用三角不等式解决旅行商问题的前提就是要生成无向图的最小生成树，而最小生成树生成过程属于贪心的范畴，都是从局部最优出发。（可能有不属于 Prim和 Kruskal的最小生成树算法吧哈哈哈），反正最后生成的解一定不是局部最优得出的。</p>
+<p>步骤：</p>
+<p>1、生成最小生成树。</p>
+<p>2、用最小生成树的访问顺序构建一条回路，使得每条边被返回两次</p>
+<p>3、利用三角不等式，构建出两点间的最小路线</p>
+<p>该遍历回路代价不大于最小生成树的2倍，即c权&lt;=2倍b权，只要近似解的回路每条边满足三角不等式—两边之和大于第三边，每条路径和总路径代价才会小于最小生成树代价和的2倍</p>
+<p>这样就可以得到一个2近似算法，一个近似比较小的近似算法。</p>
+<p>下图中的e图是一个最优解，d图是一个近似算法得出的结果。</p>
+<p><img src="https://i.loli.net/2019/12/07/PeGVNR2Yu865wbK.jpg" alt="Inked微信图片_20191206235553_LI.jpg"></p>
+<p><img src="https://i.loli.net/2019/12/07/WN9edbaoP2VXfUD.png" alt="40173f457747de6d24266c5b4dc678f.png"></p>
+<hr>
+<p>参考：</p>
+<p>算法导论</p>
+<p><a href="https://blog.csdn.net/qq_21768483/article/details/80430590" target="_blank" rel="noopener">P问题、NP问题、NP完全问题和NP难问题</a></p>
+<hr>
+<p>有错请留言，新人上路难免出错。谢谢。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2019/12/06/TSP%E6%97%85%E8%A1%8C%E5%95%86%E9%97%AE%E9%A2%98/" title="sdman111无聊的博客">http://www.sdman.tech/2019/12/06/TSP%E6%97%85%E8%A1%8C%E5%95%86%E9%97%AE%E9%A2%98/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">NP问题</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/12/30/%E6%96%B9%E6%A0%BC%E5%A1%AB%E6%95%B0%E9%97%AE%E9%A2%98/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          蓝桥杯_方格填数问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/26/LeetCode-%E4%B8%A4%E6%95%B0%E4%B9%8B%E5%92%8C%E6%80%BB%E7%BB%93/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">LeetCode 1、两数之和总结</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2019/12/06/TSP%E6%97%85%E8%A1%8C%E5%95%86%E9%97%AE%E9%A2%98/" class="leancloud_visitors" data-flag-title="TSP旅行商问题">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2019/12/06/TSP旅行商问题/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#先看一下NP完全问题："><span class="toc-number">1.</span> <span class="toc-text">先看一下NP完全问题：</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2019/12/06/TSP%E6%97%85%E8%A1%8C%E5%95%86%E9%97%AE%E9%A2%98/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2020 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">技术暂时小白的大二学生,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

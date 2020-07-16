@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>寄存器访问信息 | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="x86-64中央处理器(CPU)架构：   16 个 64 位通用寄存器（32 位模式只有 8 个通用寄存器）  8 个 80 位浮点寄存器(ST(0)、ST(1)、ST(2)、ST(3)、ST(4)、 ST(5)、 ST(6)）  1 个 64 位状态标志寄存器 RFLAGS （只使用低 32 位）  1 个 64 位指令指针寄存器 RIP">
+<meta property="og:type" content="article">
+<meta property="og:title" content="寄存器访问信息">
+<meta property="og:url" content="http://www.sdman.tech/2019/10/10/%E5%AF%84%E5%AD%98%E5%99%A8%E8%AE%BF%E9%97%AE%E4%BF%A1%E6%81%AF/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="x86-64中央处理器(CPU)架构：   16 个 64 位通用寄存器（32 位模式只有 8 个通用寄存器）  8 个 80 位浮点寄存器(ST(0)、ST(1)、ST(2)、ST(3)、ST(4)、 ST(5)、 ST(6)）  1 个 64 位状态标志寄存器 RFLAGS （只使用低 32 位）  1 个 64 位指令指针寄存器 RIP">
+<meta property="og:image" content="https://i.loli.net/2019/11/01/iEHnmojfuSUqZvk.jpg">
+<meta property="og:image" content="https://i.loli.net/2019/11/01/WnSGIfKxj8Oui4w.gif">
+<meta property="article:published_time" content="2019-10-10T01:40:32.000Z">
+<meta property="article:modified_time" content="2020-02-13T09:04:50.000Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="汇编语言">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/11/01/iEHnmojfuSUqZvk.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.png">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.png" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">努力学习Swift中</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.png" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>努力学习Swift中<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-寄存器访问信息" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      寄存器访问信息
+    </h1>
+  
+
+        
+        <a href="/2019/10/10/%E5%AF%84%E5%AD%98%E5%99%A8%E8%AE%BF%E9%97%AE%E4%BF%A1%E6%81%AF/" class="archive-article-date">
+  	<time datetime="2019-10-10T01:40:32.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <meta name="referrer" content="no-referrer" />
+x86-64中央处理器(CPU)架构：
+
+<ul>
+<li><p>16 个 64 位<strong>通用寄存器</strong>（32 位模式只有 8 个通用寄存器）</p>
+</li>
+<li><p>8 个 80 位<strong>浮点寄存器</strong>(ST(0)、ST(1)、ST(2)、ST(3)、ST(4)、 ST(5)、 ST(6)）</p>
+</li>
+<li><p>1 个 64 位<strong>状态标志寄存器</strong> RFLAGS （只使用低 32 位）</p>
+</li>
+<li><p>1 个 64 位<strong>指令指针寄存器</strong> RIP</p>
+<a id="more"></a>
+</li>
+<li><p>6 个<strong>段寄存器</strong>(ES、CS、SS、DS、FS和GS)</p>
+</li>
+<li><p>4个<strong>控制寄存器</strong>：（CR0～CR3）</p>
+</li>
+<li><p><strong>段描述表寄存器</strong>：（特权指令访问SGDT/SLDT   LGDT/LLDT）</p>
+<p>全局性的段描述表寄存器GDTR（global descriptortable register <em>）</em></p>
+<p>局部性的段描述表寄存器LDTR（local descriptor table register ）</p>
+</li>
+<li><p>还有其他作用的特殊寄存器</p>
+</li>
+</ul>
+<p>  16个64位通用寄存器:</p>
+<table>
+<thead>
+<tr>
+<th><strong>操作数大小</strong></th>
+<th><strong>可用寄存器</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>8 位</td>
+<td>al、bl、cl、dl、dil、sil、bpl、spl、r8l、r9l、r10l、r11l、r12l、r13l、r14l、r15l</td>
+</tr>
+<tr>
+<td>16 位</td>
+<td>ax、bx、cx、dx、di、si、bp、sp、r8w、r9w、r10w、r11w、r12w、r13w、r14w、r15w</td>
+</tr>
+<tr>
+<td>32 位</td>
+<td>eax、ebx、ecx、edx、edi、esi、ebp、esp、r8d、r9d、r10d、r11d、r12d、r13d、r14d、r15d</td>
+</tr>
+<tr>
+<td>64 位</td>
+<td>rax、rbx、rcx、rdx、rdi、rsi、rbp、rsp、r8、r9、r10、r11、r12、r13、r14、r15</td>
+</tr>
+</tbody></table>
+<p><img src="https://i.loli.net/2019/11/01/iEHnmojfuSUqZvk.jpg" alt="通用寄存器.jpg"></p>
+<hr>
+<p><strong>8个80位浮点寄存器，1个64位的指针寄存器，四个控制寄存器（实际上cr1不使用）</strong></p>
+<p><img src="https://i.loli.net/2019/11/01/WnSGIfKxj8Oui4w.gif" alt="浮点寄存器.jpg"></p>
+<hr>
+<p><strong>通用寄存器(GPRs)</strong>：用于存储整数数据和指针。</p>
+<p><strong>浮点寄存器(FPRs)</strong>：用来储存浮点数字。</p>
+<p><strong>状态标志寄存器</strong>：用来存储算术和逻辑操作的结果，例如ADD，SUB，MUL，与DIV指令。</p>
+<p><strong>指令指针寄存器</strong>：里面放置的是不是指令，而是一个指向下一个将要去获取的指令的内存地址（所以它是一个指针），区别于指令寄存器、存放的是指令。</p>
+<p><strong>段寄存器</strong>：一些段中存放程序指令（代码），其他段存放变量（数据），还有一个堆栈段存放的是局部函数变量和函数参数。</p>
+<p><strong>控制寄存器</strong>：控制标志位控制 CPU 的操作。</p>
+<hr>
+<p>在常见的程序中不同的寄存器扮演不同的角色，其中%rsp用来指明栈的结束位置，有些程序会明确读写这个寄存器；另外15个使用灵活。不同标准的<strong>编程规范</strong>控制着如何使用寄存器管理栈、传递函数参数、从函数的返回值，以及存储局部和临时数据。</p>
+<p>看到<a href="https://www.cnblogs.com/endv/p/4110798.html" target="_blank" rel="noopener">X86-64寄存器和栈帧</a>里面一个有趣的问题：<strong>为什么寄存器比内存快呢？</strong></p>
+<p>引用任职于Rogue Amoeba软件公司的Mike Ash形象的解释：</p>
+<p>　　原因一：距离不同<br>　　距离不是主要因素，但是最好懂，所以放在最前面说。内存离CPU比较远，所以要耗费更长的时间读取。<br>以3GHz的CPU为例，电流每秒钟可以振荡30亿次，每次耗时大约为0.33纳秒。光在1纳秒的时间内，可以前进30厘米。也就是说，在CPU的一个时钟周期内，光可以前进10厘米。因此，如果内存距离CPU超过5厘米，就不可能在一个时钟周期内完成数据的读取，这还没有考虑硬件的限制和电流实际上达不到光速。相比之下，寄存器在CPU内部，当然读起来会快一点。距离对于桌面电脑影响很大，对于手机影响就要小得多。手机CPU的时钟频率比较慢（iPhone 5s为1.3GHz），而且手机的内存紧挨着CPU。</p>
+<p>　　原因二：硬件设计不同（1 Byte表示一个字节， 1B=8bit）<br>　　最新的iPhone 5s，CPU是A7，寄存器有6000多位（31个64位寄存器，加上32个128位寄存器）。而iPhone 6s的内存是1GB，约为80亿位（bit）。这意味着，高性能、高成本、高耗电的设计可以用在寄存器上，反正只有6000多位，而不能用在内存上。因为每个位的成本和能耗只要增加一点点，就会被放大80亿倍。事实上确实如此，内存的设计相对简单，每个位就是一个电容和一个晶体管，而寄存器的设计则完全不同，多出好几个电子元件。并且通电以后，寄存器的晶体管一直有电，而内存的晶体管只有用到的才有电，没用到的就没电，这样有利于省电。这些设计上的因素，决定了寄存器比内存读取速度更快。</p>
+<p>　　原因三：工作方式不同<br>　　寄存器的工作方式很简单，只有两步：（1）找到相关的位，（2）读取这些位。<br>　　内存的工作方式就要复杂得多：<br>　　（1）找到数据的指针。（指针可能存放在寄存器内，所以这一步就已经包括寄存器的全部工作了。）<br>　　（2）将指针送往内存管理单元（MMU），由MMU将虚拟的内存地址翻译成实际的物理地址。<br>　　（3）将物理地址送往内存控制器（memory controller），由内存控制器找出该地址在哪一根内存插槽（bank）上。<br>　　（4）确定数据在哪一个内存块（chunk）上，从该块读取数据。<br>　　（5）数据先送回内存控制器，再送回CPU，然后开始使用。 </p>
+<hr>
+<p>参考：</p>
+<p>《深入了解计算机系统》</p>
+<p>博客园：<a href="https://www.cnblogs.com/endv/p/4110798.html" target="_blank" rel="noopener">X86-64寄存器和栈帧</a></p>
+<p>C语言中文网：<a href="http://c.biancheng.net/view/3458.html" target="_blank" rel="noopener">32位x86处理器架构</a></p>
+<p>C语言中文网：<a href="http://c.biancheng.net/view/3460.html" target="_blank" rel="noopener">64位x86-64处理器架构</a></p>
+<p>CSDN博客：<a href="https://blog.csdn.net/qq_25827741/article/details/71429979" target="_blank" rel="noopener">X86常见寄存器汇总</a></p>
+<p>电子发烧友：<a href="http://www.elecfans.com/consume/578411_2.html" target="_blank" rel="noopener">指令指针寄存器和指针寄存器的关系</a></p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2019/10/10/%E5%AF%84%E5%AD%98%E5%99%A8%E8%AE%BF%E9%97%AE%E4%BF%A1%E6%81%AF/" title="sdman111无聊的博客">http://www.sdman.tech/2019/10/10/%E5%AF%84%E5%AD%98%E5%99%A8%E8%AE%BF%E9%97%AE%E4%BF%A1%E6%81%AF/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">汇编语言</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/10/15/%E6%A0%91%E5%92%8C%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%80%A7%E8%B4%A8/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          树和二叉树的性质
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/10/03/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">栈和队列</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2019/10/10/%E5%AF%84%E5%AD%98%E5%99%A8%E8%AE%BF%E9%97%AE%E4%BF%A1%E6%81%AF/" class="leancloud_visitors" data-flag-title="寄存器访问信息">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2019/10/10/寄存器访问信息/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2019/10/10/%E5%AF%84%E5%AD%98%E5%99%A8%E8%AE%BF%E9%97%AE%E4%BF%A1%E6%81%AF/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2020 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">技术暂时小白的大二学生,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

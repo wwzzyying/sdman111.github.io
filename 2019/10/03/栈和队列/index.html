@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>栈和队列 | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="从数据结构角度来说，栈和队列都是特殊的线性表，都是操作受限的线性表；从数据类型角度来说，栈和队列的抽象数据类型定义不同，他们是不同于线性表的两种重要的抽象数据类型。  栈限定仅能在表尾进行插入删除操作的线性表，因此表尾端可以形象上形容为栈顶，表头端称为栈底；假设n个元素(a1,a2,a3,…,an)依次存进栈中，则a1称为栈底元素，an为栈顶元素，模型如下图，是后进先出(Last In Firs">
+<meta property="og:type" content="article">
+<meta property="og:title" content="栈和队列">
+<meta property="og:url" content="http://www.sdman.tech/2019/10/03/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="从数据结构角度来说，栈和队列都是特殊的线性表，都是操作受限的线性表；从数据类型角度来说，栈和队列的抽象数据类型定义不同，他们是不同于线性表的两种重要的抽象数据类型。  栈限定仅能在表尾进行插入删除操作的线性表，因此表尾端可以形象上形容为栈顶，表头端称为栈底；假设n个元素(a1,a2,a3,…,an)依次存进栈中，则a1称为栈底元素，an为栈顶元素，模型如下图，是后进先出(Last In Firs">
+<meta property="og:image" content="https://i.loli.net/2019/11/01/9ipT1KLFPbWGE6R.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/01/TyYMa7kl6qmeRKQ.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/01/WHAZj6NxPq7Mbz9.png">
+<meta property="og:image" content="https://i.loli.net/2019/11/01/IGyTiN6CEoVKrHd.png">
+<meta property="article:published_time" content="2019-10-03T14:09:45.000Z">
+<meta property="article:modified_time" content="2019-11-01T16:01:06.000Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="数据结构">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2019/11/01/9ipT1KLFPbWGE6R.png">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.png">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.png" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">努力学习Swift中</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.png" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>努力学习Swift中<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-栈和队列" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      栈和队列
+    </h1>
+  
+
+        
+        <a href="/2019/10/03/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" class="archive-article-date">
+  	<time datetime="2019-10-03T14:09:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-10-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <meta name="referrer" content="no-referrer" />
+从数据结构角度来说，栈和队列都是特殊的线性表，都是操作受限的线性表；从数据类型角度来说，栈和队列的抽象数据类型定义不同，他们是不同于线性表的两种重要的抽象数据类型。
+
+<h2 id="栈"><a href="#栈" class="headerlink" title="栈"></a>栈</h2><p>限定仅能在<strong>表尾</strong>进行插入删除操作的线性表，因此表尾端可以形象上形容为<strong>栈顶</strong>，表头端称为<strong>栈底</strong>；假设n个元素(a1,a2,a3,…,an)依次存进栈中，则a1称为栈底元素，an为栈顶元素，模型如下图，是<strong>后进先出(Last In First Out, LIFO)的线性表</strong>。可以利用这一特性保存相反顺序的数据。</p>
+<a id="more"></a>
+
+<p><img src="https://i.loli.net/2019/11/01/9ipT1KLFPbWGE6R.png" alt="栈.png"></p>
+<h3 id="顺序栈"><a href="#顺序栈" class="headerlink" title="顺序栈"></a>顺序栈</h3><p>利用顺序存储结构实现的栈，即利用一组地址连续的存储单元依次存放自栈底到栈顶的数据元素，设置base和top指针分别指向栈底和栈顶在顺序栈中的位置。</p>
+<p>top=0表示空栈；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;-----顺序栈的存储结构-----</span><br><span class="line">#define MAXSIZE 100</span><br><span class="line">typedef struct</span><br><span class="line">&#123;</span><br><span class="line">	SElemType *base;</span><br><span class="line">	SElemType *top;</span><br><span class="line">	int stacksize;</span><br><span class="line">&#125;SqStack;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;-----顺序栈初始化-----</span><br><span class="line">Status InitStack(SqStack &amp;S)&#x2F;&#x2F;S是引用参数</span><br><span class="line">&#123;&#x2F;&#x2F;构造一个空栈S</span><br><span class="line">	S.base&#x3D;new SElemType[MAXSIZE];&#x2F;&#x2F;为顺序栈分配一个MAXSIZE容量的数组空间，返回首地址给base指针</span><br><span class="line">	if(!S.base) exit(OVERFLOW);&#x2F;&#x2F;存储分配失败</span><br><span class="line">	S.top&#x3D;S.base;&#x2F;&#x2F;top和base指针相等，空栈</span><br><span class="line">	S.stacksize&#x3D;MAXSIZE;&#x2F;&#x2F;stacksize置为栈的最大容量MAXSIZE</span><br><span class="line">	return OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>栈为非空时，top指针总是指向栈顶加1；</strong></p>
+<hr>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;-----入栈-----</span><br><span class="line">Status Push(SqStack &amp;S,SElenType e)</span><br><span class="line">&#123;&#x2F;&#x2F;插入元素e为新的栈顶元素</span><br><span class="line">	if(S.top-S.base&#x3D;&#x3D;S.stacksize) return ERROR;&#x2F;&#x2F;负号运算符优先于双目运算符，栈满报错</span><br><span class="line">	*S.top++&#x3D;e;&#x2F;&#x2F;*取值运算符优先级低于自增运算符，把top指针所指空间赋值为e，top自增</span><br><span class="line">	return OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;-----出栈-----</span><br><span class="line">Status Pop(SqStack &amp;S,SElemType &amp;e)</span><br><span class="line">&#123;&#x2F;&#x2F;删除S栈的栈顶元素，用e返回其值</span><br><span class="line">	if(S.top&#x3D;&#x3D;S.base) return ERROR;&#x2F;&#x2F;栈空返回异常</span><br><span class="line">	e&#x3D;*--S.top;&#x2F;&#x2F;先自减再取值赋值给e</span><br><span class="line">	return OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;-----取栈顶元素-----</span><br><span class="line">SElemType GetTop(SqStack S)</span><br><span class="line">&#123;&#x2F;&#x2F;返回S的栈顶元素，不修改栈顶指针</span><br><span class="line">	if(S.top!&#x3D;S.base)</span><br><span class="line">		return *(S.top-1);&#x2F;&#x2F;返回栈顶空间的数据，top指针位置不变</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2019/11/01/TyYMa7kl6qmeRKQ.png" alt="入栈.png"></p>
+<hr>
+<p>入栈满栈时扩容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">Status Push(SqStack &amp;S,SElemType e)</span><br><span class="line">&#123;</span><br><span class="line">	if(S.top-S.base&#x3D;&#x3D;S.stacksize)</span><br><span class="line">		&#123;</span><br><span class="line">			newbase&#x3D;(SElemType*)realloc(S.base,(S.stacksize+STACKINCRMENT)*sizeof(SElemType));</span><br><span class="line">			&#x2F;* 指针名&#x3D;（数据类型*）realloc（要改变内存大小的指针名，新的大小） *&#x2F;</span><br><span class="line">			&#x2F;*realloc函数先检查S.base指针所指空间是否足够，足够则返回base地址，否则把base到top的数据拷贝到新的空间中，释放原有空间，返回新的空间地址*&#x2F;</span><br><span class="line">			if(newbase&#x3D;&#x3D;NULL)exit(OVERFLOW);</span><br><span class="line">			S.base&#x3D;newbase;</span><br><span class="line">			S.top&#x3D;S.base+s.stacksize;</span><br><span class="line">			s.stacksize&#x3D;s.stacksize+STACKINCRMENT;</span><br><span class="line">		&#125;</span><br><span class="line">		*S.top++&#x3D;e;</span><br><span class="line">		return OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="链栈"><a href="#链栈" class="headerlink" title="链栈"></a>链栈</h3><p>采用链式存储结构实现的栈，通常链栈用单链表来表示。链栈结点结构与单链表的结点结构相同：</p>
+<p><img src="https://i.loli.net/2019/11/01/WHAZj6NxPq7Mbz9.png" alt="链栈.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;-----链栈的存储结构-----</span><br><span class="line">typedef struct StackNode</span><br><span class="line">&#123;</span><br><span class="line">	ElemType data;&#x2F;&#x2F;存储数据的数据域</span><br><span class="line">	struct StackNode *next;&#x2F;&#x2F;指向结构体的指针next</span><br><span class="line">&#125;StackNode,*LinkStack</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;-----链栈初始化-----</span><br><span class="line">Status InitStack(LinkStack &amp;S)</span><br><span class="line">&#123;&#x2F;&#x2F;构造空栈S，栈顶指针置空</span><br><span class="line">	S&#x3D;NULL:</span><br><span class="line">	return OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;-----入栈-----</span><br><span class="line">Status Push(LinkStack &amp;S,SElemType e)</span><br><span class="line">&#123;&#x2F;&#x2F;栈顶插入元素e</span><br><span class="line">	p&#x3D;new StackNode;&#x2F;&#x2F;生成新结点p</span><br><span class="line">	p-&gt;data&#x3D;e;&#x2F;&#x2F;data域设为e</span><br><span class="line">	p-&gt;next&#x3D;S;&#x2F;&#x2F;指针域指向栈顶位置</span><br><span class="line">	S&#x3D;p;&#x2F;&#x2F;栈顶结点变为p</span><br><span class="line">	&#x2F;*入栈不同于顺序栈，不需要判断空间余满，只需生成一个结点空间，新结点next域指向栈顶，把栈顶结点变为p*&#x2F;</span><br><span class="line">	return OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;-----出栈-----</span><br><span class="line">Status Pop(LinkStack &amp;S,SElemType &amp;e)</span><br><span class="line">&#123;&#x2F;&#x2F;删除S的栈顶元素，用e返回值</span><br><span class="line">	if(S&#x3D;&#x3D;NULL)return ERROR;&#x2F;&#x2F;栈空报错</span><br><span class="line">	e&#x3D;S-&gt;data;&#x2F;&#x2F;保存出栈数据</span><br><span class="line">	p&#x3D;S;&#x2F;&#x2F;p临时保存栈顶空间</span><br><span class="line">	S&#x3D;S-&gt;next;&#x2F;&#x2F;栈顶变为下一个元素</span><br><span class="line">	delete p;&#x2F;&#x2F;释放空间</span><br><span class="line">	return OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://i.loli.net/2019/11/01/IGyTiN6CEoVKrHd.png" alt="链栈出入栈.png"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SElemType GetTop(LinkStack S)</span><br><span class="line">&#123;&#x2F;&#x2F;返回S的栈顶元素，不修改栈顶指针</span><br><span class="line">	if(S!&#x3D;NULL)&#x2F;&#x2F;栈非空</span><br><span class="line">		return S-&gt;data;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>队列下一篇吧哈哈哈，鸽了鸽了。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2019/10/03/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" title="sdman111无聊的博客">http://www.sdman.tech/2019/10/03/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">数据结构</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/10/10/%E5%AF%84%E5%AD%98%E5%99%A8%E8%AE%BF%E9%97%AE%E4%BF%A1%E6%81%AF/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          寄存器访问信息
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/09/23/%E7%BA%BF%E6%80%A7%E8%A1%A8%E7%9A%84%E8%A1%A8%E7%A4%BA%E5%92%8C%E5%AE%9E%E7%8E%B0/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">线性表的表示和实现</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2019/10/03/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/" class="leancloud_visitors" data-flag-title="栈和队列">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2019/10/03/栈和队列/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#栈"><span class="toc-number">1.</span> <span class="toc-text">栈</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#顺序栈"><span class="toc-number">1.1.</span> <span class="toc-text">顺序栈</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#链栈"><span class="toc-number">1.2.</span> <span class="toc-text">链栈</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2019/10/03/%E6%A0%88%E5%92%8C%E9%98%9F%E5%88%97/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2020 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">技术暂时小白的大二学生,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

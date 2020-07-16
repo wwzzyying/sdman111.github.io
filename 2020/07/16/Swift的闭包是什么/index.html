@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>Swift的闭包是什么 | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="闭包(Closures)​        闭包：封闭的、自包含的代码块，类似于OC的blocks和其他语言的“匿名函数”，在下面的学习中更能体会到“匿名”这个感觉。 闭包的表现形式123&amp;#123;(形参列表) -&gt; 返回值类型 in		执行体(相当于函数体)&amp;#125;  其实表现形式也就是所谓的闭包表达式(Closure Expression)，我们先列出函数和闭包表达式一个例子：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Swift的闭包是什么">
+<meta property="og:url" content="http://www.sdman.tech/2020/07/16/Swift%E7%9A%84%E9%97%AD%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="闭包(Closures)​        闭包：封闭的、自包含的代码块，类似于OC的blocks和其他语言的“匿名函数”，在下面的学习中更能体会到“匿名”这个感觉。 闭包的表现形式123&amp;#123;(形参列表) -&gt; 返回值类型 in		执行体(相当于函数体)&amp;#125;  其实表现形式也就是所谓的闭包表达式(Closure Expression)，我们先列出函数和闭包表达式一个例子：">
+<meta property="article:published_time" content="2020-07-16T09:29:31.000Z">
+<meta property="article:modified_time" content="2020-07-16T13:09:38.019Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="Swift">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.png">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.png" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">努力学习Swift中</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.png" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>努力学习Swift中<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-Swift的闭包是什么" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Swift的闭包是什么
+    </h1>
+  
+
+        
+        <a href="/2020/07/16/Swift%E7%9A%84%E9%97%AD%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88/" class="archive-article-date">
+  	<time datetime="2020-07-16T09:29:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-07-16</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="闭包-Closures"><a href="#闭包-Closures" class="headerlink" title="闭包(Closures)"></a>闭包(Closures)</h1><p>​        闭包：封闭的、自包含的代码块，类似于OC的blocks和其他语言的“匿名函数”，在下面的学习中更能体会到“匿名”这个感觉。</p>
+<h2 id="闭包的表现形式"><a href="#闭包的表现形式" class="headerlink" title="闭包的表现形式"></a>闭包的表现形式</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;(形参列表) -&gt; 返回值类型 <span class="keyword">in</span></span><br><span class="line">		执行体(相当于函数体)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>其实表现形式也就是所谓的闭包表达式(Closure Expression)，我们先列出函数和闭包表达式一个例子：</p>
+<a id="more"></a>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">闭包表达式：</span><br><span class="line">&#123;(int1: <span class="type">Int</span>, int2: <span class="type">Int</span>) -&gt; <span class="type">Int</span> <span class="keyword">in</span></span><br><span class="line">		<span class="keyword">return</span> int1 + int2</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">函数：</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">addTwoInts</span><span class="params">(int1: Int, int2: Int)</span></span> -&gt; <span class="type">Int</span></span><br><span class="line">&#123;</span><br><span class="line">		<span class="keyword">return</span> int1 + int2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​        对比闭包表达式和函数，我们可以发现闭包表达式：</p>
+<ul>
+<li>删除了func关键字</li>
+<li>删除了函数名</li>
+<li>在返回值类型后添加in关键字</li>
+<li>“{“移动到形参列表的前面，”{ }”处于整个闭包的最外层</li>
+</ul>
+<p>but：</p>
+<ul>
+<li>形参不能设置default value（默认值）</li>
+<li>不能从一个闭包表达式开始一个顶层语句</li>
+</ul>
+<h2 id="闭包表达式出现的地方"><a href="#闭包表达式出现的地方" class="headerlink" title="闭包表达式出现的地方"></a>闭包表达式出现的地方</h2><h3 id="变量或常量的值"><a href="#变量或常量的值" class="headerlink" title="变量或常量的值"></a>变量或常量的值</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> a = &#123;(int1: <span class="type">Int</span>, int2: <span class="type">Int</span>) -&gt; <span class="type">Int</span> <span class="keyword">in</span></span><br><span class="line">		<span class="keyword">return</span> int1 + int2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数实参"><a href="#函数实参" class="headerlink" title="函数实参"></a>函数实参</h3><p>（类似于blocks向函数传入自定义的代码块实现自定义功能）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> arr = [<span class="string">"Steve"</span>,<span class="string">"water"</span>,<span class="string">"only"</span>]</span><br><span class="line">arr.sorted(by: &#123;(str1: <span class="type">String</span>, str2: <span class="type">String</span>) -&gt; <span class="type">Bool</span> <span class="keyword">in</span></span><br><span class="line">		<span class="keyword">return</span> str1 &lt; str2</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h3 id="函数返回值"><a href="#函数返回值" class="headerlink" title="函数返回值"></a>函数返回值</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">evalTwoIntsTwo</span><span class="params">(flage: Bool)</span></span> -&gt; (<span class="type">Int</span>, <span class="type">Int</span>) -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">  	<span class="keyword">return</span> flage ? &#123;(int1: <span class="type">Int</span>, int2: <span class="type">Int</span>) -&gt; <span class="type">Int</span> <span class="keyword">in</span></span><br><span class="line">      		<span class="keyword">return</span> int1 + int2</span><br><span class="line">    &#125; : &#123;(int1: <span class="type">Int</span>, int2: <span class="type">Int</span>) -&gt; <span class="type">Int</span> <span class="keyword">in</span></span><br><span class="line">      		<span class="keyword">return</span> int1 * int2</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="闭包表达式的缩写"><a href="#闭包表达式的缩写" class="headerlink" title="闭包表达式的缩写"></a>闭包表达式的缩写</h2><h3 id="省略形参类型和返回值类型"><a href="#省略形参类型和返回值类型" class="headerlink" title="省略形参类型和返回值类型"></a>省略形参类型和返回值类型</h3><p>​        闭包表达式会根据上下文推断类型（准确来说是Swift能够通过上下文推断出参数类型和返回值类型），所以可以省略二者类型声明：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sum = &#123;int1, int2 <span class="keyword">in</span> <span class="keyword">return</span> int1 + int2&#125;</span><br><span class="line">sum(<span class="number">3</span>,<span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="单行表达式闭包隐式返回"><a href="#单行表达式闭包隐式返回" class="headerlink" title="单行表达式闭包隐式返回"></a>单行表达式闭包隐式返回</h3><p>​        若闭包表达式只有一行return语句，那么可省略return关键字：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sum = &#123;int1, int2 <span class="keyword">in</span> int1 + int2&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="参数名称缩写"><a href="#参数名称缩写" class="headerlink" title="参数名称缩写"></a>参数名称缩写</h3><p>​        省略参数类型和返回值类型之后，还可以对参数名称进行缩写，直接通过 <code>$0</code>，<code>$1</code>，<code>$2</code> 来顺序调用闭包的参数，由此省略了参数列表，<code>in</code>关键字同样也可以被省略，此时闭包表达式完全由闭包函数体构成：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> sum = &#123;$<span class="number">0</span> + $<span class="number">1</span>&#125;</span><br><span class="line"><span class="comment">//在这个例子中，$0 和 $1 表示闭包中第一个和第二个 String 类型的参数。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="尾随闭包-Trailing-Closures"><a href="#尾随闭包-Trailing-Closures" class="headerlink" title="尾随闭包(Trailing Closures)"></a>尾随闭包(Trailing Closures)</h2><p>​        为了改善将一个很长的闭包表达式作为最后一个参数传入函数时导致调用函数过长的局面，可以选择使用Trailing Closures</p>
+<ol>
+<li>尾随闭包是写在函数右括号之后的闭包表达式</li>
+<li>尾随闭包不用写出形参标签</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">someFunctionThatTakesAClosure</span><span class="params">(closure: <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">    <span class="comment">// 函数体部分</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以下是不使用尾随闭包进行函数调用</span></span><br><span class="line">someFunctionThatTakesAClosure(closure: &#123;</span><br><span class="line">    <span class="comment">// 闭包主体部分</span></span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 以下是使用尾随闭包进行函数调用</span></span><br><span class="line">someFunctionThatTakesAClosure() &#123;</span><br><span class="line">    <span class="comment">// 闭包主体部分</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>若该闭包表达式是该函数或方法的唯一参数，则可以省略括号<code>()</code></li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">someFunctionThatTakesAClosure() &#123;</span><br><span class="line">    <span class="comment">// 闭包主体部分</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//省略()</span></span><br><span class="line">someFunctionThatTakesAClosure &#123;</span><br><span class="line">    <span class="comment">// 闭包主体部分</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="逃逸闭包-Escaping-Closures"><a href="#逃逸闭包-Escaping-Closures" class="headerlink" title="逃逸闭包(Escaping Closures)"></a>逃逸闭包(Escaping Closures)</h2><blockquote>
+<p>生命周期长于相关函数，当函数退出的时候，逃逸闭包的引用仍然被其他对象持有，不会在相关函数结束后释放</p>
+<p>引用自：<a href="https://www.jianshu.com/p/6c6ab0f67308" target="_blank" rel="noopener">Swift 之 非逃逸闭包与逃逸闭包</a></p>
+</blockquote>
+<p>​        官方文档写当一个闭包作为参数传到一个函数中，但这个闭包在函数返回之后才执行，则称该闭包为逃逸闭包；当你定义接受闭包作为参数的函数时，你可以在参数名之前标注 <code>@escaping</code>，用来指明这个闭包是允许“逃逸”出这个函数的，否则会显示编译错误。</p>
+<ul>
+<li><p>问题是：什么才叫在函数返回之后才执行？</p>
+</li>
+<li><p>这里我引用一个Blog：<a href="https://www.jianshu.com/p/9fa837c58006" target="_blank" rel="noopener">Swift中的逃逸闭包的理解</a></p>
+</li>
+<li><blockquote>
+<p>里面写到：很多启动异步操作的函数接受一个闭包参数作为 completion handler。这类启动异步操作的函数会在异步操作开始之后（即“启动异步操作”的函数已经执行完毕）立刻返回，但是闭包直到异步操作结束后才会被调用（即“启动异步操作”函数执行完毕后才被调用)。这中情况很完美的符合了逃逸闭包的定义……</p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">官方例子：</span><br><span class="line"><span class="keyword">var</span> completionHandlers: [() -&gt; <span class="type">Void</span>] = []</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">someFunctionWithEscapingClosure</span><span class="params">(completionHandler: @escaping <span class="params">()</span></span></span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">    completionHandlers.append(completionHandler)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//someFunctionWithEscapingClosure(_:) 函数接受一个闭包作为参数，该闭包被添加到一个函数外定义的数组中。如果你不将这个参数标记为 @escaping，就会得到一个编译错误。</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="自动闭包-Autoclosures"><a href="#自动闭包-Autoclosures" class="headerlink" title="自动闭包(Autoclosures)"></a>自动闭包(Autoclosures)</h2><p>​        <em>自动闭包</em>是一种自动创建的闭包，用于包装传递给函数作为参数的表达式，添加了<code>autoclosure</code>特性的闭包参数可以不用显式传入闭包，可以像传入基本数据类型一样传入不带花括号的<code>{}</code>的表达式，后面执行时会自动转化为一个闭包。</p>
+<blockquote>
+<p>引用官方文档：自动闭包让你能够延迟求值，因为直到你调用这个闭包，代码段才会被执行。延迟求值对于那些有副作用（Side Effect）和高计算成本的代码来说是很有益处的，因为它使得你能控制代码的执行时机。下面的代码展示了闭包如何延时求值：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> customersInLine = [<span class="string">"Chris"</span>, <span class="string">"Alex"</span>, <span class="string">"Ewa"</span>, <span class="string">"Barry"</span>, <span class="string">"Daniella"</span>]</span><br><span class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</span><br><span class="line"><span class="comment">// 打印出“5”</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> customerProvider = &#123; customersInLine.remove(at: <span class="number">0</span>) &#125;</span><br><span class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</span><br><span class="line"><span class="comment">// 打印出“5”</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">"Now serving \(customerProvider())!"</span>)</span><br><span class="line"><span class="comment">// 打印出“Now serving Chris!”</span></span><br><span class="line"><span class="built_in">print</span>(customersInLine.<span class="built_in">count</span>)</span><br><span class="line"><span class="comment">// 打印出“4”</span></span><br></pre></td></tr></table></figure>
+
+<p>尽管在闭包的代码中，<code>customersInLine</code> 的第一个元素被移除了，不过在闭包被调用之前，这个元素是不会被移除的。如果这个闭包永远不被调用，那么在闭包里面的表达式将永远不会执行，那意味着列表中的元素永远不会被移除。请注意，<code>customerProvider</code> 的类型不是 <code>String</code>，而是 <code>() -&gt; String</code>，一个没有参数且返回值为 <code>String</code>的函数。</p>
+</blockquote>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2020/07/16/Swift%E7%9A%84%E9%97%AD%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88/" title="sdman111无聊的博客">http://www.sdman.tech/2020/07/16/Swift%E7%9A%84%E9%97%AD%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Swift</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/05/04/LeetCode26-%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9(%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95)/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">LeetCode26. 删除排序数组中的重复项</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2020/07/16/Swift%E7%9A%84%E9%97%AD%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88/" class="leancloud_visitors" data-flag-title="Swift的闭包是什么">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2020/07/16/Swift的闭包是什么/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#闭包-Closures"><span class="toc-number">1.</span> <span class="toc-text">闭包(Closures)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#闭包的表现形式"><span class="toc-number">1.1.</span> <span class="toc-text">闭包的表现形式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闭包表达式出现的地方"><span class="toc-number">1.2.</span> <span class="toc-text">闭包表达式出现的地方</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#变量或常量的值"><span class="toc-number">1.2.1.</span> <span class="toc-text">变量或常量的值</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数实参"><span class="toc-number">1.2.2.</span> <span class="toc-text">函数实参</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#函数返回值"><span class="toc-number">1.2.3.</span> <span class="toc-text">函数返回值</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#闭包表达式的缩写"><span class="toc-number">1.3.</span> <span class="toc-text">闭包表达式的缩写</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#省略形参类型和返回值类型"><span class="toc-number">1.3.1.</span> <span class="toc-text">省略形参类型和返回值类型</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#单行表达式闭包隐式返回"><span class="toc-number">1.3.2.</span> <span class="toc-text">单行表达式闭包隐式返回</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#参数名称缩写"><span class="toc-number">1.3.3.</span> <span class="toc-text">参数名称缩写</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#尾随闭包-Trailing-Closures"><span class="toc-number">1.4.</span> <span class="toc-text">尾随闭包(Trailing Closures)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#逃逸闭包-Escaping-Closures"><span class="toc-number">1.5.</span> <span class="toc-text">逃逸闭包(Escaping Closures)</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自动闭包-Autoclosures"><span class="toc-number">1.6.</span> <span class="toc-text">自动闭包(Autoclosures)</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2020/07/16/Swift%E7%9A%84%E9%97%AD%E5%8C%85%E6%98%AF%E4%BB%80%E4%B9%88/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2020 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">技术暂时小白的大二学生,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

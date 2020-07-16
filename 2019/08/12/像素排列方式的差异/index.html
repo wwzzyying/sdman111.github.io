@@ -1,0 +1,698 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>像素排列方式的差异 | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这篇是为了解决自己的疑惑而记录下来的随笔，那时候想为什么照片放大会变糊，什么是像素，像素排列方式又有哪些等等，要了解这些首先要从大到小探究；  屏幕材质首先手机的屏幕材质可分为LCD（Liquid Crystal Display）液晶显示器和OLED（Organic Light-Emitting Diode）有机发光二极管两种，让我们看看两者结构上的差异：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="像素排列方式的差异">
+<meta property="og:url" content="http://www.sdman.tech/2019/08/12/%E5%83%8F%E7%B4%A0%E6%8E%92%E5%88%97%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B7%AE%E5%BC%82/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="这篇是为了解决自己的疑惑而记录下来的随笔，那时候想为什么照片放大会变糊，什么是像素，像素排列方式又有哪些等等，要了解这些首先要从大到小探究；  屏幕材质首先手机的屏幕材质可分为LCD（Liquid Crystal Display）液晶显示器和OLED（Organic Light-Emitting Diode）有机发光二极管两种，让我们看看两者结构上的差异：">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5uk70cd6zj20go06o75s.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5ulpl97f5j20kk0dhq5t.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5ultbdjfij20fk0awtam.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5un092hflj20go09cdhz.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5un17xe9kj20de08475h.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5un99yczwj208o06it9u.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5un2rot5dj20dw09ddga.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5un6r94i9j208o06itc7.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5v1wmg6pjj20dr06g3yk.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5v3eb7q20j20u00gsagu.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5w6ipfpj4j20go06kmxd.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5w78abtu5j20go07774s.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5w7a372n4j20go09iaa9.jpg">
+<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5w7hxfucpj20dr06gjrh.jpg">
+<meta property="article:published_time" content="2019-08-12T05:51:45.000Z">
+<meta property="article:modified_time" content="2019-10-21T12:32:52.000Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="像素排列">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/a97c915cgy1g5uk70cd6zj20go06o75s.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.png">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.png" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">努力学习Swift中</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.png" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>努力学习Swift中<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-像素排列方式的差异" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      像素排列方式的差异
+    </h1>
+  
+
+        
+        <a href="/2019/08/12/%E5%83%8F%E7%B4%A0%E6%8E%92%E5%88%97%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B7%AE%E5%BC%82/" class="archive-article-date">
+  	<time datetime="2019-08-12T05:51:45.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-08-12</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <meta name="referrer" content="no-referrer" />
+这篇是为了解决自己的疑惑而记录下来的随笔，那时候想为什么照片放大会变糊，什么是像素，像素排列方式又有哪些等等，要了解这些首先要从大到小探究；
+
+<h2 id="屏幕材质"><a href="#屏幕材质" class="headerlink" title="屏幕材质"></a>屏幕材质</h2><p>首先手机的屏幕材质可分为LCD（Liquid Crystal Display）液晶显示器和OLED（Organic Light-Emitting Diode）有机发光二极管两种，让我们看看两者结构上的差异：</p>
+<a id="more"></a>
+
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5uk70cd6zj20go06o75s.jpg" alt=""></p>
+<p>结构上来看OLED不需要背光层，厚度完胜LCD材质，同时也因为不存在液体结构，所以不存在LCD材质下导致的屏幕漏液情况；也因为不存在液体结构，所以OLED屏幕可以覆盖在其他材料的基板上，制作出柔性的屏幕。</p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5ulpl97f5j20kk0dhq5t.jpg" alt=""></p>
+<hr>
+<p>扯远了，有兴趣的朋友点击下面的连接进行研究：</p>
+<p> <a href="http://www.elecfans.com/led/oled/805094.html" target="_blank" rel="noopener">分析lcd屏幕与oled屏幕之间的区别 - oled - 电子发烧友网</a></p>
+<hr>
+<h2 id="屏幕分辨率"><a href="#屏幕分辨率" class="headerlink" title="屏幕分辨率"></a>屏幕分辨率</h2><p>初步了解屏幕材质之后我们来了解一下<strong>屏幕分辨率</strong>，我们应该都听惯了1080P、2K之类的；首先一块18:9的1080P屏幕，它的分辨率为<strong>2340*1080</strong>，表示每个纵向有2340个像素点，每个横向有1080个像素点，总共有<strong>2,527,200</strong>个像素点；而一块19.5:9的2k屏，它的分辨率达到了<strong>3120*1440</strong>，总共有<strong>4,492,800</strong>个像素点。分辨率越高，能显示的细节越多，画面越细腻，不会出现因为分辨率过低导致出现“大果粒”屏幕出现。</p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5ultbdjfij20fk0awtam.jpg" alt=""></p>
+<p>但是，不同像素排列方式的屏幕所表示的相同分辨率的观感并非一样，具体在下面像素排列方式的部分有解答。</p>
+<hr>
+<h2 id="像素排列方式"><a href="#像素排列方式" class="headerlink" title="像素排列方式"></a>像素排列方式</h2><p><strong>标准RGB排列</strong></p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5un092hflj20go09cdhz.jpg" alt=""></p>
+<p><strong>RGB Pentile排列</strong></p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5un17xe9kj20de08475h.jpg" alt=""></p>
+<p>用于P30的<strong>钻石Pentile排列</strong></p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5un99yczwj208o06it9u.jpg" alt=""></p>
+<p><strong>RGB Detla排列（P排的另一种）</strong></p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5un2rot5dj20dw09ddga.jpg" alt=""></p>
+<p>用于P30Pro的<strong>BOE排列（Detla排列的一种）</strong></p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5un6r94i9j208o06itc7.jpg" alt=""></p>
+<p>还有<strong>RGBW 排列</strong>和<strong>RGB S-Strip 排列</strong>下面会介绍到。</p>
+<p>现在主流的OLED屏幕都不会用标准RGB排列，因为OLED屏幕发光层中的蓝色子像素在同等电流强度下发光效率低于绿色子像素，标准RGB排列中要想发光效率相同只能通过提高蓝色子像素的电流强度来解决，这样带来的问题是蓝色子像素更快的损耗，为了解决这个问题，专注OLED面板的三星设计出了全新的子像素排列方式RGB Pentile排列（简称P排）方案</p>
+<h3 id="Pentile排列"><a href="#Pentile排列" class="headerlink" title="Pentile排列"></a>Pentile排列</h3><p>P排显而易见的减少了红色和蓝色子像素的数量，反过来增加他们每个子像素的面积，同时降低因面积变大而变亮的亮度，这样可以有效解决蓝色子像素寿命问题，随之而来的是子像素缩水带来的屏幕ppi（pixels per inch）降低，每英寸像素点降低带来的是观感上带来的颗粒感</p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5v1wmg6pjj20dr06g3yk.jpg" alt=""></p>
+<p>这幅图是p排与标准RGB排列对比，可以看见p排每一行的实际子像素都比RGB排列少三分之一，标准RGB情况下的实际ppi计算公式是</p>
+<center><font color=#A52A2A size=4 >PPI=√(X^2+Y^2)/Z</font></center>
+<center><font color=#A52A2A size=4 >X:长度像素数，Y:宽度像素数，Z:屏幕大小</font></center>
+考虑到p排折损问题，换算成标准RGB排列下的ppi大概只有81.6%。这也是为啥同样1080P屏幕，iPhone8P的LCD屏幕没有国产手机那些1080P三星s.....uper AMOLED看起来有颗粒感和锯齿感，何况还有些用的是折损更加高的Detla排列换算下来只有七成是有效ppi。
+
+<h3 id="Detla排列"><a href="#Detla排列" class="headerlink" title="Detla排列"></a>Detla排列</h3><p>早期的坚果pro 2s，用的是维信诺的AMOLED面板，排列方式是Detla，其实Detla排列同样是p排的一种，通过共用子像素来解决材料损耗问题，也同样带来ppi折损，下面对比Detla排列（左）和钻石p排（右）的区别</p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5v3eb7q20j20u00gsagu.jpg" alt=""></p>
+<p>从横向来看，rgb三个子像素各自都能轻易看出来一条线；从纵向来看，无论rgb三种子像素都不能第一时间分辨出来，因为<strong>人眼对于绿色最敏感</strong>，重建色度信息所用的红蓝像素相对较少，所以Detla的观感给人的感觉像是糊了的样子。</p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5w6ipfpj4j20go06kmxd.jpg" alt=""></p>
+<p>与p排不同，Detla的红绿蓝子像素数量相同，不同的是Detla排列相比标准 RGB 排列三种颜色的子像素数量各减少三分之一，而非P排的只减少蓝色和红色子像素的数量，导致实际像素密度相比 PenTile 进一步下降，大约<strong>只有标准 RGB 排列的 70%</strong>。</p>
+<h3 id="RGBW排列"><a href="#RGBW排列" class="headerlink" title="RGBW排列"></a>RGBW排列</h3><p>排列方式与标准RGB类似，多见于LCD上，每两个像素中一个蓝色子像素替换成一个白色子像素，大大提高了屏幕最高亮度且更省电，但带来的是显示色彩时所导致的色偏问题和细腻程度的下降。Mate 10、Mate 20、P20用的就是RGBW排列。</p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5w78abtu5j20go07774s.jpg" alt=""></p>
+<h3 id="RGB-S-Strip排列"><a href="#RGB-S-Strip排列" class="headerlink" title="RGB S-Strip排列"></a>RGB S-Strip排列</h3><p>标准 RGB 一样也是单个像素均分为红、绿、蓝三个子像素，只不过三个子像素不是并排，而是蓝色子像素垂直竖置，红、绿子像素横置的形式。</p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5w7a372n4j20go09iaa9.jpg" alt=""></p>
+<hr>
+<h3 id="p排相对于标准RGB的三个弊端"><a href="#p排相对于标准RGB的三个弊端" class="headerlink" title="p排相对于标准RGB的三个弊端"></a>p排相对于标准RGB的三个弊端</h3><p><strong>1、</strong>ppi下降，共用子像素导致实际ppi折损。</p>
+<p><strong>2、</strong>子像素共用出现闲置子像素，导致无法显示准确的颜色了，有些点欠缺红色，有些点欠缺蓝色，有些点多了绿色。</p>
+<p><strong>3、</strong>彩边现象，由于红蓝子像素变大导致边缘部分的子像素无法形成正常的白色，使显示白色文字和图案的时候出现彩边。</p>
+<p><img src="http://ww1.sinaimg.cn/large/a97c915cgy1g5w7hxfucpj20dr06gjrh.jpg" alt=""></p>
+<hr>
+<h3 id="消除p排三大弊端"><a href="#消除p排三大弊端" class="headerlink" title="消除p排三大弊端"></a>消除p排三大弊端</h3><p><strong>提高分辨率</strong>，增加画面细腻程度，用以抵消ppi折损、色准偏差和彩边影响。</p>
+<hr>
+<p>这几年随着OLED屏幕高分辨率的普及以及其材料特殊性，越来越多移动设备选择OLED材质作为其屏幕材质，而且随着LCD党喊出的“我有DC调光，你没有”口号被厂商研发的类DC调光打败后，似乎没有什么理由继续坚持LCD了，坚持的理由似乎只有内心的一丝不舍和同分辨率下ppi的优越性，希望未来能有新的发光材料能解决现有的材料寿命问题。</p>
+<p>如有错误，请联系我。</p>
+<hr>
+<p>图源</p>
+<p>电子工程网</p>
+<p>GSMArena</p>
+<p>数字尾巴</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2019/08/12/%E5%83%8F%E7%B4%A0%E6%8E%92%E5%88%97%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B7%AE%E5%BC%82/" title="sdman111无聊的博客">http://www.sdman.tech/2019/08/12/%E5%83%8F%E7%B4%A0%E6%8E%92%E5%88%97%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B7%AE%E5%BC%82/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">像素排列</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/08/26/LCD%E5%86%85%E9%83%A8%E7%BB%93%E6%9E%84%E7%BB%84%E6%88%90/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          LCD内部结构组成
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/08/02/Java%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E5%AD%A6%E4%B9%A0%E9%9A%8F%E7%AC%94/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Java正则表达式学习随笔</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2019/08/12/%E5%83%8F%E7%B4%A0%E6%8E%92%E5%88%97%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B7%AE%E5%BC%82/" class="leancloud_visitors" data-flag-title="像素排列方式的差异">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2019/08/12/像素排列方式的差异/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#屏幕材质"><span class="toc-number">1.</span> <span class="toc-text">屏幕材质</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#屏幕分辨率"><span class="toc-number">2.</span> <span class="toc-text">屏幕分辨率</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#像素排列方式"><span class="toc-number">3.</span> <span class="toc-text">像素排列方式</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Pentile排列"><span class="toc-number">3.1.</span> <span class="toc-text">Pentile排列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Detla排列"><span class="toc-number">3.2.</span> <span class="toc-text">Detla排列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RGBW排列"><span class="toc-number">3.3.</span> <span class="toc-text">RGBW排列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#RGB-S-Strip排列"><span class="toc-number">3.4.</span> <span class="toc-text">RGB S-Strip排列</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#p排相对于标准RGB的三个弊端"><span class="toc-number">3.5.</span> <span class="toc-text">p排相对于标准RGB的三个弊端</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#消除p排三大弊端"><span class="toc-number">3.6.</span> <span class="toc-text">消除p排三大弊端</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2019/08/12/%E5%83%8F%E7%B4%A0%E6%8E%92%E5%88%97%E6%96%B9%E5%BC%8F%E7%9A%84%E5%B7%AE%E5%BC%82/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2020 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">技术暂时小白的大二学生,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
