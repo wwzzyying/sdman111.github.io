@@ -7,22 +7,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.sdman.tech">
-  <title>Objective-C笔记(1) | sdman111无聊的博客</title>
+  <title>获取当前userInterfaceStyle用于适应DarkMode样式变化 | sdman111无聊的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="包括import指令，import与include的区别，NSLog函数。  #import指令1、#import “ “ and #import &lt; &gt;，前者引入本地工程文件，后者引入系统库文件。 2、#import “ “会优先查找用户目录下是否存在该文件，不存在则查找系统库目录。">
+  <meta name="description" content="获取当前页面的userInterfaceStyle当界面处于light或者dark的情况下需要修改某些组件的属性，就需要获取当前到底是处在什么Mode下： 1let displayMode &#x3D; UITraitCollection.current.userInterfaceStyle &#x2F;&#x2F;用于获取当前模式，便于根据显示模式修改组件属性  这样就可以通过判断displayMode的值到底是.light">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Objective-C笔记(1)">
-<meta property="og:url" content="http://www.sdman.tech/2020/02/12/Objective-C%E7%AC%94%E8%AE%B0-1/index.html">
+<meta property="og:title" content="获取当前userInterfaceStyle用于适应DarkMode样式变化">
+<meta property="og:url" content="http://www.sdman.tech/2020/10/28/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8DuserInterfaceStyle%E7%94%A8%E4%BA%8E%E9%80%82%E5%BA%94DarkMode%E6%A0%B7%E5%BC%8F%E5%8F%98%E5%8C%96/index.html">
 <meta property="og:site_name" content="sdman111无聊的博客">
-<meta property="og:description" content="包括import指令，import与include的区别，NSLog函数。  #import指令1、#import “ “ and #import &lt; &gt;，前者引入本地工程文件，后者引入系统库文件。 2、#import “ “会优先查找用户目录下是否存在该文件，不存在则查找系统库目录。">
-<meta property="og:image" content="https://i.loli.net/2020/02/12/YcICaGoVeyjpOX1.png">
-<meta property="og:image" content="https://i.loli.net/2020/02/12/Z1jHBwNlDshRV2m.png">
-<meta property="article:published_time" content="2020-02-12T08:29:51.000Z">
-<meta property="article:modified_time" content="2020-02-26T21:48:18.000Z">
+<meta property="og:description" content="获取当前页面的userInterfaceStyle当界面处于light或者dark的情况下需要修改某些组件的属性，就需要获取当前到底是处在什么Mode下： 1let displayMode &#x3D; UITraitCollection.current.userInterfaceStyle &#x2F;&#x2F;用于获取当前模式，便于根据显示模式修改组件属性  这样就可以通过判断displayMode的值到底是.light">
+<meta property="article:published_time" content="2020-10-28T03:06:55.000Z">
+<meta property="article:modified_time" content="2020-10-28T03:15:35.626Z">
 <meta property="article:author" content="sdman111">
-<meta property="article:tag" content="Objective-C">
+<meta property="article:tag" content="SwiftUI">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://i.loli.net/2020/02/12/YcICaGoVeyjpOX1.png">
   
     <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
   
@@ -165,58 +162,32 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Objective-C笔记-1" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-获取当前userInterfaceStyle用于适应DarkMode样式变化" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Objective-C笔记(1)
+      获取当前userInterfaceStyle用于适应DarkMode样式变化
     </h1>
   
 
         
-        <a href="/2020/02/12/Objective-C%E7%AC%94%E8%AE%B0-1/" class="archive-article-date">
-  	<time datetime="2020-02-12T08:29:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-12</time>
+        <a href="/2020/10/28/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8DuserInterfaceStyle%E7%94%A8%E4%BA%8E%E9%80%82%E5%BA%94DarkMode%E6%A0%B7%E5%BC%8F%E5%8F%98%E5%8C%96/" class="archive-article-date">
+  	<time datetime="2020-10-28T03:06:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-28</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <meta name="referrer" content="no-referrer" />
-包括import指令，import与include的区别，NSLog函数。
+        <h2 id="获取当前页面的userInterfaceStyle"><a href="#获取当前页面的userInterfaceStyle" class="headerlink" title="获取当前页面的userInterfaceStyle"></a>获取当前页面的userInterfaceStyle</h2><p>当界面处于light或者dark的情况下需要修改某些组件的属性，就需要获取当前到底是处在什么Mode下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> displayMode = <span class="type">UITraitCollection</span>.current.userInterfaceStyle <span class="comment">//用于获取当前模式，便于根据显示模式修改组件属性</span></span><br></pre></td></tr></table></figure>
 
-<h2 id="import指令"><a href="#import指令" class="headerlink" title="#import指令"></a>#import指令</h2><p><strong>1、</strong>#import “ “ and #import &lt; &gt;，前者引入本地工程文件，后者引入系统库文件。</p>
-<p><strong>2、</strong>#import “ “会优先查找用户目录下是否存在该文件，不存在则查找系统库目录。</p>
-<a id="more"></a>
+<p>这样就可以通过判断displayMode的值到底是.light还是.dark来利用三元运算符来更改组件样式了：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.alertX(isPresented: $isPresent) &#123; () -&gt; <span class="type">AlertX</span> <span class="keyword">in</span></span><br><span class="line">                        <span class="type">AlertX</span>(</span><br><span class="line">                            title: <span class="type">Text</span>(<span class="string">"确认地址"</span>),</span><br><span class="line">                            message: <span class="type">Text</span>(<span class="string">"\(confirmMsg)"</span>),</span><br><span class="line">                            primaryButton: .<span class="keyword">default</span>(<span class="type">Text</span>(<span class="string">"取消"</span>)),</span><br><span class="line">                            secondaryButton: .<span class="keyword">default</span>(<span class="type">Text</span>(<span class="string">"确定"</span>)),</span><br><span class="line">                            theme: displayMode == .light ? .sun(withTransparency: <span class="literal">true</span>, roundedCorners: <span class="literal">true</span>) : .dark(withTransparency: <span class="literal">true</span>, roundedCorners: <span class="literal">true</span>),</span><br><span class="line">                            animation: .fadeEffect()</span><br><span class="line">                        )</span><br><span class="line">                    &#125;</span><br></pre></td></tr></table></figure>
 
-<p><strong>3、</strong>虽然#import “Foundation/Foundation.h”最终还是可以在系统库文件找到，但最好按照本地工程文件和系统库文件区分好。</p>
-<h2 id="import-lt-Foundation-Foundation-h-gt"><a href="#import-lt-Foundation-Foundation-h-gt" class="headerlink" title="#import &lt;Foundation/Foundation.h&gt;"></a>#import &lt;Foundation/Foundation.h&gt;</h2><p>把Foundation框架的Foundation.h文件复制进来，其中包括Foundation框架的所有.h头文件，其中包括需要的功能例如变量类型等，所以框架其实就是功能集。</p>
-<p>下面是Foundation.h文件目录地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;Applications&#x2F;Xcode.app&#x2F;Contents&#x2F;Developer&#x2F;Platforms&#x2F;MacOSX.platform&#x2F;Developer&#x2F;SDKs&#x2F;MacOSX.sdk&#x2F;System&#x2F;Library&#x2F;Frameworks&#x2F;Foundation.framework&#x2F;Versions&#x2F;C&#x2F;Headers&#x2F;Foundation.h</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.loli.net/2020/02/12/YcICaGoVeyjpOX1.png" alt="Foundation.png"></p>
-<h2 id="import-和-include区别"><a href="#import-和-include区别" class="headerlink" title="#import 和 #include区别"></a>#import 和 #include区别</h2><p>#import即使多次引入文件也只会import一次，不用额外的操作；而#include多次引入文件要依靠引入文件的条件预处理指令判别。</p>
-<h2 id="NSLog函数"><a href="#NSLog函数" class="headerlink" title="NSLog函数"></a>NSLog函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSLog函数所处的NSObjCRuntime.h文件</span><br><span class="line">&#x2F;Applications&#x2F;Xcode.app&#x2F;Contents&#x2F;Developer&#x2F;Platforms&#x2F;MacOSX.platform&#x2F;Developer&#x2F;SDKs&#x2F;MacOSX.sdk&#x2F;System&#x2F;Library&#x2F;Frameworks&#x2F;Foundation.framework&#x2F;Versions&#x2F;C&#x2F;Headers&#x2F;NSObjCRuntime.h</span><br></pre></td></tr></table></figure>
-
-<p><img src="https://i.loli.net/2020/02/12/Z1jHBwNlDshRV2m.png" alt="NSLog.png"></p>
-<p><strong>1、</strong>与printf函数相当，向控制台输出信息；</p>
-<p><strong>2、</strong>与printf函数不同，可以同时输出日期时间、程序名称、进程编号、线程编号、输出信息。相当于多功能的printf；</p>
-<p><strong>3、</strong>OC中新增的变量类型只能由NSLog函数输出；</p>
-<p><strong>4、</strong>NSLog函数第一个参数必须加@符号，因为NSLog函数形参的数据类型为NSString *format，也就是要传入一个指向OC字符串的指针变量——format对象</p>
-<p>但是我想<strong>为什么传入NSLog(@”字符串”)也可以呢？</strong></p>
-<p>查到了这个解释：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">双引号中的字符串前有一个@符号，这表示引用的字符串应该作为Cocoa的NSString元素来处理。</span><br></pre></td></tr></table></figure>
-
-<p>那就是相当于NSString *format=@”字符串”</p>
-<p>先不深究了[狗头]；</p>
-<p><strong>5、</strong>NSLog(@”字符串\n”) 在结尾处加换行符则自动换行失效。</p>
-<p>（<strong>疑问：自动换行失效但是\n又实现了换行，下面再跟一个NSLog(@””)还是会自动换行，那怎么体现自动换行失效？</strong>）</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><p><a href="https://blog.csdn.net/qq_19411159/article/details/78406561" target="_blank" rel="noopener">oc中对指针、对象和%@符号的理解</a></p>
-<p><a href="https://blog.csdn.net/yangbo_hbzjk/article/details/7280151" target="_blank" rel="noopener">Objective-C开发——NSLog()和@”字符串”</a></p>
-<p><a href="https://www.bilibili.com/video/av69033036?p=29" target="_blank" rel="noopener">传智播客 iOS开发基础班—Objective-C学习</a></p>
 
       
 
@@ -262,7 +233,7 @@
             </li>
             <li>
               <strong>本文链接：</strong>
-              <a href="http://www.sdman.tech/2020/02/12/Objective-C%E7%AC%94%E8%AE%B0-1/" title="sdman111无聊的博客">http://www.sdman.tech/2020/02/12/Objective-C%E7%AC%94%E8%AE%B0-1/</a>
+              <a href="http://www.sdman.tech/2020/10/28/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8DuserInterfaceStyle%E7%94%A8%E4%BA%8E%E9%80%82%E5%BA%94DarkMode%E6%A0%B7%E5%BC%8F%E5%8F%98%E5%8C%96/" title="sdman111无聊的博客">http://www.sdman.tech/2020/10/28/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8DuserInterfaceStyle%E7%94%A8%E4%BA%8E%E9%80%82%E5%BA%94DarkMode%E6%A0%B7%E5%BC%8F%E5%8F%98%E5%8C%96/</a>
             </li>
             <li>
               <strong>版权声明： </strong>
@@ -281,7 +252,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Objective-C</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">SwiftUI</a>
         		</li>
       		
 		</ul>
@@ -300,25 +271,16 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/02/13/Objective-C%E7%AC%94%E8%AE%B0-2/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Objective-C笔记(2)
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/01/26/%E5%85%AB%E7%9A%87%E5%90%8E%E9%97%AE%E9%A2%98%E9%80%92%E5%BD%92%E6%96%B9%E6%B3%95/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">八皇后问题递归方法</div>
+    <a href="/2020/10/27/%E9%80%9A%E8%BF%87iTerm2%E4%B8%8A%E4%BC%A0%E6%9C%AC%E5%9C%B0%E6%96%87%E4%BB%B6%E5%88%B0CentOS%E6%9C%8D%E5%8A%A1%E5%99%A8%E4%B8%8A/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">通过iTerm2上传本地文件到CentOS服务器上</div>
       <i class="icon-circle-right"></i>
     </a>
   
   <br>
   
    
-  <span style="float:right;color:#0094d5" id="/2020/02/12/Objective-C%E7%AC%94%E8%AE%B0-1/" class="leancloud_visitors" data-flag-title="Objective-C笔记(1)">
+  <span style="float:right;color:#0094d5" id="/2020/10/28/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8DuserInterfaceStyle%E7%94%A8%E4%BA%8E%E9%80%82%E5%BA%94DarkMode%E6%A0%B7%E5%BC%8F%E5%8F%98%E5%8C%96/" class="leancloud_visitors" data-flag-title="获取当前userInterfaceStyle用于适应DarkMode样式变化">
       <span class="post-meta-item-text">本文阅读量 </span>
       <span class="leancloud-visitors-count">8848</span>
     </span>
@@ -326,7 +288,7 @@
 </nav>
 <script>
   var mdhost = '';
-  var mdurl = '2020/02/12/Objective-C笔记-1/'.replace('.html', '.md');
+  var mdurl = '2020/10/28/获取当前userInterfaceStyle用于适应DarkMode样式变化/'.replace('.html', '.md');
   function mdpage() {
     window.open(mdhost + "/" + mdurl);
   }
@@ -353,7 +315,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#import指令"><span class="toc-number">1.</span> <span class="toc-text">#import指令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#import-lt-Foundation-Foundation-h-gt"><span class="toc-number">2.</span> <span class="toc-text">#import &lt;Foundation&#x2F;Foundation.h&gt;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#import-和-include区别"><span class="toc-number">3.</span> <span class="toc-text">#import 和 #include区别</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NSLog函数"><span class="toc-number">4.</span> <span class="toc-text">NSLog函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">5.</span> <span class="toc-text">参考</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#获取当前页面的userInterfaceStyle"><span class="toc-number">1.</span> <span class="toc-text">获取当前页面的userInterfaceStyle</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -393,7 +355,7 @@
             avatar: '',
             avatar_cdn: '',
             pageSize: 12,
-            path: '/2020/02/12/Objective-C%E7%AC%94%E8%AE%B0-1/',
+            path: '/2020/10/28/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8DuserInterfaceStyle%E7%94%A8%E4%BA%8E%E9%80%82%E5%BA%94DarkMode%E6%A0%B7%E5%BC%8F%E5%8F%98%E5%8C%96/',
             visitor: visitor,
             recordIP: recordIP
         });

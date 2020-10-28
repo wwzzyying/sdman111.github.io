@@ -159,6 +159,88 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-获取当前userInterfaceStyle用于适应DarkMode样式变化" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/10/28/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8DuserInterfaceStyle%E7%94%A8%E4%BA%8E%E9%80%82%E5%BA%94DarkMode%E6%A0%B7%E5%BC%8F%E5%8F%98%E5%8C%96/">获取当前userInterfaceStyle用于适应DarkMode样式变化</a>
+    </h1>
+  
+
+        
+        <a href="/2020/10/28/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8DuserInterfaceStyle%E7%94%A8%E4%BA%8E%E9%80%82%E5%BA%94DarkMode%E6%A0%B7%E5%BC%8F%E5%8F%98%E5%8C%96/" class="archive-article-date">
+  	<time datetime="2020-10-28T03:06:55.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-10-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="获取当前页面的userInterfaceStyle"><a href="#获取当前页面的userInterfaceStyle" class="headerlink" title="获取当前页面的userInterfaceStyle"></a>获取当前页面的userInterfaceStyle</h2><p>当界面处于light或者dark的情况下需要修改某些组件的属性，就需要获取当前到底是处在什么Mode下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> displayMode = <span class="type">UITraitCollection</span>.current.userInterfaceStyle <span class="comment">//用于获取当前模式，便于根据显示模式修改组件属性</span></span><br></pre></td></tr></table></figure>
+
+<p>这样就可以通过判断displayMode的值到底是.light还是.dark来利用三元运算符来更改组件样式了：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.alertX(isPresented: $isPresent) &#123; () -&gt; <span class="type">AlertX</span> <span class="keyword">in</span></span><br><span class="line">                        <span class="type">AlertX</span>(</span><br><span class="line">                            title: <span class="type">Text</span>(<span class="string">"确认地址"</span>),</span><br><span class="line">                            message: <span class="type">Text</span>(<span class="string">"\(confirmMsg)"</span>),</span><br><span class="line">                            primaryButton: .<span class="keyword">default</span>(<span class="type">Text</span>(<span class="string">"取消"</span>)),</span><br><span class="line">                            secondaryButton: .<span class="keyword">default</span>(<span class="type">Text</span>(<span class="string">"确定"</span>)),</span><br><span class="line">                            theme: displayMode == .light ? .sun(withTransparency: <span class="literal">true</span>, roundedCorners: <span class="literal">true</span>) : .dark(withTransparency: <span class="literal">true</span>, roundedCorners: <span class="literal">true</span>),</span><br><span class="line">                            animation: .fadeEffect()</span><br><span class="line">                        )</span><br><span class="line">                    &#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+            
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">SwiftUI</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/10/28/%E8%8E%B7%E5%8F%96%E5%BD%93%E5%89%8DuserInterfaceStyle%E7%94%A8%E4%BA%8E%E9%80%82%E5%BA%94DarkMode%E6%A0%B7%E5%BC%8F%E5%8F%98%E5%8C%96/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-通过iTerm2上传本地文件到CentOS服务器上" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -910,89 +992,6 @@
 
 
   
-    <article id="post-Objective-C笔记-9" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/27/Objective-C%E7%AC%94%E8%AE%B0-9/">Objective-C笔记(9)</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/27/Objective-C%E7%AC%94%E8%AE%B0-9/" class="archive-article-date">
-  	<time datetime="2020-02-26T21:46:43.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-27</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>包括NSObject类相关，super关键字，访问修饰符，私有属性和私有方法。</p>
-<h2 id="NSObject类"><a href="#NSObject类" class="headerlink" title="NSObject类"></a>NSObject类</h2><p>是Foundation框架的一个类，里面定义了new方法；</p>
-<p><strong>NSObject还定义了isa指针属性；</strong></p>
-<p><strong>类必须直接或间接继承NSObject类，否则无法创建对象；</strong></p>
-<p><strong>子类不能存在与父类同名的属性。</strong></p>
-        
-          <a class="article-more-a" href="/2020/02/27/Objective-C%E7%AC%94%E8%AE%B0-9/#more">More >></a>
-        
-      
-
-      
-            
-      
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Objective-C</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/27/Objective-C%E7%AC%94%E8%AE%B0-9/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1088,19 +1087,19 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1112,11 +1111,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1141,6 +1140,10 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
               </li>
              
               <li class="article-tag-list-item">
