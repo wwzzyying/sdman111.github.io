@@ -19,6 +19,7 @@
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E5%85%AC%E9%92%A5%E5%8F%91%E9%80%81.png">
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E5%85%AC%E9%92%A5%E5%90%88%E5%B9%B6.png">
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/sshd_config.png">
+<meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E6%88%90%E5%8A%9F%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95ssh.png">
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/wget_hadoop.png">
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E8%A7%A3%E5%8E%8Btargz.png">
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E6%B7%BB%E5%8A%A0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F.png">
@@ -43,7 +44,7 @@
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/part-r-00000.png">
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E6%9C%AC%E5%9C%B0%E4%B8%8B%E8%BD%BD.png">
 <meta property="article:published_time" content="2020-11-05T02:44:19.000Z">
-<meta property="article:modified_time" content="2020-11-05T03:37:58.896Z">
+<meta property="article:modified_time" content="2020-11-05T07:55:55.713Z">
 <meta property="article:author" content="sdman111">
 <meta property="article:tag" content="CentOS7">
 <meta name="twitter:card" content="summary">
@@ -230,12 +231,16 @@
 
 <img src="/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E5%85%AC%E9%92%A5%E5%90%88%E5%B9%B6.png" class="" title="正确配置ssh免密码登录-hadoop-运行wordcount词频分析">
 
-<p>去掉sshd_config中以下注释：</p>
+<p>( vi /etc/ssh/sshd_config )去掉sshd_config中以下属性前面的#注释：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">PubkeyAuthentication yes</span><br><span class="line"></span><br><span class="line">AuthorizedKeysFile		.ssh/authorized_keys</span><br></pre></td></tr></table></figure>
 
 <img src="/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/sshd_config.png" class="" title="正确配置ssh免密码登录-hadoop-运行wordcount词频分析">
 
 <p>重启虚拟机成功实现免密登录。</p>
+<img src="/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E6%88%90%E5%8A%9F%E5%85%8D%E5%AF%86%E7%99%BB%E5%BD%95ssh.png" class="" title="正确配置ssh免密码登录-hadoop-运行wordcount词频分析">
+
+
+
 <h2 id="安装与配置hadoop"><a href="#安装与配置hadoop" class="headerlink" title="安装与配置hadoop"></a>安装与配置hadoop</h2><p>下载hadoop压缩包(请先安装配置好JAVA JDK)</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget http://mirror.bit.edu.cn/apache/hadoop/common/hadoop-2.9.2/hadoop-2.9.2.tar.gz</span><br></pre></td></tr></table></figure>
 
@@ -662,7 +667,7 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -670,11 +675,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -686,11 +691,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -710,11 +715,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
               </li>
              
               <li class="article-tag-list-item">
