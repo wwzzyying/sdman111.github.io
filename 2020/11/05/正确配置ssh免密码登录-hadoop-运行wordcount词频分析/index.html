@@ -9,12 +9,12 @@
   <link rel="dns-prefetch" href="http://www.sdman.tech">
   <title>正确配置ssh免密码登录 &amp; hadoop &amp; 运行wordcount词频分析 | sdman111无聊的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="配置ssh免密码登录实现ssh免密码登录的关键在于公钥私钥的分发，把公钥分发给你需要免密登录的服务器，本地保存私钥；服务器端有需要的话可以进行公钥合并。 在&#x2F;root&#x2F;.ssh目录下执行： 12ssh-keygen -t rsa #生成公钥私钥">
+  <meta name="description" content="实验设备：终端工具iTerm2，两台安装了ssh+java jdk并配置好和关闭了防火墙的Linux虚拟机，你也可以选择完整克隆现有虚拟机。 并记住你配置java时的JAVA_HOME。 实验思路：为了避免盲目操作破坏本地环境，我选择用两个CentOS 7虚拟机来实验，任选一个接收公钥来进行ssh免密登录实验；后面的就自己喜欢在哪个虚拟机就在哪个安装配置hadoop。反正也是在虚拟机运行完发送">
 <meta property="og:type" content="article">
 <meta property="og:title" content="正确配置ssh免密码登录 &amp; hadoop &amp; 运行wordcount词频分析">
 <meta property="og:url" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="sdman111无聊的博客">
-<meta property="og:description" content="配置ssh免密码登录实现ssh免密码登录的关键在于公钥私钥的分发，把公钥分发给你需要免密登录的服务器，本地保存私钥；服务器端有需要的话可以进行公钥合并。 在&#x2F;root&#x2F;.ssh目录下执行： 12ssh-keygen -t rsa #生成公钥私钥">
+<meta property="og:description" content="实验设备：终端工具iTerm2，两台安装了ssh+java jdk并配置好和关闭了防火墙的Linux虚拟机，你也可以选择完整克隆现有虚拟机。 并记住你配置java时的JAVA_HOME。 实验思路：为了避免盲目操作破坏本地环境，我选择用两个CentOS 7虚拟机来实验，任选一个接收公钥来进行ssh免密登录实验；后面的就自己喜欢在哪个虚拟机就在哪个安装配置hadoop。反正也是在虚拟机运行完发送">
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/ssh_keygen.png">
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E5%85%AC%E9%92%A5%E5%8F%91%E9%80%81.png">
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E5%85%AC%E9%92%A5%E5%90%88%E5%B9%B6.png">
@@ -44,7 +44,7 @@
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/part-r-00000.png">
 <meta property="og:image" content="http://www.sdman.tech/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E6%9C%AC%E5%9C%B0%E4%B8%8B%E8%BD%BD.png">
 <meta property="article:published_time" content="2020-11-05T02:44:19.000Z">
-<meta property="article:modified_time" content="2020-11-05T07:55:55.713Z">
+<meta property="article:modified_time" content="2020-11-06T13:17:47.666Z">
 <meta property="article:author" content="sdman111">
 <meta property="article:tag" content="CentOS7">
 <meta name="twitter:card" content="summary">
@@ -213,6 +213,9 @@
       
         <meta name="referrer" content="no-referrer" />
 
+<p>实验设备：终端工具iTerm2，两台安装了ssh+java jdk并配置好和关闭了防火墙的Linux虚拟机，你也可以选择完整克隆现有虚拟机。</p>
+<p>并记住你配置java时的JAVA_HOME。</p>
+<p>实验思路：为了避免盲目操作破坏本地环境，我选择用两个CentOS 7虚拟机来实验，任选一个接收公钥来进行ssh免密登录实验；后面的就自己喜欢在哪个虚拟机就在哪个安装配置hadoop。反正也是在虚拟机运行完发送文件回来主机。</p>
 <h2 id="配置ssh免密码登录"><a href="#配置ssh免密码登录" class="headerlink" title="配置ssh免密码登录"></a>配置ssh免密码登录</h2><p><strong>实现ssh免密码登录的关键在于公钥私钥的分发，把公钥分发给你需要免密登录的服务器，本地保存私钥；服务器端有需要的话可以进行公钥合并。</strong></p>
 <p>在/root/.ssh目录下执行：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa </span><br><span class="line"><span class="comment">#生成公钥私钥</span></span><br></pre></td></tr></table></figure>
@@ -392,8 +395,10 @@
 
 
 <p>再在本地主机连接该服务器进行scp主机间拷贝：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp root@192.168.1.108:/root/part-r-00000 /Users/mac/Downloads</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">主机去拷贝ip服务器文件（因为我忘记我主机root密码了...）</span><br><span class="line">scp root@192.168.1.108:/root/part-r-00000 /Users/mac/Downloads</span><br></pre></td></tr></table></figure>
 
+<p>你们可以直接在服务器传去主机，下面的命令就要修改了</p>
+<p>参考文章：<a href="http://sdman.tech/2020/10/27/通过iTerm2上传本地文件到CentOS服务器上/#more" target="_blank" rel="noopener">通过iTerm2上传本地文件到CentOS服务器上</a></p>
 <img src="/2020/11/05/%E6%AD%A3%E7%A1%AE%E9%85%8D%E7%BD%AEssh%E5%85%8D%E5%AF%86%E7%A0%81%E7%99%BB%E5%BD%95-hadoop-%E8%BF%90%E8%A1%8Cwordcount%E8%AF%8D%E9%A2%91%E5%88%86%E6%9E%90/%E6%9C%AC%E5%9C%B0%E4%B8%8B%E8%BD%BD.png" class="" title="正确配置ssh免密码登录-hadoop-运行wordcount词频分析">
       
 
@@ -691,11 +696,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
               </li>
              
               <li class="article-tag-list-item">

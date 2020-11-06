@@ -181,6 +181,9 @@
       
         <meta name="referrer" content="no-referrer" />
 
+<p>实验设备：终端工具iTerm2，两台安装了ssh+java jdk并配置好和关闭了防火墙的Linux虚拟机，你也可以选择完整克隆现有虚拟机。</p>
+<p>并记住你配置java时的JAVA_HOME。</p>
+<p>实验思路：为了避免盲目操作破坏本地环境，我选择用两个CentOS 7虚拟机来实验，任选一个接收公钥来进行ssh免密登录实验；后面的就自己喜欢在哪个虚拟机就在哪个安装配置hadoop。反正也是在虚拟机运行完发送文件回来主机。</p>
 <h2 id="配置ssh免密码登录"><a href="#配置ssh免密码登录" class="headerlink" title="配置ssh免密码登录"></a>配置ssh免密码登录</h2><p><strong>实现ssh免密码登录的关键在于公钥私钥的分发，把公钥分发给你需要免密登录的服务器，本地保存私钥；服务器端有需要的话可以进行公钥合并。</strong></p>
 <p>在/root/.ssh目录下执行：</p>
 <figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ssh-keygen -t rsa </span><br><span class="line"><span class="comment">#生成公钥私钥</span></span><br></pre></td></tr></table></figure>
@@ -1112,11 +1115,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
               </li>
              
               <li class="article-tag-list-item">
