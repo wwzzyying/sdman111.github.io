@@ -19,7 +19,7 @@
     <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
   
   
-    <link rel="icon" href="/assert/sdman.png">
+    <link rel="icon" href="/assert/sdman.jpeg">
   
   <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
   <style type="text/css">
@@ -40,13 +40,13 @@
 <div class="intrude-less">
 	<header id="header" class="inner">
 		<a href="" class="profilepic">
-			<img src="/assert/sdman.png" class="js-avatar">
+			<img src="/assert/sdman.jpeg" class="js-avatar">
 		</a>
 		<hgroup>
 		  <h1 class="header-author"><a href="">sdman111</a></h1>
 		</hgroup>
 		
-		<p class="header-subtitle">努力学习Swift中</p>
+		<p class="header-subtitle">SwiftUI天下第一</p>
 		
 
 		<nav class="header-menu">
@@ -100,13 +100,13 @@
 	<div class="intrude-less">
 		<header id="header" class="inner">
 			<div class="profilepic">
-				<a href="/"><img src="/assert/sdman.png" class="js-avatar"></a>
+				<a href="/"><img src="/assert/sdman.jpeg" class="js-avatar"></a>
 			</div>
 			<hgroup>
 			  <h1 class="header-author js-header-author">sdman111</h1>
 			</hgroup>
 			
-			<p class="header-subtitle"><i class="icon icon-quo-left"></i>努力学习Swift中<i class="icon icon-quo-right"></i></p>
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>SwiftUI天下第一<i class="icon icon-quo-right"></i></p>
 			
 			
 			
@@ -158,6 +158,93 @@
           </div>
           <div id="js-content" class="content-ll">
             
+  
+    <article id="post-Objective-C笔记-11" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/01/Objective-C%E7%AC%94%E8%AE%B0-11/">Objective-C笔记(11)</a>
+    </h1>
+  
+
+        
+        <a href="/2020/03/01/Objective-C%E7%AC%94%E8%AE%B0-11/" class="archive-article-date">
+  	<time datetime="2020-03-01T00:30:11.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-01</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>包括 类对象调用方法过程，结构体与类的区别，类的本质，如何拿到存储在代码段中的Class类对象以及如何使用它。</p>
+<h2 id="类对象调用方法过程"><a href="#类对象调用方法过程" class="headerlink" title="类对象调用方法过程"></a>类对象调用方法过程</h2><p>子类创建对象后调用父类方法的过程：</p>
+<ol>
+<li>通过对象的isa指针找到该类；</li>
+<li>在该类中寻找调用的方法；</li>
+<li>找到就执行；若找不到，则到该类的父类中寻找；</li>
+<li>一直下去，直到NSObject类也没找到就报错。</li>
+</ol>
+<p>注意：若在子类重写了该方法，意味着代码段的子类部分也含有了该方法，就不需要到父类中寻找了。</p>
+        
+          <a class="article-more-a" href="/2020/03/01/Objective-C%E7%AC%94%E8%AE%B0-11/#more">More >></a>
+        
+      
+
+      
+            
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Objective-C</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2020/03/01/Objective-C%E7%AC%94%E8%AE%B0-11/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
   
     <article id="post-Objective-C笔记-10" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -893,92 +980,6 @@
 
 
   
-    <article id="post-Objective-C笔记-6" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/02/17/Objective-C%E7%AC%94%E8%AE%B0-6/">Objective-C笔记(6)</a>
-    </h1>
-  
-
-        
-        <a href="/2020/02/17/Objective-C%E7%AC%94%E8%AE%B0-6/" class="archive-article-date">
-  	<time datetime="2020-02-16T23:18:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-02-17</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>包括nil和NULL的异同，同类型指针相互赋值，分组导航标记，函数和方法的异同。</p>
-<h2 id="nil和NULL"><a href="#nil和NULL" class="headerlink" title="nil和NULL"></a>nil和NULL</h2><ul>
-<li><strong>都只能作为指针变量的值；</strong></li>
-<li><strong>都表示不指向任何一块内存空间；</strong></li>
-<li><strong>实际上都是宏，都等价于0；</strong></li>
-<li><strong>本质上一样。</strong></li>
-</ul>
-<p>但是在使用上还是要有区分：</p>
-        
-          <a class="article-more-a" href="/2020/02/17/Objective-C%E7%AC%94%E8%AE%B0-6/#more">More >></a>
-        
-      
-
-      
-            
-      
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Objective-C</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/02/17/Objective-C%E7%AC%94%E8%AE%B0-6/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1106,11 +1107,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1140,6 +1141,10 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
@@ -1164,7 +1169,7 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
     
     	<section class="tools-section tools-section-me" q-show="aboutme">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">技术暂时小白的大二学生,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">iOS开发新人,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
   	  	
     	</section>
     
