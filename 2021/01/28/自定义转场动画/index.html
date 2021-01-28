@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="google-site-verification" content="KQswkfI4ciGQZUzoH4lQ94q3ykGAl9LkE7I_UFom0BM" />
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>自定义iOS转场动画 | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="如何准备各个VC之间的自定义动画 To present a view controller using custom animations, do the following in an action method of your existing view controllers:  Create the view controller that you want to present. Cre">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自定义iOS转场动画">
+<meta property="og:url" content="http://www.sdman.tech/2021/01/28/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="如何准备各个VC之间的自定义动画 To present a view controller using custom animations, do the following in an action method of your existing view controllers:  Create the view controller that you want to present. Cre">
+<meta property="article:published_time" content="2021-01-28T03:16:06.000Z">
+<meta property="article:modified_time" content="2021-01-28T12:04:38.810Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.jpeg">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.jpeg" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">SwiftUI天下第一</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.jpeg" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>SwiftUI天下第一<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-自定义转场动画" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自定义iOS转场动画
+    </h1>
+  
+
+        
+        <a href="/2021/01/28/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/" class="archive-article-date">
+  	<time datetime="2021-01-28T03:16:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="如何准备各个VC之间的自定义动画"><a href="#如何准备各个VC之间的自定义动画" class="headerlink" title="如何准备各个VC之间的自定义动画"></a>如何准备各个VC之间的自定义动画</h2><blockquote>
+<p>To present a view controller using custom animations, do the following in an action method of your existing view controllers:</p>
+<ol>
+<li>Create the view controller that you want to present.</li>
+<li>Create your custom transitioning delegate object and assign it to the view controller’s <code>transitioningDelegate</code> property. The methods of your transitioning delegate should create and return your custom animator objects when asked.</li>
+<li>Call the <code>presentViewController:animated:completion:</code> method to present the view controller.</li>
+</ol>
+<p>When you call the <code>presentViewController:animated:completion:</code> method, UIKit initiates the presentation process. Presentations start during the next run loop iteration and continue until your custom animator calls the <code>completeTransition:</code> method. Interactive transitions allow you to process touch events while the transition is ongoing, but noninteractive transitions run for the duration specified by the animator object.</p>
+</blockquote>
+<p>第一步：获取已经创建好的所需要present的VC。</p>
+<p>第二步：创建一个遵循<code>UIViewControllerTransitioningDelegate</code>协议的类，并把该类对象赋值给需要present的VC（即第一步中的VC）的<code>transitioningDelegate</code>属性；遵循<code>UIViewControllerTransitioningDelegate</code>协议的这个类所需要实现的方法必须返回所创建的自定义动画对象animator object。</p>
+<a id="more"></a>
+
+<p>第三步：调用present方法。</p>
+<p>当调用present方法时，UIKit会启动该presentation process，动画会在下一次run loop迭代之前start和continue。交互式动画允许在动画运行期间执行触摸事件，动画可中断，duration不绝对；而非交互式动画duration由遵循<code>UIViewControllerTransitioningDelegate</code>协议的类中对应的交互式或非交互式方法所返回的animator object动画对象所决定。</p>
+<h3 id="案例"><a href="#案例" class="headerlink" title="案例"></a>案例</h3><p>现在有MainVC和DetailVC，可以把第二步中所谓的类改变为MainVC类，这样在赋值<code>transitioningDelegate</code>属性的时候可以赋值为self，表示MainVC类负责实现<code>UIViewControllerTransitioningDelegate</code>协议所必需的方法，并在present执行时进行拦截。</p>
+<p>MainVC代码如下：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">MainViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        <span class="comment">// Do any additional setup after loading the view.</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">showDetail</span><span class="params">(<span class="number">_</span> sender: <span class="keyword">Any</span>)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 利用StoryBoard ID获取已经做好的ViewContrller，避免重新初始化空白——第一步</span></span><br><span class="line">        <span class="keyword">let</span> detailVC = storyboard!.instantiateViewController(identifier: <span class="string">"DetailVC"</span>) <span class="keyword">as</span>! <span class="type">DetailViewController</span></span><br><span class="line">        <span class="comment">// 设置全屏显示</span></span><br><span class="line">        detailVC.modalPresentationStyle = .fullScreen</span><br><span class="line">        <span class="comment">// 委托当前vc完成delegate——第二步</span></span><br><span class="line">        detailVC.transitioningDelegate = <span class="keyword">self</span></span><br><span class="line">        <span class="comment">// 第三步</span></span><br><span class="line">        present(detailVC, animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MainViewController</span>: <span class="title">UIViewControllerTransitioningDelegate</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 非交互式——present</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">animationController</span><span class="params">(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController)</span></span> -&gt; <span class="type">UIViewControllerAnimatedTransitioning?</span> &#123;</span><br><span class="line">        <span class="comment">// 需要返回遵循UIViewControllerAnimatedTransitioning协议的动画对象（类对象）</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 非交互式——dismiss</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">animationController</span><span class="params">(forDismissed dismissed: UIViewController)</span></span> -&gt; <span class="type">UIViewControllerAnimatedTransitioning?</span> &#123;</span><br><span class="line">        <span class="comment">// 需要返回遵循UIViewControllerAnimatedTransitioning协议的动画对象（类对象）</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="构造遵循UIViewControllerAnimatedTransitioning协议的类"><a href="#构造遵循UIViewControllerAnimatedTransitioning协议的类" class="headerlink" title="构造遵循UIViewControllerAnimatedTransitioning协议的类"></a>构造遵循UIViewControllerAnimatedTransitioning协议的类</h2><p>新建Cocoa Touch Class并继承<code>NSObject</code>和遵循<code>UIViewControllerAnimatedTransitioning</code>，需要实现的两个方法在fix之后显示如下，第一个决定动画时间，第二个负责动画逻辑。</p>
+<p>transitionContext顾名思义包含动画期间的上下文信息，可以从中获取到fromView、fromViewController、toView、toViewController和containerView。</p>
+<p>通过在<code>animateTransition(using transitionContext: UIViewControllerContextTransitioning)</code>方法内设置fromView和toView的属性，利用<code>UIView.animate(...)</code>方法设置动画逻辑(改变动画期间view属性等)；</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PresentAnimator</span>: <span class="title">NSObject</span>, <span class="title">UIViewControllerAnimatedTransitioning</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">transitionDuration</span><span class="params">(using transitionContext: UIViewControllerContextTransitioning?)</span></span> -&gt; <span class="type">TimeInterval</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0.5</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">animateTransition</span><span class="params">(using transitionContext: UIViewControllerContextTransitioning)</span></span> &#123;</span><br><span class="line">      <span class="keyword">guard</span> <span class="keyword">let</span> fromView = transitionContext.view(forKey: .from),</span><br><span class="line">              <span class="keyword">let</span> toView = transitionContext.view(forKey: .to) <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 容器</span></span><br><span class="line">        <span class="keyword">let</span> containerView = transitionContext.containerView</span><br><span class="line">        containerView.addSubview(toView)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 设置初始toView透明度和偏移</span></span><br><span class="line">        toView.alpha = <span class="number">0</span></span><br><span class="line">        toView.transform = <span class="type">CGAffineTransform</span>(translationX: containerView.frame.width, y: <span class="number">0</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 设置动画逻辑</span></span><br><span class="line">        <span class="type">UIView</span>.animate(withDuration: transitionDuration(using: transitionContext)) &#123;</span><br><span class="line">            <span class="comment">// fromView逐渐透明并往左移动</span></span><br><span class="line">            fromView.alpha = <span class="number">0</span></span><br><span class="line">            fromView.transform = <span class="type">CGAffineTransform</span>(translationX: -containerView.frame.width, y: <span class="number">0</span>)</span><br><span class="line">            <span class="comment">// toView逐渐显示</span></span><br><span class="line">            toView.alpha = <span class="number">1</span></span><br><span class="line">            toView.transform = .identity</span><br><span class="line">        &#125; completion: &#123; <span class="number">_</span> <span class="keyword">in</span></span><br><span class="line">            <span class="comment">// 必须告知UIKit动画结束</span></span><br><span class="line">            transitionContext.completeTransition(<span class="literal">true</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>completion闭包必须写上<code>transitionContext.completeTransition(true)</code>，官方解释如下：</p>
+<blockquote>
+<p>UIKit waits for an animator object to call the <code>completeTransition:</code> method of the context transitioning object.</p>
+<p>Your custom animator calls this method after its animation finishes, typically in the animation’s completion block. Calling this method ends the transition and lets UIKit know that it can call the completion handler of the <code>presentViewController:animated:completion:</code> method and call the animator object’s own <code>animationEnded:</code> method.</p>
+</blockquote>
+<p>动画结束时调用该方法，该方法结束动画时让UIKit执行 MainVC中的present方法中的completion闭包 并 让动画对象自身调用<code>animationEnded:</code>方法。</p>
+<h2 id="构造动画对象"><a href="#构造动画对象" class="headerlink" title="构造动画对象"></a>构造动画对象</h2><p>其实就是实例化上面构造的类即可</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MainViewController</span>: <span class="title">UIViewControllerTransitioningDelegate</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 非交互式——present</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">animationController</span><span class="params">(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController)</span></span> -&gt; <span class="type">UIViewControllerAnimatedTransitioning?</span> &#123;</span><br><span class="line">        <span class="comment">// 需要返回遵循UIViewControllerAnimatedTransitioning协议的动画（类对象）</span></span><br><span class="line">        <span class="keyword">return</span> <span class="type">PresentAnimator</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 非交互式——dismiss</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">animationController</span><span class="params">(forDismissed dismissed: UIViewController)</span></span> -&gt; <span class="type">UIViewControllerAnimatedTransitioning?</span> &#123;</span><br><span class="line">        <span class="comment">// 需要返回遵循UIViewControllerAnimatedTransitioning协议的动画（类对象）</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>IMPORTANT</p>
+<p>When setting up custom animations, always use the objects and data in the transitioning context object rather than any cached information you manage yourself. Transitions can happen in a variety of conditions, some of which might change the animation parameters. The transitioning context object is guaranteed to have the correct information you need to perform the animations, whereas your cached information might be stale by the time your animator’s methods are called.</p>
+<p>在设置自定义动画时尽量不要缓存上下文信息，不然可能会导致信息不匹配等错误</p>
+</blockquote>
+<hr>
+<p>到这里只是完成了present的动画，dismiss的自定义动画同样遵循那三个步骤，只是present变为dismiss而已，在构造完遵循UIViewControllerAnimatedTransitioning协议的类后，在<code>animationController(forDismissed dismissed: UIViewController)</code>方法实例化即可。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">MainViewController</span>: <span class="title">UIViewControllerTransitioningDelegate</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 非交互式——present</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">animationController</span><span class="params">(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController)</span></span> -&gt; <span class="type">UIViewControllerAnimatedTransitioning?</span> &#123;</span><br><span class="line">        <span class="comment">// 需要返回遵循UIViewControllerAnimatedTransitioning协议的动画（类对象）</span></span><br><span class="line">        <span class="keyword">return</span> <span class="type">PresentAnimator</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 非交互式——dismiss</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">animationController</span><span class="params">(forDismissed dismissed: UIViewController)</span></span> -&gt; <span class="type">UIViewControllerAnimatedTransitioning?</span> &#123;</span><br><span class="line">        <span class="comment">// 需要返回遵循UIViewControllerAnimatedTransitioning协议的动画（类对象）</span></span><br><span class="line">        <span class="keyword">return</span> <span class="type">DismissAnimator</span>()</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2021/01/28/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/" title="sdman111无聊的博客">http://www.sdman.tech/2021/01/28/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/12/29/%E8%B6%9F%E5%9D%91%E8%AE%B0%E5%BD%95%EF%BD%9CiOS%E5%BA%94%E7%94%A8%E9%97%B4%E8%B7%B3%E8%BD%AC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">趟坑记录｜iOS应用间跳转</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2021/01/28/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/" class="leancloud_visitors" data-flag-title="自定义iOS转场动画">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2021/01/28/自定义转场动画/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何准备各个VC之间的自定义动画"><span class="toc-number">1.</span> <span class="toc-text">如何准备各个VC之间的自定义动画</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#案例"><span class="toc-number">1.1.</span> <span class="toc-text">案例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造遵循UIViewControllerAnimatedTransitioning协议的类"><span class="toc-number">2.</span> <span class="toc-text">构造遵循UIViewControllerAnimatedTransitioning协议的类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#构造动画对象"><span class="toc-number">3.</span> <span class="toc-text">构造动画对象</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2021/01/28/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2021 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">CentOS7</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">iOS开发新人,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
