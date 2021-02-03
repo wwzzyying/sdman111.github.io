@@ -159,6 +159,94 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-iOS蓝牙开发基础" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/03/iOS%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80/">iOS蓝牙开发基础</a>
+    </h1>
+  
+
+        
+        <a href="/2021/02/03/iOS%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80/" class="archive-article-date">
+  	<time datetime="2021-02-03T03:05:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-03</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <meta name="referrer" content="no-referrer" />
+
+<h2 id="框架"><a href="#框架" class="headerlink" title="框架"></a>框架</h2><p>利用<code>CoreBluetooth</code>框架实现应用程序与低功耗蓝牙（Bluetooth low energy，简称BLE）设备之间的通信，</p>
+<blockquote>
+<p>1、The framework is an abstraction of the Bluetooth 4.0 specification for use with low energy devices.</p>
+<p>该框架是蓝牙4.0规范的抽象，适用于低功耗设备。</p>
+<p>换言之，蓝牙规范低于4.0的苹果设备就不适用该框架</p>
+<p>2、An iOS app linked on or after iOS 10.0 must include in its <code>Info.plist</code> file the usage description keys for the types of data it needs to access or it will crash. To access Bluetooth peripheral data specifically, it must include <a href="https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CocoaKeys.html#//apple_ref/doc/uid/TP40009251-SW20" target="_blank" rel="noopener">NSBluetoothPeripheralUsageDescription</a>.</p>
+<p>使用该框架的软件必须在info.plist中添加对蓝牙外部设备的使用说明用来告知用户是否赋予该权限，否则应用将崩溃。</p>
+</blockquote>
+        
+          <a class="article-more-a" href="/2021/02/03/iOS%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80/#more">More >></a>
+        
+      
+
+      
+            
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/02/03/iOS%E8%93%9D%E7%89%99%E5%BC%80%E5%8F%91%E5%9F%BA%E7%A1%80/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-UIGestureRecognizer七种手势" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -912,94 +1000,9 @@
 
 
   
-    <article id="post-万能指针-instancetype" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/">万能指针 &amp; instancetype</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/" class="archive-article-date">
-  	<time datetime="2020-03-05T08:34:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-05</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>包括NSObject指针和id指针，instancetype，id和instancetype区别。</p>
-<h2 id="NSObject指针和id指针"><a href="#NSObject指针和id指针" class="headerlink" title="NSObject指针和id指针"></a>NSObject指针和id指针</h2><ul>
-<li>NSObject指针</li>
-</ul>
-<p>NSObject是所有类的基类，根据里氏替换原则LSP，NSObject指针可以指向任意OC对象</p>
-<p>所以，<strong>NSObject指针是一个<font color=red>万能指针</font></strong>。</p>
-<p><font color=red><strong>缺点：</strong></font></p>
-        
-          <a class="article-more-a" href="/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/#more">More >></a>
-        
-      
-
-      
-            
-      
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Objective-C</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1100,11 +1103,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1132,11 +1135,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
               </li>
              
               <li class="article-tag-list-item">
