@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="google-site-verification" content="KQswkfI4ciGQZUzoH4lQ94q3ykGAl9LkE7I_UFom0BM" />
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>UICollectionView | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="自定义CollectionViewCell因为CollectionView的cell没有默认子控件，所以需要自定义cell的class配置数据。新建继承UICollectionViewCell的类，并与storyboard中的cell组件连接上，之后在controller部分渲染cell的datasource方法中对cell类中的属性进行配置： 123456789101112131415&#x2F;&#x2F; Co">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UICollectionView">
+<meta property="og:url" content="http://www.sdman.tech/2021/02/20/UICollectionView/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="自定义CollectionViewCell因为CollectionView的cell没有默认子控件，所以需要自定义cell的class配置数据。新建继承UICollectionViewCell的类，并与storyboard中的cell组件连接上，之后在controller部分渲染cell的datasource方法中对cell类中的属性进行配置： 123456789101112131415&#x2F;&#x2F; Co">
+<meta property="og:image" content="http://www.sdman.tech/2021/02/20/UICollectionView/1.png">
+<meta property="og:image" content="http://www.sdman.tech/2021/02/20/UICollectionView/2.png">
+<meta property="og:image" content="http://www.sdman.tech/2021/02/20/UICollectionView/3.png">
+<meta property="article:published_time" content="2021-02-20T03:42:05.000Z">
+<meta property="article:modified_time" content="2021-02-20T03:48:41.213Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.sdman.tech/2021/02/20/UICollectionView/1.png">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.jpeg">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.jpeg" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">SwiftUI天下第一</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.jpeg" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>SwiftUI天下第一<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-UICollectionView" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      UICollectionView
+    </h1>
+  
+
+        
+        <a href="/2021/02/20/UICollectionView/" class="archive-article-date">
+  	<time datetime="2021-02-20T03:42:05.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="自定义CollectionViewCell"><a href="#自定义CollectionViewCell" class="headerlink" title="自定义CollectionViewCell"></a>自定义CollectionViewCell</h2><p>因为CollectionView的cell没有默认子控件，所以需要自定义cell的class配置数据。新建继承<code>UICollectionViewCell</code>的类，并与storyboard中的cell组件连接上，之后在controller部分渲染cell的datasource方法中对cell类中的属性进行配置：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CollectionViewCell.swift</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CollectionViewCell</span>: <span class="title">UICollectionViewCell</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> imageView: <span class="type">UIImageView!</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CollectionViewController.swift</span></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)</span></span> -&gt; <span class="type">UICollectionViewCell</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, <span class="keyword">for</span>: indexPath) <span class="keyword">as</span>! <span class="type">CollectionViewCell</span></span><br><span class="line">    </span><br><span class="line">        cell.imageView.image = <span class="type">UIImage</span>(named: images[indexPath.row])</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> cell</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<h2 id="自定义Cell不生效？"><a href="#自定义Cell不生效？" class="headerlink" title="自定义Cell不生效？"></a>自定义Cell不生效？</h2><p>尝试在storyboard设置<code>Collection View Flow Layout</code>的<code>Size inspector</code>中的<code>Estimate Size属性</code>为<strong>none</strong></p>
+<h2 id="数据源分类"><a href="#数据源分类" class="headerlink" title="数据源分类"></a>数据源分类</h2><p>主要是将数据改为嵌套数组的形式，然后根据子数组数目，即数组count来决定段数；然后在进行渲染是会根据我们返回的自定义数据在渲染过程中进行拦截，在回调函数中根据已知参数（已渲染的信息）进行配置。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> images = [</span><br><span class="line">        [<span class="string">"p1"</span>, <span class="string">"p2"</span>],</span><br><span class="line">        [<span class="string">"p3"</span>, <span class="string">"p4"</span>]</span><br><span class="line">    ]</span><br><span class="line"></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">numberOfSections</span><span class="params">(<span class="keyword">in</span> collectionView: UICollectionView)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="comment">// #warning Incomplete implementation, return the number of sections</span></span><br><span class="line">        <span class="comment">// 子数组个数即是段数</span></span><br><span class="line">        <span class="keyword">return</span> images.<span class="built_in">count</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, numberOfItemsInSection section: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="comment">// #warning Incomplete implementation, return the number of items</span></span><br><span class="line">        <span class="comment">// 每一段中元素的个数</span></span><br><span class="line">        <span class="comment">// 我的猜测是渲染每一段都会调用该回调函数，确定每段元素数目</span></span><br><span class="line">        <span class="keyword">return</span> images[section].<span class="built_in">count</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)</span></span> -&gt; <span class="type">UICollectionViewCell</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, <span class="keyword">for</span>: indexPath) <span class="keyword">as</span>! <span class="type">CollectionViewCell</span></span><br><span class="line">        <span class="comment">// images[indexPath.section][indexPath.row]先选中所在的段，再选中所在的行</span></span><br><span class="line">        <span class="comment">// 我的猜测是渲染每一个item都会调用该回调函数，已知有段数和段内item数，而indexpath也包含已知的段数和段内item数</span></span><br><span class="line">        cell.imageView.image = <span class="type">UIImage</span>(named: images[indexPath.section][indexPath.row])</span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> cell</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置补充视图Header"><a href="#配置补充视图Header" class="headerlink" title="配置补充视图Header"></a>配置补充视图Header</h2><p>每个UICollectionView的Section Header或Footer是一个<code>UICollectionReusableView</code>，所以对应的datasource方法必须返回<code>UICollectionReusableView</code>类型，并且要给每个header或footer创建并连接上一个class类，将header或footer中的组件连接到对应类中，便于后期动态配置组件属性。</p>
+<p>与cell的回调函数类似，渲染header或footer这类补充视图也会有对应的回调函数：</p>
+<p><code>override func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -&gt; UICollectionReusableView</code></p>
+<p>具有补充视图或reusableview相关字眼。对于补充视图的渲染类似于cell的方式，是通过identifier进行渲染的，相同identifier的渲染效率更高？所以我们<strong>对header设置identifier</strong>，然后根据回调函数中的<code>kind</code>参数进行判断：</p>
+<p>因为kind是String类型，所以UICollectionView中一定有对应kind的String</p>
+<p>如果是header，即<code>UICollectionView.elementKindSectionHeader</code></p>
+<p>如果是footer，即<code>UICollectionView.elementKindSectionFooter</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath)</span></span> -&gt; <span class="type">UICollectionReusableView</span> &#123;</span><br><span class="line">        <span class="keyword">switch</span> kind &#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="type">UICollectionView</span>.elementKindSectionHeader:</span><br><span class="line">            <span class="keyword">let</span> header = collectionView.dequeueReusableSupplementaryView(ofKind: kind, withReuseIdentifier: <span class="string">"header"</span>, <span class="keyword">for</span>: indexPath) <span class="keyword">as</span>! <span class="type">SectionHeader</span></span><br><span class="line">            <span class="keyword">let</span> texts = [<span class="string">"Yesterday"</span>, <span class="string">"Today"</span>]</span><br><span class="line">            header.textLabel.text = texts[indexPath.section]</span><br><span class="line">            <span class="keyword">return</span> header</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">return</span> <span class="type">UICollectionReusableView</span>()</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="CollectionView布局的相关属性"><a href="#CollectionView布局的相关属性" class="headerlink" title="CollectionView布局的相关属性"></a>CollectionView布局的相关属性</h2><p><strong>cell默认方向为水平方向，当该行放不下下一个cell时自动换行</strong></p>
+<p>1、Min Spacing：每一行内各个item或每一行之间的最小距离</p>
+<blockquote>
+<p>If there is extra space at the end of the line, the layout object increases the interitem spacing until the items fit evenly within the line boundaries</p>
+<p>如果有额外的空间将会被均匀分配</p>
+</blockquote>
+<p>2、Section Insets：段的内边距，类似于HTML中的Padding，通过<code>let inset = UIEdgeInsetsMake(top, left, bottom, right)</code>进行构建</p>
+<h2 id="动态调整cell"><a href="#动态调整cell" class="headerlink" title="动态调整cell"></a>动态调整cell</h2><p>CollectionViewController直接遵循<code>UICollectionViewDelegateFlowLayout</code>协议，因为已经自动设置delegate为self，所以仅需要在vc遵循该协议即可。</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> itemsPerRow: <span class="type">CGFloat</span> = <span class="number">3</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 要实现每行各个图片的上下左右边距都相同</span></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">CollectionViewController</span>: <span class="title">UICollectionViewDelegateFlowLayout</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 先规定内边距以及最小行距、最小item间距，最后减去这些宽度算出每个item宽度高度</span></span><br><span class="line">    <span class="comment">// inset——item内边距</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int)</span></span> -&gt; <span class="type">UIEdgeInsets</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="type">UIEdgeInsets</span>(top: <span class="number">10</span>, <span class="keyword">left</span>: <span class="number">10</span>, bottom: <span class="number">10</span>, <span class="keyword">right</span>: <span class="number">10</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// minimum Line Spacing——最小行间距</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int)</span></span> -&gt; <span class="type">CGFloat</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">10</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// minimum Inter item Spacing——最小item间距</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int)</span></span> -&gt; <span class="type">CGFloat</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">10</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// size For Item——item尺寸</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath)</span></span> -&gt; <span class="type">CGSize</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> size = (view.bounds.width - <span class="number">10</span> * (itemsPerRow + <span class="number">1</span>)) / itemsPerRow</span><br><span class="line">        <span class="keyword">return</span> <span class="type">CGSize</span>(width: size, height: size)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="/2021/02/20/UICollectionView/1.png" class="" title="UICollectionView">
+
+<h2 id="UICollectionViewCell视图层级"><a href="#UICollectionViewCell视图层级" class="headerlink" title="UICollectionViewCell视图层级"></a>UICollectionViewCell视图层级</h2><p>从cell到组件的层级依次是cell -&gt; backgroundView -&gt; selectedBackgroundView -&gt; contentView</p>
+<p><strong>backgroundview和selectedBackgroundView默认不显示，需要手动添加；</strong></p>
+<p><strong>而默认仅有contentView</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CollectionViewCell.swift</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CollectionViewCell</span>: <span class="title">UICollectionViewCell</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> textLabel: <span class="type">UILabel!</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">awakeFromNib</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.awakeFromNib()</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> bgView = <span class="type">UIView</span>()</span><br><span class="line">        bgView.backgroundColor = .yellow</span><br><span class="line">        backgroundView = bgView</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> selectedBGView = <span class="type">UIView</span>()</span><br><span class="line">        selectedBGView.backgroundColor = .red</span><br><span class="line">        selectedBackgroundView = selectedBGView</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// CollectionViewController.swift</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">let</span> reuseIdentifier = <span class="string">"cell"</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CollectionViewController</span>: <span class="title">UICollectionViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// MARK: UICollectionViewDataSource</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, numberOfItemsInSection section: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="comment">// #warning Incomplete implementation, return the number of items</span></span><br><span class="line">        <span class="keyword">return</span> <span class="number">2</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)</span></span> -&gt; <span class="type">UICollectionViewCell</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> cell = collectionView.dequeueReusableCell(withReuseIdentifier: reuseIdentifier, <span class="keyword">for</span>: indexPath) <span class="keyword">as</span>! <span class="type">CollectionViewCell</span></span><br><span class="line">    </span><br><span class="line">        cell.textLabel.text = <span class="string">"Data"</span></span><br><span class="line">    </span><br><span class="line">        <span class="keyword">return</span> cell</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// MARK: UICollectionViewDelegate</span></span><br><span class="line">    <span class="comment">// 长按改变contentView背景色</span></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, didHighlightItemAt indexPath: IndexPath)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> cell = collectionView.cellForItem(at: indexPath) &#123;</span><br><span class="line">            cell.contentView.backgroundColor = .gray</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, didUnhighlightItemAt indexPath: IndexPath)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> cell = collectionView.cellForItem(at: indexPath) &#123;</span><br><span class="line">            cell.contentView.backgroundColor = <span class="literal">nil</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, shouldHighlightItemAt indexPath: IndexPath)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="/2021/02/20/UICollectionView/2.png" class="" title="UICollectionView">
+
+<p>依次显示Cell -&gt; backgroundView -&gt; selectedBackgroundView -&gt; contentView -&gt; label</p>
+<h2 id="Cell长按显示ActionMenu"><a href="#Cell长按显示ActionMenu" class="headerlink" title="Cell长按显示ActionMenu"></a>Cell长按显示ActionMenu</h2><p>是UICollectionViewDelegate中的方法</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//用户长按显示menucontroller相关</span></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, shouldShowMenuForItemAt indexPath: IndexPath)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 显示ActionMenu中特定功能，只显示copy和paste</span></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, canPerformAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: <span class="keyword">Any</span>?)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="comment">//可自定义别的menuItems（参照UIMenuController）</span></span><br><span class="line">    <span class="keyword">if</span> action == #selector(copy(<span class="number">_</span>:)) || action == #selector(paste(<span class="number">_</span>:))&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// ActionMenu对应Action的功能</span></span><br><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, performAction action: Selector, forItemAt indexPath: IndexPath, withSender sender: <span class="keyword">Any</span>?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> action&#123;</span><br><span class="line">    <span class="keyword">case</span> #selector(copy(<span class="number">_</span>:)):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"复制"</span>)</span><br><span class="line">    <span class="keyword">case</span> #selector(paste(<span class="number">_</span>:)):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"粘贴"</span>)</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<img src="/2021/02/20/UICollectionView/3.png" class="" title="UICollectionView">
+
+<h2 id="动态创建CollectionView"><a href="#动态创建CollectionView" class="headerlink" title="动态创建CollectionView"></a>动态创建CollectionView</h2><p>流程就是实例化UICollectionView并设置dataSource委托、delegate委托，view调用addsubview添加CollectionView，利用下面的init方法，</p>
+<p><code>init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout)</code>，创建的重点在于layout参数不能简单实例化一个UICollectionViewLayout并赋值就完事了，因为UICollectionViewLayout是一个抽象类，我们需要实例化UICollectionViewLayout的子类<code>UICollectionViewFlowLayout</code>，然后初始化flowLayout的属性，包括最小行距、最小间距、内边距等，然后传给CollectionView的init方法即可。</p>
+<blockquote>
+<p>Registers a class for use in creating new collection view cells.</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">register(<span class="number">_</span> cellClass: <span class="type">AnyClass?</span>, forCellWithReuseIdentifier identifier: <span class="type">String</span>)</span><br></pre></td></tr></table></figure>
+
+<p>然后CollectionView一定要使用register方法注册cell，并创建继承UICollectionViewCell的子类</p>
+</blockquote>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> flow = <span class="type">UICollectionViewFlowLayout</span>()</span><br><span class="line">        flow.itemSize = <span class="type">CGSize</span>(width: <span class="number">150</span>, height: <span class="number">150</span>)</span><br><span class="line">        flow.minimumLineSpacing = <span class="number">10</span></span><br><span class="line">        flow.minimumInteritemSpacing = <span class="number">10</span></span><br><span class="line">        flow.sectionInset = <span class="type">UIEdgeInsets</span>(top: <span class="number">10</span>, <span class="keyword">left</span>: <span class="number">10</span>, bottom: <span class="number">10</span>, <span class="keyword">right</span>: <span class="number">10</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> collectionView = <span class="type">UICollectionView</span>(frame: view.bounds, collectionViewLayout: flow)</span><br><span class="line">        collectionView.backgroundColor = .white</span><br><span class="line">        collectionView.register(<span class="type">CollectionViewCell</span>.<span class="keyword">self</span>, forCellWithReuseIdentifier: <span class="string">"cell"</span>)</span><br><span class="line">        collectionView.dataSource = <span class="keyword">self</span></span><br><span class="line">        </span><br><span class="line">        view.addSubview(collectionView)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">ViewController</span>: <span class="title">UICollectionViewDataSource</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, numberOfItemsInSection section: Int)</span></span> -&gt; <span class="type">Int</span> &#123;</span><br><span class="line">        <span class="number">12</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">collectionView</span><span class="params">(<span class="number">_</span> collectionView: UICollectionView, cellForItemAt indexPath: IndexPath)</span></span> -&gt; <span class="type">UICollectionViewCell</span> &#123;</span><br><span class="line">        <span class="keyword">let</span> cell = collectionView.dequeueReusableCell(withReuseIdentifier: <span class="string">"cell"</span>, <span class="keyword">for</span>: indexPath) <span class="keyword">as</span>! <span class="type">CollectionViewCell</span></span><br><span class="line">        </span><br><span class="line">        cell.backgroundColor = #colorLiteral(red: <span class="number">0.3098039329</span>, green: <span class="number">0.01568627544</span>, blue: <span class="number">0.1294117719</span>, alpha: <span class="number">1</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">return</span> cell</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2021/02/20/UICollectionView/" title="sdman111无聊的博客">http://www.sdman.tech/2021/02/20/UICollectionView/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2021/02/20/UIScrollView/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          UIScrollView
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/02/20/UIPageViewController/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">UIPageViewController</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2021/02/20/UICollectionView/" class="leancloud_visitors" data-flag-title="UICollectionView">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2021/02/20/UICollectionView/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义CollectionViewCell"><span class="toc-number">1.</span> <span class="toc-text">自定义CollectionViewCell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#自定义Cell不生效？"><span class="toc-number">2.</span> <span class="toc-text">自定义Cell不生效？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#数据源分类"><span class="toc-number">3.</span> <span class="toc-text">数据源分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置补充视图Header"><span class="toc-number">4.</span> <span class="toc-text">配置补充视图Header</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#CollectionView布局的相关属性"><span class="toc-number">5.</span> <span class="toc-text">CollectionView布局的相关属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态调整cell"><span class="toc-number">6.</span> <span class="toc-text">动态调整cell</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UICollectionViewCell视图层级"><span class="toc-number">7.</span> <span class="toc-text">UICollectionViewCell视图层级</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Cell长按显示ActionMenu"><span class="toc-number">8.</span> <span class="toc-text">Cell长按显示ActionMenu</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#动态创建CollectionView"><span class="toc-number">9.</span> <span class="toc-text">动态创建CollectionView</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2021/02/20/UICollectionView/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2021 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">CentOS7</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">iOS开发新人,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

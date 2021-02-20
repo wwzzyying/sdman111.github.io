@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="google-site-verification" content="KQswkfI4ciGQZUzoH4lQ94q3ykGAl9LkE7I_UFom0BM" />
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>UIScrollView | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ScrollView展示图片-平移功能  首先scrollview并没有一个集成功能的视图控制器，所以需要创建一个vc并放入一个scrollview并进行四边的约束；正常的思维是继续在scrollview中放置imageView并同样设置约束，但是那样会报错，要放置image之后同时设置scrollview的contentsize 思路：主VC的prepare根据segue参数向下转型获得scro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIScrollView">
+<meta property="og:url" content="http://www.sdman.tech/2021/02/20/UIScrollView/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="ScrollView展示图片-平移功能  首先scrollview并没有一个集成功能的视图控制器，所以需要创建一个vc并放入一个scrollview并进行四边的约束；正常的思维是继续在scrollview中放置imageView并同样设置约束，但是那样会报错，要放置image之后同时设置scrollview的contentsize 思路：主VC的prepare根据segue参数向下转型获得scro">
+<meta property="og:image" content="http://www.sdman.tech/2021/02/20/UIScrollView/1.jpeg">
+<meta property="og:image" content="http://www.sdman.tech/2021/02/20/UIScrollView/2.png">
+<meta property="og:image" content="http://www.sdman.tech/2021/02/20/UIScrollView/3.png">
+<meta property="article:published_time" content="2021-02-20T03:42:20.000Z">
+<meta property="article:modified_time" content="2021-02-20T03:54:53.690Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="iOS">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.sdman.tech/2021/02/20/UIScrollView/1.jpeg">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.jpeg">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.jpeg" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">SwiftUI天下第一</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.jpeg" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>SwiftUI天下第一<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-UIScrollView" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      UIScrollView
+    </h1>
+  
+
+        
+        <a href="/2021/02/20/UIScrollView/" class="archive-article-date">
+  	<time datetime="2021-02-20T03:42:20.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-02-20</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="ScrollView展示图片-平移功能"><a href="#ScrollView展示图片-平移功能" class="headerlink" title="ScrollView展示图片-平移功能"></a>ScrollView展示图片-平移功能</h2><img src="/2021/02/20/UIScrollView/1.jpeg" class="" title="UIScrollView">
+
+<p>首先scrollview并没有一个集成功能的视图控制器，所以需要创建一个vc并放入一个scrollview并进行四边的约束；<strong>正常的思维是继续在scrollview中放置imageView并同样设置约束</strong>，但是那样会报错，<strong>要放置image之后同时设置scrollview的contentsize</strong></p>
+<p><strong>思路：主VC的prepare根据segue参数向下转型获得scrollview所在vc，再根据sender向下转型获得sender类型，获取当前collectionview的sender的indexpath，再正向传值image给scrollview</strong></p>
+<a id="more"></a>
+
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// CollectionViewController.swift</span></span><br><span class="line"><span class="comment">// 我要让scrollview所在vc根据主vc点击cell然后present对应image，所以需要segue走向该vc时才进行操作；同时，我并不知道该传哪张图片过去，已知我是点击cell才会做出present的，所以需要将sender向下转型成collectionviewcell类型，并根据collectionview.indexpath函数获取对应位置；最后正向传入对应段对应行的imagename过去。</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">CollectionViewController</span>: <span class="title">UICollectionViewController</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">//数据可以设计为嵌套数组，方便数据源操作</span></span><br><span class="line">    <span class="keyword">let</span> imageNames = [</span><br><span class="line">        [<span class="string">"p1"</span>,<span class="string">"p2"</span>],</span><br><span class="line">        [<span class="string">"p3"</span>,<span class="string">"p4"</span>]</span><br><span class="line">    ]</span><br><span class="line">  </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">prepare</span><span class="params">(<span class="keyword">for</span> segue: UIStoryboardSegue, sender: <span class="keyword">Any</span>?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> detailVC = segue.destination <span class="keyword">as</span>? <span class="type">DetailViewController</span>,</span><br><span class="line">           <span class="keyword">let</span> cell = sender <span class="keyword">as</span>? <span class="type">CollectionViewCell</span>,</span><br><span class="line">           <span class="keyword">let</span> indexPath = collectionView.indexPath(<span class="keyword">for</span>: cell) &#123;</span><br><span class="line">            detailVC.imageName = imageNames[indexPath.section][indexPath.row]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// DetailViewController.swift</span></span><br><span class="line"><span class="comment">// 我要显示image，所以需要设置属性接受主vc传过来的imageName；我要用代码添加imageview到scrollview上，所以需要设置imageview属性根据imagename实例化一个UIImage的imageview</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DetailViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> scrollView: <span class="type">UIScrollView!</span></span><br><span class="line">    <span class="keyword">var</span> imageName: <span class="type">String!</span></span><br><span class="line">    <span class="keyword">var</span> imageView: <span class="type">UIImageView!</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        imageView = <span class="type">UIImageView</span>(image: <span class="type">UIImage</span>(named: imageName)!)</span><br><span class="line">        scrollView.contentSize = imageView.bounds.size</span><br><span class="line">        scrollView.addSubview(imageView)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="ScrollView展示图片-缩放功能"><a href="#ScrollView展示图片-缩放功能" class="headerlink" title="ScrollView展示图片-缩放功能"></a>ScrollView展示图片-缩放功能</h2><h3 id="图片显示完整"><a href="#图片显示完整" class="headerlink" title="图片显示完整"></a>图片显示完整</h3><p>主要是通过计算一个缩放因子并赋值给<code>scrollView.minimumZoomScale</code>最小缩放比例、<code>scrollView.zoomScale</code>缩放比例，实现点击图片后显示完整的图片，不显示局部放大的图片</p>
+<p><strong>需要注意的是，设置完zoomScale之后还需要遵循对应的scrollviewdelegate对应的viewforzooming方法，返回需要zoom的view</strong></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DetailViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> scrollView: <span class="type">UIScrollView!</span></span><br><span class="line">    <span class="keyword">var</span> imageName: <span class="type">String!</span></span><br><span class="line">    <span class="keyword">var</span> imageView: <span class="type">UIImageView!</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        imageView = <span class="type">UIImageView</span>(image: <span class="type">UIImage</span>(named: imageName)!)</span><br><span class="line">        scrollView.contentSize = imageView.bounds.size</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 给scrollView添加点击dismiss手势</span></span><br><span class="line">        scrollView.addGestureRecognizer(<span class="type">UITapGestureRecognizer</span>(target: <span class="keyword">self</span>, action: #selector(dismiss(tap:))))</span><br><span class="line"></span><br><span class="line">        scrollView.addSubview(imageView)</span><br><span class="line">        scrollView.delegate = <span class="keyword">self</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 用scrollView宽度除以imageView宽度得到最小缩放因子</span></span><br><span class="line">        <span class="keyword">let</span> scaleFactor = scrollView.bounds.width / imageView.bounds.width</span><br><span class="line">        scrollView.minimumZoomScale = scaleFactor</span><br><span class="line">        scrollView.zoomScale = scaleFactor</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@objc</span> <span class="function"><span class="keyword">func</span> <span class="title">dismiss</span><span class="params">(tap: UITapGestureRecognizer)</span></span> &#123;</span><br><span class="line">        dismiss(animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">DetailViewController</span>: <span class="title">UIScrollViewDelegate</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 实现缩放显示的关键</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">viewForZooming</span><span class="params">(<span class="keyword">in</span> scrollView: UIScrollView)</span></span> -&gt; <span class="type">UIView?</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> imageView</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>其实到了这里通过设置minimumZoomScale和zoomScale属性并且通过delegate委托方法进行拦截就已经可以实现缩放功能了，但是图片从屏幕左上角开始显示，导致图片没有居中显示。</strong></p>
+<p>我们可以用scrollview的height减去imageview的height再除以2，这就是imageview的centerY位置，前提是imageview.frame.height大于scrollview.frame.height</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLayoutSubviews</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLayoutSubviews()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"imageView的物理size，imageView.bounds.size是：\(imageView.bounds.size)"</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"imageView的显示size，imageView.frame.size是：\(imageView.frame.size)"</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"scrollView中显示的图片的size，scrollView.contentSize是：\(scrollView.contentSize)"</span>)</span><br><span class="line">        <span class="comment">// 照片顶部与设备顶部之间空白的距离</span></span><br><span class="line">        <span class="keyword">if</span> imageView.frame.height &lt; scrollView.frame.height &#123;</span><br><span class="line">            <span class="keyword">let</span> offsetY = (scrollView.frame.height - imageView.frame.height) / <span class="number">2</span></span><br><span class="line">            imageView.center = <span class="type">CGPoint</span>(x: imageView.frame.width / <span class="number">2</span>, y: imageView.frame.height / <span class="number">2</span> + offsetY)</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>得到输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">imageView的物理size，imageView.bounds.size是：(1440.0, 900.0)</span><br><span class="line">imageView的显示size，imageView.frame.size是：(413.99999999999994, 258.75)</span><br><span class="line">scrollView中显示的图片的size，scrollView.contentSize是：(413.99999999999994, 258.75)</span><br></pre></td></tr></table></figure>
+
+<p><strong>所以这里要计算centerY距离就不能用bounds，要使用frame</strong></p>
+<p><strong>因为bounds参考的是本地坐标系，即自身坐标系；而frame参考的是父view坐标系；</strong></p>
+<p><strong>在这里scrollview的父view是一个VC，坐标系和自身一样，都是屏幕大小，所以scrollview.frame还是scrollview.bounds的height都是一样的；但是imageview如果使用bounds参考本地坐标系，那size就是一整张image那样大，就是image的物理尺寸，如果使用frame则参考的是scrollview的坐标系，这样才能计算出正确的centerY。</strong></p>
+<h3 id="根据中心缩放"><a href="#根据中心缩放" class="headerlink" title="根据中心缩放"></a>根据中心缩放</h3><p>主要是利用scrollviewdelegate的一个代理方法didzoom，每次给zoomscale设置新值就会调用该方法，所以思路主要是每次缩放时都重新设置center即可。</p>
+<p>viewdidload、viewDidLayoutSubviews、scrollViewDidZoom中的viewDidLayoutSubviews最后完成，所以可以选择两个方法：</p>
+<ol>
+<li>在viewDidLayoutSubviews中计算缩放因子并赋值zoomscale，此时才会调用didzoom设置center，避免layout未完成就获取frame等属性值导致偏差。</li>
+<li>在viewDidLayoutSubviews中重新设置一次center，覆盖因为layout未完成导致的偏差问题</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DetailViewController</span>: <span class="title">UIViewController</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@IBOutlet</span> <span class="keyword">weak</span> <span class="keyword">var</span> scrollView: <span class="type">UIScrollView!</span></span><br><span class="line">    <span class="keyword">var</span> imageName: <span class="type">String!</span></span><br><span class="line">    <span class="keyword">var</span> imageView: <span class="type">UIImageView!</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line">        imageView = <span class="type">UIImageView</span>(image: <span class="type">UIImage</span>(named: imageName)!)</span><br><span class="line">        scrollView.contentSize = imageView.bounds.size</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 给scrollView添加点击dismiss手势</span></span><br><span class="line">        scrollView.addGestureRecognizer(<span class="type">UITapGestureRecognizer</span>(target: <span class="keyword">self</span>, action: #selector(dismiss(tap:))))</span><br><span class="line"></span><br><span class="line">        scrollView.addSubview(imageView)</span><br><span class="line">        scrollView.delegate = <span class="keyword">self</span></span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 用scrollView宽度除以imageView宽度得到最小缩放因子</span></span><br><span class="line">        </span><br><span class="line">        <span class="keyword">let</span> scaleFactor = scrollView.bounds.width / imageView.bounds.width</span><br><span class="line">        scrollView.minimumZoomScale = scaleFactor</span><br><span class="line">        scrollView.zoomScale = scaleFactor</span><br><span class="line">        </span><br><span class="line"><span class="comment">//        imageView.center = scrollView.center</span></span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@objc</span> <span class="function"><span class="keyword">func</span> <span class="title">dismiss</span><span class="params">(tap: UITapGestureRecognizer)</span></span> &#123;</span><br><span class="line">        dismiss(animated: <span class="literal">true</span>, completion: <span class="literal">nil</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLayoutSubviews</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLayoutSubviews()</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"imageView的物理size，imageView.bounds.size是：\(imageView.bounds.size)"</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"imageView的显示size，imageView.frame.size是：\(imageView.frame.size)"</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"scrollView中显示的图片的size，scrollView.contentSize是：\(scrollView.contentSize)"</span>)</span><br><span class="line">        <span class="comment">// 照片顶部与设备顶部之间空白的距离</span></span><br><span class="line">        <span class="comment">// 重新设置一遍center，覆盖layout未完成导致的偏差</span></span><br><span class="line">        <span class="keyword">if</span> imageView.frame.height &lt; scrollView.frame.height &#123;</span><br><span class="line">            <span class="keyword">let</span> offsetY = (scrollView.frame.height - imageView.frame.height) / <span class="number">2</span></span><br><span class="line">            imageView.center = <span class="type">CGPoint</span>(x: imageView.frame.width / <span class="number">2</span>, y: imageView.frame.height / <span class="number">2</span> + offsetY)</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line"><span class="comment">//        let scaleFactor = scrollView.bounds.width / imageView.bounds.width</span></span><br><span class="line"><span class="comment">//        scrollView.minimumZoomScale = scaleFactor</span></span><br><span class="line"><span class="comment">//        scrollView.zoomScale = scaleFactor</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">DetailViewController</span>: <span class="title">UIScrollViewDelegate</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 实现缩放显示的关键</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">viewForZooming</span><span class="params">(<span class="keyword">in</span> scrollView: UIScrollView)</span></span> -&gt; <span class="type">UIView?</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> imageView</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 每次改变scrollView.zoomScale属性时都会调用该方法</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">scrollViewDidZoom</span><span class="params">(<span class="number">_</span> scrollView: UIScrollView)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> imageView.frame.height &lt; scrollView.frame.height &#123;</span><br><span class="line">            <span class="keyword">let</span> offsetY = (scrollView.frame.height - imageView.frame.height) / <span class="number">2</span></span><br><span class="line">            imageView.center = <span class="type">CGPoint</span>(x: imageView.frame.width / <span class="number">2</span>, y: imageView.frame.height / <span class="number">2</span> + offsetY)</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="长图上方空白问题"><a href="#长图上方空白问题" class="headerlink" title="长图上方空白问题"></a>长图上方空白问题</h2><p>size inspector -&gt; Content insets设置为never</p>
+<h2 id="scrollview点击状态栏返回顶部"><a href="#scrollview点击状态栏返回顶部" class="headerlink" title="scrollview点击状态栏返回顶部"></a>scrollview点击状态栏返回顶部</h2><p>也就是scrollView.scrollToTop，默认为true</p>
+<h2 id="scrollView相关属性"><a href="#scrollView相关属性" class="headerlink" title="scrollView相关属性"></a>scrollView相关属性</h2><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">自己调整inset--可防止长图不显示全屏的bug</span><br><span class="line">scrollView.contentInsetAdjustmentBehavior = .never</span><br><span class="line"></span><br><span class="line">滚动条：</span><br><span class="line">scrollView.indicatorStyle = .<span class="keyword">default</span></span><br><span class="line">scrollView.showsVerticalScrollIndicator = <span class="literal">true</span></span><br><span class="line">scrollView.showsHorizontalScrollIndicator = <span class="literal">true</span></span><br><span class="line"></span><br><span class="line">是否使用分页机制，<span class="literal">true</span>时，会按照scrollView的宽度对内容视图进行分页。可做引导页</span><br><span class="line">scrollView.isPagingEnabled = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">是否锁定某个特定方向的滚动，为<span class="literal">true</span>时，一旦用户向水平或竖直方向拽动时，另一个方向的滚动则被锁定了</span><br><span class="line">如果首次拽动是斜着的，则不会锁定方向</span><br><span class="line">scrollView.isDirectionalLockEnabled = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">反弹：</span><br><span class="line">scrollView.bounces = <span class="literal">true</span></span><br><span class="line">若该属性和bounces同时为<span class="literal">true</span>，那么即使contentSize的width小于scrollView的width，仍可水平拖拽</span><br><span class="line">scrollView.alwaysBounceVertical = <span class="literal">false</span></span><br><span class="line">scrollView.alwaysBounceHorizontal = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line">缩放：</span><br><span class="line">scrollView.bouncesZoom = <span class="literal">true</span></span><br><span class="line">scrollView.minimumZoomScale = <span class="number">1</span> <span class="comment">//最小缩小比例，默认值为1</span></span><br><span class="line">scrollView.maximumZoomScale = <span class="number">1</span> <span class="comment">//最大放大比例，默认值为1</span></span><br><span class="line">scrollView.zoomScale = <span class="number">0.2</span> <span class="comment">//当前的缩放比例（可读可写）--系统也会根据缩放过程调整此值</span></span><br><span class="line">scrollView.setZoomScale(<span class="number">0.2</span>, animated: <span class="literal">true</span>) <span class="comment">//设置缩放大小，效果同上</span></span><br><span class="line">将内容视图缩放到指定的<span class="type">Rect</span>中</span><br><span class="line">scrollView.zoom(to: <span class="type">CGRect</span>(x: <span class="number">1</span>, y: <span class="number">1</span>, width: <span class="number">50</span>, height: <span class="number">50</span>), animated: <span class="literal">true</span>)</span><br><span class="line"></span><br><span class="line">scrollView.keyboardDismissMode = .<span class="keyword">none</span> <span class="comment">//拖动时键盘消不消失，默认不消失</span></span><br><span class="line"></span><br><span class="line">跟踪状态：</span><br><span class="line">scrollView.isTracking <span class="comment">//一旦用户开始触摸视图(也许还没有开始拖动)</span></span><br><span class="line">scrollView.isDragging <span class="comment">//当用户开始拖动（手指已经在屏幕上滑动一段距离了）</span></span><br><span class="line">scrollView.isDecelerating <span class="comment">// 减速-当用户松开手指，但视图仍在滚动</span></span><br><span class="line">scrollView.isZooming <span class="comment">//用户是否正在进行缩放手势</span></span><br><span class="line">scrollView.isZoomBouncing <span class="comment">//当缩放超过最大或者最小范围时，回弹到最大最小范围的过程中</span></span><br><span class="line"></span><br><span class="line">scrollView.panGestureRecognizer</span><br><span class="line">scrollView.pinchGestureRecognizer</span><br><span class="line"></span><br><span class="line">scrollView.decelerationRate = .normal <span class="comment">//滑动后手指抬起时，页面继续移动的减速速率</span></span><br><span class="line"></span><br><span class="line">在iphone上，如果有多个scrollview的scrollToTop设置为<span class="literal">true</span>的时候，此手势会失效</span><br><span class="line">scrollView.scrollsToTop = <span class="literal">true</span> <span class="comment">//对应下方delegate方法</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="refreshControl"><a href="#refreshControl" class="headerlink" title="refreshControl"></a>refreshControl</h2><h3 id="第一种—storyboard打开"><a href="#第一种—storyboard打开" class="headerlink" title="第一种—storyboard打开"></a>第一种—storyboard打开</h3><img src="/2021/02/20/UIScrollView/2.png" class="" title="UIScrollView">
+
+<img src="/2021/02/20/UIScrollView/3.png" class="" title="UIScrollView">
+
+<p>并且将refreshControl拉一个IBAction在VC中，设置下拉后到底该做什么：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@IBAction</span> <span class="function"><span class="keyword">func</span> <span class="title">refresh</span><span class="params">(<span class="number">_</span> sender: <span class="keyword">Any</span>)</span></span> &#123;</span><br><span class="line">        data.append(<span class="string">"继续学习！"</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 重点-手动刷新页面数据，不像swiftUI那种自动刷新</span></span><br><span class="line">        tableView.reloadData()</span><br><span class="line">        <span class="comment">// 主线程异步处理</span></span><br><span class="line">        <span class="type">DispatchQueue</span>.main.async &#123;</span><br><span class="line">            <span class="keyword">self</span>.tableView.refreshControl?.endRefreshing()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>切记，记得要调用reloadData()方法，不是像SwiftUI那种观察数据流发生变化而自动进行UI更新的</p>
+<h3 id="第二种—代码创建"><a href="#第二种—代码创建" class="headerlink" title="第二种—代码创建"></a>第二种—代码创建</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="keyword">super</span>.viewDidLoad()</span><br><span class="line"></span><br><span class="line">        <span class="keyword">let</span> refreshControl = <span class="type">UIRefreshControl</span>()</span><br><span class="line">        <span class="comment">// 设置菊花颜色</span></span><br><span class="line">        refreshControl.tintColor = #colorLiteral(red: <span class="number">0.6000000238</span>, green: <span class="number">0.6000000238</span>, blue: <span class="number">0.6000000238</span>, alpha: <span class="number">1</span>)</span><br><span class="line">        <span class="comment">// 设置描述文字属性</span></span><br><span class="line">        refreshControl.attributedTitle = <span class="type">NSAttributedString</span>(string: <span class="string">"加载中"</span>, attributes: [.foregroundColor: <span class="type">UIColor</span>.brown])</span><br><span class="line">        </span><br><span class="line">        tableView.refreshControl = refreshControl</span><br><span class="line">        <span class="comment">// 相当于给refreshControl添加一个IBAction</span></span><br><span class="line">        tableView.refreshControl?.addTarget(<span class="keyword">self</span>, action: #selector(refresh_Code), <span class="keyword">for</span>: .valueChanged)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@objc</span> <span class="function"><span class="keyword">func</span> <span class="title">refresh_Code</span><span class="params">()</span></span> &#123;</span><br><span class="line">        data.append(<span class="string">"继续学习！"</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 重点-手动刷新页面数据，不像swiftUI那种自动刷新</span></span><br><span class="line">        tableView.reloadData()</span><br><span class="line">        <span class="comment">// 主线程异步处理</span></span><br><span class="line">        <span class="type">DispatchQueue</span>.main.async &#123;</span><br><span class="line">            <span class="keyword">self</span>.tableView.refreshControl?.endRefreshing()</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>类似于添加手势的那个处理函数，相当于手动添加IBAction</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2021/02/20/UIScrollView/" title="sdman111无聊的博客">http://www.sdman.tech/2021/02/20/UIScrollView/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/20/UICollectionView/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">UICollectionView</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2021/02/20/UIScrollView/" class="leancloud_visitors" data-flag-title="UIScrollView">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2021/02/20/UIScrollView/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ScrollView展示图片-平移功能"><span class="toc-number">1.</span> <span class="toc-text">ScrollView展示图片-平移功能</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ScrollView展示图片-缩放功能"><span class="toc-number">2.</span> <span class="toc-text">ScrollView展示图片-缩放功能</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#图片显示完整"><span class="toc-number">2.1.</span> <span class="toc-text">图片显示完整</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#根据中心缩放"><span class="toc-number">2.2.</span> <span class="toc-text">根据中心缩放</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#长图上方空白问题"><span class="toc-number">3.</span> <span class="toc-text">长图上方空白问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#scrollview点击状态栏返回顶部"><span class="toc-number">4.</span> <span class="toc-text">scrollview点击状态栏返回顶部</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#scrollView相关属性"><span class="toc-number">5.</span> <span class="toc-text">scrollView相关属性</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#refreshControl"><span class="toc-number">6.</span> <span class="toc-text">refreshControl</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一种—storyboard打开"><span class="toc-number">6.1.</span> <span class="toc-text">第一种—storyboard打开</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二种—代码创建"><span class="toc-number">6.2.</span> <span class="toc-text">第二种—代码创建</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2021/02/20/UIScrollView/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2021 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">CentOS7</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">iOS开发新人,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
