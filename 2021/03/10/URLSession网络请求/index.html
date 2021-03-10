@@ -7,22 +7,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.sdman.tech">
-  <title>万能指针 &amp; instancetype | sdman111无聊的博客</title>
+  <title>URLSession网络请求 | sdman111无聊的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="包括NSObject指针和id指针，instancetype，id和instancetype区别。 NSObject指针和id指针 NSObject指针  NSObject是所有类的基类，根据里氏替换原则LSP，NSObject指针可以指向任意OC对象 所以，NSObject指针是一个万能指针。 缺点：">
+  <meta name="description" content="get请求最常见的一种请求方式，当客户端要从服务器中读取文档时，当点击网页上的链接或者通过在浏览器的地址栏输入网址来浏览网页的，使用的都是GET方式。GET方法要求服务器将URL定位的资源放在响应报文的数据部分，回送给客户端。使用GET方法时，请求参数和对应的值附加在URL后面，利用一个问号（“?”）代表URL的结尾与请求参数的开始，传递参数长度受限制。 缺点 不方便传输大量数据 不适合传输私密数">
 <meta property="og:type" content="article">
-<meta property="og:title" content="万能指针 &amp; instancetype">
-<meta property="og:url" content="http://www.sdman.tech/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/index.html">
+<meta property="og:title" content="URLSession网络请求">
+<meta property="og:url" content="http://www.sdman.tech/2021/03/10/URLSession%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/index.html">
 <meta property="og:site_name" content="sdman111无聊的博客">
-<meta property="og:description" content="包括NSObject指针和id指针，instancetype，id和instancetype区别。 NSObject指针和id指针 NSObject指针  NSObject是所有类的基类，根据里氏替换原则LSP，NSObject指针可以指向任意OC对象 所以，NSObject指针是一个万能指针。 缺点：">
-<meta property="og:image" content="http://www.sdman.tech/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/id%E4%B8%8D%E6%8A%A5%E9%94%99.png">
-<meta property="og:image" content="http://www.sdman.tech/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/instancetype%E6%8A%A5%E8%AD%A6%E5%91%8A.png">
-<meta property="article:published_time" content="2020-03-05T08:34:47.000Z">
-<meta property="article:modified_time" content="2020-03-05T09:19:38.000Z">
+<meta property="og:description" content="get请求最常见的一种请求方式，当客户端要从服务器中读取文档时，当点击网页上的链接或者通过在浏览器的地址栏输入网址来浏览网页的，使用的都是GET方式。GET方法要求服务器将URL定位的资源放在响应报文的数据部分，回送给客户端。使用GET方法时，请求参数和对应的值附加在URL后面，利用一个问号（“?”）代表URL的结尾与请求参数的开始，传递参数长度受限制。 缺点 不方便传输大量数据 不适合传输私密数">
+<meta property="article:published_time" content="2021-03-10T12:18:09.000Z">
+<meta property="article:modified_time" content="2021-03-10T12:18:41.518Z">
 <meta property="article:author" content="sdman111">
-<meta property="article:tag" content="Objective-C">
+<meta property="article:tag" content="iOS">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://www.sdman.tech/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/id%E4%B8%8D%E6%8A%A5%E9%94%99.png">
   
     <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
   
@@ -165,87 +162,61 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-万能指针-instancetype" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-URLSession网络请求" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      万能指针 &amp; instancetype
+      URLSession网络请求
     </h1>
   
 
         
-        <a href="/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/" class="archive-article-date">
-  	<time datetime="2020-03-05T08:34:47.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-05</time>
+        <a href="/2021/03/10/URLSession%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" class="archive-article-date">
+  	<time datetime="2021-03-10T12:18:09.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-10</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>包括NSObject指针和id指针，instancetype，id和instancetype区别。</p>
-<h2 id="NSObject指针和id指针"><a href="#NSObject指针和id指针" class="headerlink" title="NSObject指针和id指针"></a>NSObject指针和id指针</h2><ul>
-<li>NSObject指针</li>
+        <h2 id="get请求"><a href="#get请求" class="headerlink" title="get请求"></a>get请求</h2><p>最常见的一种请求方式，当客户端要从服务器中读取文档时，当点击网页上的链接或者通过在浏览器的地址栏输入网址来浏览网页的，使用的都是GET方式。GET方法要求服务器将URL定位的资源放在响应报文的数据部分，回送给客户端。使用GET方法时，请求参数和对应的值附加在URL后面，利用一个问号（“?”）代表URL的结尾与请求参数的开始，传递参数长度受限制。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><ul>
+<li>不方便传输大量数据</li>
+<li>不适合传输私密数据</li>
 </ul>
-<p>NSObject是所有类的基类，根据里氏替换原则LSP，NSObject指针可以指向任意OC对象</p>
-<p>所以，<strong>NSObject指针是一个<font color=red>万能指针</font></strong>。</p>
-<p><font color=red><strong>缺点：</strong></font></p>
 <a id="more"></a>
 
-<p>如果要通过NSObject指针来调用指向的子类对象的对象方法，需要进行强制类型转换；</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">NSObject *obj &#x3D; [Student new];</span><br><span class="line">&#x2F;&#x2F;[obj study]此时会报编译错误，因为NSObject类中没有study方法；</span><br><span class="line">[(Student *)obj study];</span><br><span class="line">为了骗过编译检查，需要进行强转，且对象中有该方法，才会通过运行检查，成功执行。</span><br></pre></td></tr></table></figure>
-
-<img src="/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/id%E4%B8%8D%E6%8A%A5%E9%94%99.png" class="" title="万能指针-instancetype">
-
-
-
-<ul>
-<li>id指针</li>
-</ul>
-<p>同样是一个<font color=red>万能指针</font>，指向任意OC对象；</p>
-<p>但不同于NSObject指针去直接调用指向对象的任何方法会报编译错误，<strong>id指针去调用指向的对象的任何方法时</strong>，都不会报<u>编译错误</u>。</p>
-<p><font color=red><strong>注意：</strong></font></p>
-<ul>
-<li>id指针只能调用方法，不能使用点语法；</li>
-<li>任意指针都可以接受id类型的返回值，不报错。</li>
-</ul>
-<h2 id="instancetype"><a href="#instancetype" class="headerlink" title="instancetype"></a>instancetype</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Student继承了Person父类的person类方法</span><br><span class="line">+ (Person *)person</span><br><span class="line">&#123;</span><br><span class="line">	return [Person new];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>当子类调用该方法创建对象时(实际应该为该类写一个与类名同名的类方法了吧)，会返回一个Person对象</p>
-<p><code>Student *s1 = [Student person]</code></p>
-<p>此时s1指向一个person对象，而不是Student对象；</p>
-<p><font color=red>解决方法：</font></p>
-<ol>
-<li>返回时类型改为id类型；</li>
-<li>方法内部创建对象时，不要写死类名，改为self；</li>
+<h3 id="步骤"><a href="#步骤" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li>定义urlString</li>
+<li>对urlString使用addingPercentEncoding方法进行编码，转换成url识别的字符，以应对url里可能存在的中文、特殊符号等</li>
+<li>创建用于请求的URL</li>
+<li>创建用于发起请求的URLRequest请求对象</li>
+<li>创建用于过程中会话的URLSession会话对象</li>
+<li>创建dataTask任务并启动任务</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">+ (id)person</span><br><span class="line">&#123;</span><br><span class="line">	return [self new];</span><br><span class="line">&#125;</span><br><span class="line">id类型本来就是泛型指针类型，不需要加*</span><br></pre></td></tr></table></figure>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> urlString = <span class="string">"https://api.unsplash.com/photos/?client_id=IlA8xyW2VjqL9ssfe-jWvn7-Ws4zkMS2OoxisbdPyUU&amp;order_by=popular&amp;per_page=1"</span></span><br><span class="line"><span class="keyword">let</span> newURL = urlString.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed)!</span><br><span class="line"><span class="keyword">let</span> url = <span class="type">URL</span>(string: newURL)!</span><br><span class="line"></span><br><span class="line"><span class="comment">// 利用URLSessionj进行URL请求之get请求</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sessionRequest</span><span class="params">(url: URL)</span></span> &#123;</span><br><span class="line">    <span class="comment">// 创建请求</span></span><br><span class="line">    <span class="keyword">let</span> request = <span class="type">URLRequest</span>(url: url)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建一个URLSession会话对象</span></span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">     gives you a reasonable default behavior for creating tasks. Use the shared session to fetch the contents of a URL to memory with just a few lines of code</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">let</span> session = <span class="type">URLSession</span>.shared</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建任务，根据URL请求对象检索URL的内容</span></span><br><span class="line">    <span class="keyword">let</span> dataTask = session.dataTask(with: request) &#123; (data, response, error) <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">if</span> error == <span class="literal">nil</span> &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(error!)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 任务启动</span></span><br><span class="line">    dataTask.resume()</span><br><span class="line">&#125;</span><br><span class="line">sessionRequest(url: url)</span><br></pre></td></tr></table></figure>
 
-
-
-<p><font color=red>另一个问题来了：</font></p>
-<p>如果返回值类型是id类型，则任意指针都可以接受这个返回值：</p>
-<p>如：</p>
-<p>​    <code>NSString *str = [Person person]</code>连警告都没有….</p>
-<p><font color=red>解决方法：</font></p>
-<p>把id类型改为instancetype，指的是当前这个类的对象，这时会报警告。</p>
-<img src="/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/instancetype%E6%8A%A5%E8%AD%A6%E5%91%8A.png" class="" title="万能指针-instancetype">
-
-
-
-<h2 id="id和instancetype区别"><a href="#id和instancetype区别" class="headerlink" title="id和instancetype区别"></a>id和instancetype区别</h2><ol>
-<li><p>instancetype只能作为<strong>方法的返回值</strong>，不能在其他地方使用；</p>
-<p>而id既可以<strong>声明</strong>、也可以作为<strong>方法返回值</strong>、也可以作为<strong>参数</strong>；</p>
-</li>
-<li><p>instancetype是一个有类型的，代表<strong>当前类的对象</strong>；</p>
-<p>id是一个<strong>无类型的指针</strong>，<strong>仅仅是一个地址</strong>，没有类型的指针。</p>
-</li>
+<h2 id="post请求"><a href="#post请求" class="headerlink" title="post请求"></a>post请求</h2><p>POST方法可以允许客户端给服务器提供信息较多。POST方法将请求参数封装在HTTP请求数据中，以名称/值的形式出现，可以传输大量数据，这样POST方式对传送的数据大小没有限制，而且也不会显示在URL中</p>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>POST的安全性要比GET的安全性高。注意：这里所说的安全性和上面GET提到的“安全”不是同个概念。上面“安全”的含义仅仅是不作数据修改，而这里安全的含义是真正的Security的含义，比如：通过GET提交数据，用户名和密码将明文出现在URL上，因为(1)登录页面有可能被浏览器缓存， (2)其他人查看浏览器的历史纪录，那么别人就可以拿到你的账号和密码了</p>
+<h3 id="步骤-1"><a href="#步骤-1" class="headerlink" title="步骤"></a>步骤</h3><ol>
+<li>定义URL，不需要像get请求那样明文参数携带在URL后面</li>
+<li>创建NSMutableURLRequest可变请求对象，因为URLRequest不可变请求对象不能修改请求对象的属性</li>
+<li>修改请求方式httpMethod为”POST”</li>
+<li>修改请求体内容httpBody为接口对应的参数作组成的字符串</li>
+<li>创建URLSession会话对象</li>
+<li>创建dataTask任务并启动任务</li>
+<li>任务中所获取的json数据需要通过JSONSerialization反序列化</li>
+<li>任务中根据接口返回内容可选择转换为NSDictionary字典类型，再通过对应的key获取value</li>
 </ol>
-<hr>
-<p>参考</p>
-<p><a href="https://www.bilibili.com/video/av69033036?p=100" target="_blank" rel="noopener">传智播客 iOS开发基础班—Objective-C学习</a></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 利用URLSession进行URL请求之post请求</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sessionRequestPost</span><span class="params">(url: URL)</span></span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建会话对象</span></span><br><span class="line">    <span class="keyword">let</span> session = <span class="type">URLSession</span>.shared</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建请求对象,如果不创建为可变的请求对象则不能修改请求对象的属性</span></span><br><span class="line">    <span class="keyword">let</span> request = <span class="type">NSMutableURLRequest</span>(url: url)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 修改请求方法为POST</span></span><br><span class="line">    request.httpMethod = <span class="string">"POST"</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 修改请求体内容</span></span><br><span class="line">    request.httpBody = <span class="string">"app=finance.rate&amp;scur=USD&amp;tcur=CNY&amp;appkey=57788&amp;sign=fe4bdbd09a1d90450dfba69dd80d29bd&amp;format=json"</span>.data(using: .utf8)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建任务</span></span><br><span class="line">    session.dataTask(with: request <span class="keyword">as</span> <span class="type">URLRequest</span>) &#123; (data, response, error) <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> response = response &#123;</span><br><span class="line">            <span class="comment">// 响应头信息，关于状态码status</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"response:\(response)"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> data = data &#123;</span><br><span class="line">            </span><br><span class="line">            <span class="comment">// 打印未被反序列化的响应体数据</span></span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"dataString:\(String(describing: String(data: data, encoding: .utf8)))"</span>)</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">do</span> &#123;</span><br><span class="line">                <span class="comment">// 对返回的JSON内容反序列化</span></span><br><span class="line">                <span class="comment">// ReadingOptions是关于JSON读取保存位置的</span></span><br><span class="line">                <span class="keyword">let</span> dict = <span class="keyword">try</span> <span class="type">JSONSerialization</span>.jsonObject(with: data, options: .allowFragments)</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">"dict:\(dict)"</span>)</span><br><span class="line">                </span><br><span class="line">                <span class="comment">// 转为字典类型并提取result键内容</span></span><br><span class="line">                <span class="keyword">let</span> result = (dict <span class="keyword">as</span>! <span class="type">NSDictionary</span>).value(forKey: <span class="string">"result"</span>)</span><br><span class="line">                <span class="built_in">print</span>(<span class="string">"key of result is: \(String(describing: result))"</span>)</span><br><span class="line">                </span><br><span class="line">            &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">                <span class="built_in">print</span>(error)</span><br><span class="line">            &#125;</span><br><span class="line">            </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;.resume()</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="DownloadTask"><a href="#DownloadTask" class="headerlink" title="DownloadTask"></a>DownloadTask</h2><p>是DataTask的子类</p>
+<p>类似于post请求，只不过任务从获取data的dataTask换为下载data的downloadTask，并且需要遵循<code>URLSessionDownloadDelegate</code>，根据下载过程调用delegate回调函数配合处理</p>
+<h2 id="UploadTask"><a href="#UploadTask" class="headerlink" title="UploadTask"></a>UploadTask</h2><p>是DataTask的子类</p>
+<p>同上</p>
 
       
 
@@ -291,7 +262,7 @@
             </li>
             <li>
               <strong>本文链接：</strong>
-              <a href="http://www.sdman.tech/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/" title="sdman111无聊的博客">http://www.sdman.tech/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/</a>
+              <a href="http://www.sdman.tech/2021/03/10/URLSession%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" title="sdman111无聊的博客">http://www.sdman.tech/2021/03/10/URLSession%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/</a>
             </li>
             <li>
               <strong>版权声明： </strong>
@@ -310,7 +281,7 @@
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Objective-C</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
         		</li>
       		
 		</ul>
@@ -329,25 +300,16 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/05/04/LeetCode26-%E5%88%A0%E9%99%A4%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E7%9A%84%E9%87%8D%E5%A4%8D%E9%A1%B9(%E5%8F%8C%E6%8C%87%E9%92%88%E6%B3%95)/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          LeetCode26. 删除排序数组中的重复项
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/03/04/property%E5%A2%9E%E5%BC%BA/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">@property增强</div>
+    <a href="/2021/03/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93AFNetworking%E7%9A%84%E6%A1%A5%E6%8E%A5%E4%B8%8E%E4%BD%BF%E7%94%A8/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">第三方库AFNetworking的桥接与使用</div>
       <i class="icon-circle-right"></i>
     </a>
   
   <br>
   
    
-  <span style="float:right;color:#0094d5" id="/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/" class="leancloud_visitors" data-flag-title="万能指针 &amp; instancetype">
+  <span style="float:right;color:#0094d5" id="/2021/03/10/URLSession%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" class="leancloud_visitors" data-flag-title="URLSession网络请求">
       <span class="post-meta-item-text">本文阅读量 </span>
       <span class="leancloud-visitors-count">8848</span>
     </span>
@@ -355,7 +317,7 @@
 </nav>
 <script>
   var mdhost = '';
-  var mdurl = '2020/03/05/万能指针-instancetype/'.replace('.html', '.md');
+  var mdurl = '2021/03/10/URLSession网络请求/'.replace('.html', '.md');
   function mdpage() {
     window.open(mdhost + "/" + mdurl);
   }
@@ -382,7 +344,7 @@
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#NSObject指针和id指针"><span class="toc-number">1.</span> <span class="toc-text">NSObject指针和id指针</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#instancetype"><span class="toc-number">2.</span> <span class="toc-text">instancetype</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#id和instancetype区别"><span class="toc-number">3.</span> <span class="toc-text">id和instancetype区别</span></a></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#get请求"><span class="toc-number">1.</span> <span class="toc-text">get请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#缺点"><span class="toc-number">1.1.</span> <span class="toc-text">缺点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤"><span class="toc-number">1.2.</span> <span class="toc-text">步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#post请求"><span class="toc-number">2.</span> <span class="toc-text">post请求</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#安全性"><span class="toc-number">2.1.</span> <span class="toc-text">安全性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#步骤-1"><span class="toc-number">2.2.</span> <span class="toc-text">步骤</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#DownloadTask"><span class="toc-number">3.</span> <span class="toc-text">DownloadTask</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#UploadTask"><span class="toc-number">4.</span> <span class="toc-text">UploadTask</span></a></li></ol>
                     </div>
                 </span>
             </div>
@@ -422,7 +384,7 @@
             avatar: '',
             avatar_cdn: '',
             pageSize: 12,
-            path: '/2020/03/05/%E4%B8%87%E8%83%BD%E6%8C%87%E9%92%88-instancetype/',
+            path: '/2021/03/10/URLSession%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/',
             visitor: visitor,
             recordIP: recordIP
         });
