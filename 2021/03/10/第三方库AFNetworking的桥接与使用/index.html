@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="google-site-verification" content="KQswkfI4ciGQZUzoH4lQ94q3ykGAl9LkE7I_UFom0BM" />
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>第三方库AFNetworking的桥接与使用 | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Swift桥接使用OC第三方库 在项目中新建Group用于放置第三方库需要桥接的文件，勾选create groups 根据系统提示创建桥接文件；如果在之后的操作中误删桥接文件只需要在原位置创建文件名格式为：Swift Target名-Bridging-Header.h的桥接文件即可；如果桥接文件位置发生变化则到targets中找到项目-General-Swift Complier General中">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三方库AFNetworking的桥接与使用">
+<meta property="og:url" content="http://www.sdman.tech/2021/03/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93AFNetworking%E7%9A%84%E6%A1%A5%E6%8E%A5%E4%B8%8E%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="Swift桥接使用OC第三方库 在项目中新建Group用于放置第三方库需要桥接的文件，勾选create groups 根据系统提示创建桥接文件；如果在之后的操作中误删桥接文件只需要在原位置创建文件名格式为：Swift Target名-Bridging-Header.h的桥接文件即可；如果桥接文件位置发生变化则到targets中找到项目-General-Swift Complier General中">
+<meta property="og:image" content="http://www.sdman.tech/2021/03/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93AFNetworking%E7%9A%84%E6%A1%A5%E6%8E%A5%E4%B8%8E%E4%BD%BF%E7%94%A8/image.png">
+<meta property="article:published_time" content="2021-03-10T11:50:33.000Z">
+<meta property="article:modified_time" content="2021-03-10T12:02:15.910Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="iOS第三方库">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.sdman.tech/2021/03/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93AFNetworking%E7%9A%84%E6%A1%A5%E6%8E%A5%E4%B8%8E%E4%BD%BF%E7%94%A8/image.png">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.jpeg">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.jpeg" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">SwiftUI天下第一</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.jpeg" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>SwiftUI天下第一<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-第三方库AFNetworking的桥接与使用" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第三方库AFNetworking的桥接与使用
+    </h1>
+  
+
+        
+        <a href="/2021/03/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93AFNetworking%E7%9A%84%E6%A1%A5%E6%8E%A5%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="archive-article-date">
+  	<time datetime="2021-03-10T11:50:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-10</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Swift桥接使用OC第三方库"><a href="#Swift桥接使用OC第三方库" class="headerlink" title="Swift桥接使用OC第三方库"></a>Swift桥接使用OC第三方库</h2><ol>
+<li>在项目中新建Group用于放置第三方库需要桥接的文件，勾选create groups</li>
+<li>根据系统提示创建桥接文件；如果在之后的操作中误删桥接文件只需要在原位置创建文件名格式为：Swift Target名-Bridging-Header.h的桥接文件即可；如果桥接文件位置发生变化则到targets中找到项目-General-Swift Complier General中修改Objective-C bridging header文件相对于项目的相对路径即可</li>
+<li>在桥接文件中引入第三方库的头文件：#import “AFNetworking.h”即可在Swift项目中使用第三方OC库</li>
+</ol>
+<h2 id="AFNetworking简单使用流程"><a href="#AFNetworking简单使用流程" class="headerlink" title="AFNetworking简单使用流程"></a>AFNetworking简单使用流程</h2><a id="more"></a>
+
+<h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><img src="/2021/03/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93AFNetworking%E7%9A%84%E6%A1%A5%E6%8E%A5%E4%B8%8E%E4%BD%BF%E7%94%A8/image.png" class="" title="第三方库AFNetworking的桥接与使用">
+
+<p>其中AFHTTPSessionManager是继承于AFURLSessionManager的，我们一般做网络请求都是用这个类，但是它本身是没有做实事的，只是做了一些简单的封装，把请求逻辑分发给父类AFURLSessionManager或者其它类去做。<br>链接：<a href="https://www.jianshu.com/p/3eca65817a11" target="_blank" rel="noopener">https://www.jianshu.com/p/3eca65817a11</a></p>
+<h3 id="get-post流程"><a href="#get-post流程" class="headerlink" title="get/post流程"></a>get/post流程</h3><ul>
+<li>实例化用于发起请求的AFHTTPSessionManager管理器</li>
+<li>设置管理器拼接请求的方式，默认就是http请求</li>
+<li>设置管理器解析返回数据的方式，默认以JSON格式进行解析，可设置为http、xml等</li>
+<li>把参数用NSDictionary字典的形式保存起来（无论get还是post都一样）</li>
+<li>通过管理器调用get或post方法进行请求</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用第三方库AFNetworking进行简单get请求</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">getAFNetworking</span><span class="params">()</span></span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/* AFHTTPSessionManager中解析响应数据使用AFHTTPResponseSerializer来进行，其中AFJSONResponseSerializer、AFXMLParserResponseSerializer均继承自AFHTTPResponseSerializer</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">let</span> manager = <span class="type">AFHTTPSessionManager</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 以何种方式来组装请求，默认为http请求</span></span><br><span class="line">    manager.requestSerializer = <span class="type">AFHTTPRequestSerializer</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 以何种方式解析返回数据，默认解析为json，可以解析为http、xml</span></span><br><span class="line">    manager.responseSerializer = <span class="type">AFJSONResponseSerializer</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 参数用字典类型保存起来</span></span><br><span class="line">    <span class="keyword">let</span> dict: <span class="type">NSDictionary</span> = <span class="type">NSDictionary</span>(dictionaryLiteral: (<span class="string">"app"</span>,<span class="string">"finance.rate"</span>),(<span class="string">"scur"</span>,<span class="string">"USD"</span>),(<span class="string">"tcur"</span>,<span class="string">"CNY"</span>),(<span class="string">"appkey"</span>,<span class="string">"57788"</span>),(<span class="string">"sign"</span>,<span class="string">"fe4bdbd09a1d90450dfba69dd80d29bd"</span>),(<span class="string">"format"</span>,<span class="string">"json"</span>))</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 发起get请求</span></span><br><span class="line">    manager.<span class="keyword">get</span>(<span class="string">"http://api.k780.com"</span>, parameters: dict, headers: <span class="literal">nil</span>) &#123; (progress) <span class="keyword">in</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"progress:\(progress)"</span>)</span><br><span class="line">    &#125; success: &#123; (dataTask, response) <span class="keyword">in</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"response:\(String(describing: response))"</span>)</span><br><span class="line">    &#125; failure: &#123; (dataTask, error) <span class="keyword">in</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"error:\(error)"</span>)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用第三方库AFNetworking进行简单post请求</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">postAFNetworking</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">let</span> manager = <span class="type">AFHTTPSessionManager</span>()</span><br><span class="line">    <span class="comment">// 组装请求方式</span></span><br><span class="line">    manager.requestSerializer = <span class="type">AFHTTPRequestSerializer</span>()</span><br><span class="line">    <span class="comment">// 解析返回数据方式</span></span><br><span class="line">    manager.responseSerializer = <span class="type">AFJSONResponseSerializer</span>()</span><br><span class="line">    <span class="comment">// 参数用字典类型保存起来</span></span><br><span class="line">    <span class="keyword">let</span> dict: <span class="type">NSDictionary</span> = <span class="type">NSDictionary</span>(dictionaryLiteral: (<span class="string">"app"</span>,<span class="string">"finance.rate"</span>),(<span class="string">"scur"</span>,<span class="string">"USD"</span>),(<span class="string">"tcur"</span>,<span class="string">"CNY"</span>),(<span class="string">"appkey"</span>,<span class="string">"57788"</span>),(<span class="string">"sign"</span>,<span class="string">"fe4bdbd09a1d90450dfba69dd80d29bd"</span>),(<span class="string">"format"</span>,<span class="string">"json"</span>))</span><br><span class="line">    <span class="comment">// 发起post请求</span></span><br><span class="line">    manager.post(<span class="string">"http://api.k780.com"</span>, parameters: dict, headers: <span class="literal">nil</span>) &#123; (progress) <span class="keyword">in</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"progress:\(progress)"</span>)</span><br><span class="line">    &#125; success: &#123; (task, response) <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> response = response &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"response:\(response)"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; failure: &#123; (task, error) <span class="keyword">in</span></span><br><span class="line">        <span class="built_in">print</span>(error)</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p><strong>GET和POST请求一模一样，仅仅换了一个名字，GET请求也可以将参数放在字典中，也可以将参数拼接在url之后parameters传nil。另外不需要开启Task，因为AFN内部已经帮我们开启了</strong></p>
+<h2 id="AFNetworking进行文件下载"><a href="#AFNetworking进行文件下载" class="headerlink" title="AFNetworking进行文件下载"></a>AFNetworking进行文件下载</h2><h3 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h3><ol>
+<li>实例化AFHTTPSessionManager管理器</li>
+<li>实例化用于downloadTask的URLRequest请求对象</li>
+<li>通过管理器创建downloadTask任务</li>
+<li>启动任务</li>
+</ol>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用第三方库AFNetworking进行简单DownloadTask</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">downloadAFNetworking</span><span class="params">()</span></span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">let</span> manager = <span class="type">AFHTTPSessionManager</span>()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 创建用于downloadTask的请求对象</span></span><br><span class="line">    <span class="keyword">let</span> request = <span class="type">URLRequest</span>(url: <span class="type">URL</span>(string: <span class="string">"https://github.com/sdman111/iOSGestureDemo.git"</span>)!)</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 通过管理器创建downloadTask</span></span><br><span class="line">    downloadTask = manager.downloadTask(with: request) &#123; (progress) <span class="keyword">in</span></span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"已下载文件大小: \(progress.completedUnitCount)"</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"文件总大小: \(progress.totalUnitCount)"</span>)</span><br><span class="line">        </span><br><span class="line">    &#125; destination: &#123; (url, urlResponse) -&gt; <span class="type">URL</span> <span class="keyword">in</span></span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"临时存储tmp文件url: \(url)"</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"响应头urlResponse: \(urlResponse)"</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 返回我们想要存储的地址</span></span><br><span class="line">        <span class="keyword">let</span> fileManager = <span class="type">FileManager</span>.<span class="keyword">default</span></span><br><span class="line">        <span class="comment">// 实例化一个在document文件夹的user域的url</span></span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            <span class="keyword">self</span>.targetPath = <span class="keyword">try</span> fileManager.url(<span class="keyword">for</span>: .documentDirectory, <span class="keyword">in</span>: .userDomainMask, appropriateFor: <span class="literal">nil</span>, create: <span class="literal">false</span>)</span><br><span class="line">        &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(error)</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 根据响应头的suggestedFilename拼接url，返回拼接后的文件存储地址</span></span><br><span class="line">        <span class="comment">// 个人猜测就是URLRequest指向的下载文件的文件名</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.targetPath.appendingPathComponent(urlResponse.suggestedFilename!)</span><br><span class="line">        </span><br><span class="line">    &#125; completionHandler: &#123; (urlResponse, url, error) <span class="keyword">in</span></span><br><span class="line">        </span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"下载完成，响应头urlResponse: \(urlResponse)"</span>)</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"文件存储地址: \(url!)"</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> error = error &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"错误: \(error)"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 启动下载任务</span></span><br><span class="line">    downloadTask.resume()</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>返回的信息如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">2021-03-10 19:25:50.575693+0800 URLSession[2343:190394] [] nw_protocol_get_quic_image_block_invoke dlopen libquic failed</span><br><span class="line">临时存储tmp文件url: file:&#x2F;&#x2F;&#x2F;Users&#x2F;mac&#x2F;Library&#x2F;Developer&#x2F;CoreSimulator&#x2F;Devices&#x2F;7B01D53F-860F-4E45-8BE3-F023FFA74FAA&#x2F;data&#x2F;Containers&#x2F;Data&#x2F;Application&#x2F;5DC092B0-CA9C-4B65-9B40-6AD5C2038A91&#x2F;tmp&#x2F;CFNetworkDownload_wiot7K.tmp</span><br><span class="line">响应头urlResponse: &lt;NSHTTPURLResponse: 0x6000014534c0&gt; &#123; URL: https:&#x2F;&#x2F;github.com&#x2F;sdman111&#x2F;iOSGestureDemo &#125; &#123; Status Code: 200, Headers &#123;</span><br><span class="line">    &quot;Accept-Ranges&quot; &#x3D;     (</span><br><span class="line">        bytes</span><br><span class="line">    );</span><br><span class="line">    &quot;Cache-Control&quot; &#x3D;     (</span><br><span class="line">        &quot;max-age&#x3D;0, private, must-revalidate&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;Content-Encoding&quot; &#x3D;     (</span><br><span class="line">        gzip</span><br><span class="line">    );</span><br><span class="line">    &quot;Content-Type&quot; &#x3D;     (</span><br><span class="line">        &quot;text&#x2F;html; charset&#x3D;utf-8&quot;</span><br><span class="line">    );</span><br><span class="line">    Date &#x3D;     (</span><br><span class="line">        &quot;Wed, 10 Mar 2021 11:25:52 GMT&quot;</span><br><span class="line">    );</span><br><span class="line">    Etag &#x3D;     (</span><br><span class="line">        &quot;W&#x2F;\&quot;74a3c9f3d7ac61489ea4f4dc75d0b403\&quot;&quot;</span><br><span class="line">    );</span><br><span class="line">    Server &#x3D;     (</span><br><span class="line">        &quot;GitHub.com&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;Strict-Transport-Security&quot; &#x3D;     (</span><br><span class="line">        &quot;max-age&#x3D;31536000; includeSubdomains; preload&quot;</span><br><span class="line">    );</span><br><span class="line">    Vary &#x3D;     (</span><br><span class="line">        &quot;X-PJAX, Accept-Encoding, Accept, X-Requested-With&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;content-security-policy&quot; &#x3D;     (</span><br><span class="line">        &quot;default-src &#39;none&#39;; base-uri &#39;self&#39;; block-all-mixed-content; connect-src &#39;self&#39; uploads.github.com www.githubstatus.com collector.githubapp.com api.github.com github-cloud.s3.amazonaws.com github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com github-production-user-asset-6210df.s3.amazonaws.com cdn.optimizely.com logx.optimizely.com&#x2F;v1&#x2F;events wss:&#x2F;&#x2F;alive.github.com *.actions.githubusercontent.com wss:&#x2F;&#x2F;*.actions.githubusercontent.com online.visualstudio.com&#x2F;api&#x2F;v1&#x2F;locations; font-src github.githubassets.com; form-action &#39;self&#39; github.com gist.github.com; frame-ancestors &#39;none&#39;; frame-src render.githubusercontent.com; img-src &#39;self&#39; data: github.githubassets.com identicons.github.com collector.githubapp.com github-cloud.s3.amazonaws.com secured-user-images.githubusercontent.com&#x2F; *.githubusercontent.com; manifest-src &#39;self&#39;; media-src github.com user-images.githubusercontent.com&#x2F;; script-src github.githubassets.com; style-src &#39;unsafe-inline&#39; github.githubassets.com; worker-src github.com&#x2F;socket-worker-6832eced.js gist.github.com&#x2F;socket-worker-6832eced.js&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;expect-ct&quot; &#x3D;     (</span><br><span class="line">        &quot;max-age&#x3D;2592000, report-uri&#x3D;\&quot;https:&#x2F;&#x2F;api.github.com&#x2F;_private&#x2F;browser&#x2F;errors\&quot;&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;referrer-policy&quot; &#x3D;     (</span><br><span class="line">        &quot;no-referrer-when-downgrade&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;x-content-type-options&quot; &#x3D;     (</span><br><span class="line">        nosniff</span><br><span class="line">    );</span><br><span class="line">    &quot;x-frame-options&quot; &#x3D;     (</span><br><span class="line">        deny</span><br><span class="line">    );</span><br><span class="line">    &quot;x-github-request-id&quot; &#x3D;     (</span><br><span class="line">        &quot;7114:3413:1B5398C:1CD7C6C:6048ACBF&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;x-xss-protection&quot; &#x3D;     (</span><br><span class="line">        &quot;1; mode&#x3D;block&quot;</span><br><span class="line">    );</span><br><span class="line">&#125; &#125;</span><br><span class="line">下载完成，响应头urlResponse: &lt;NSHTTPURLResponse: 0x6000014534c0&gt; &#123; URL: https:&#x2F;&#x2F;github.com&#x2F;sdman111&#x2F;iOSGestureDemo &#125; &#123; Status Code: 200, Headers &#123;</span><br><span class="line">    &quot;Accept-Ranges&quot; &#x3D;     (</span><br><span class="line">        bytes</span><br><span class="line">    );</span><br><span class="line">    &quot;Cache-Control&quot; &#x3D;     (</span><br><span class="line">        &quot;max-age&#x3D;0, private, must-revalidate&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;Content-Encoding&quot; &#x3D;     (</span><br><span class="line">        gzip</span><br><span class="line">    );</span><br><span class="line">    &quot;Content-Type&quot; &#x3D;     (</span><br><span class="line">        &quot;text&#x2F;html; charset&#x3D;utf-8&quot;</span><br><span class="line">    );</span><br><span class="line">    Date &#x3D;     (</span><br><span class="line">        &quot;Wed, 10 Mar 2021 11:25:52 GMT&quot;</span><br><span class="line">    );</span><br><span class="line">    Etag &#x3D;     (</span><br><span class="line">        &quot;W&#x2F;\&quot;74a3c9f3d7ac61489ea4f4dc75d0b403\&quot;&quot;</span><br><span class="line">    );</span><br><span class="line">    Server &#x3D;     (</span><br><span class="line">        &quot;GitHub.com&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;Strict-Transport-Security&quot; &#x3D;     (</span><br><span class="line">        &quot;max-age&#x3D;31536000; includeSubdomains; preload&quot;</span><br><span class="line">    );</span><br><span class="line">    Vary &#x3D;     (</span><br><span class="line">        &quot;X-PJAX, Accept-Encoding, Accept, X-Requested-With&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;content-security-policy&quot; &#x3D;     (</span><br><span class="line">        &quot;default-src &#39;none&#39;; base-uri &#39;self&#39;; block-all-mixed-content; connect-src &#39;self&#39; uploads.github.com www.githubstatus.com collector.githubapp.com api.github.com github-cloud.s3.amazonaws.com github-production-repository-file-5c1aeb.s3.amazonaws.com github-production-upload-manifest-file-7fdce7.s3.amazonaws.com github-production-user-asset-6210df.s3.amazonaws.com cdn.optimizely.com logx.optimizely.com&#x2F;v1&#x2F;events wss:&#x2F;&#x2F;alive.github.com *.actions.githubusercontent.com wss:&#x2F;&#x2F;*.actions.githubusercontent.com online.visualstudio.com&#x2F;api&#x2F;v1&#x2F;locations; font-src github.githubassets.com; form-action &#39;self&#39; github.com gist.github.com; frame-ancestors &#39;none&#39;; frame-src render.githubusercontent.com; img-src &#39;self&#39; data: github.githubassets.com identicons.github.com collector.githubapp.com github-cloud.s3.amazonaws.com secured-user-images.githubusercontent.com&#x2F; *.githubusercontent.com; manifest-src &#39;self&#39;; media-src github.com user-images.githubusercontent.com&#x2F;; script-src github.githubassets.com; style-src &#39;unsafe-inline&#39; github.githubassets.com; worker-src github.com&#x2F;socket-worker-6832eced.js gist.github.com&#x2F;socket-worker-6832eced.js&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;expect-ct&quot; &#x3D;     (</span><br><span class="line">        &quot;max-age&#x3D;2592000, report-uri&#x3D;\&quot;https:&#x2F;&#x2F;api.github.com&#x2F;_private&#x2F;browser&#x2F;errors\&quot;&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;referrer-policy&quot; &#x3D;     (</span><br><span class="line">        &quot;no-referrer-when-downgrade&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;x-content-type-options&quot; &#x3D;     (</span><br><span class="line">        nosniff</span><br><span class="line">    );</span><br><span class="line">    &quot;x-frame-options&quot; &#x3D;     (</span><br><span class="line">        deny</span><br><span class="line">    );</span><br><span class="line">    &quot;x-github-request-id&quot; &#x3D;     (</span><br><span class="line">        &quot;7114:3413:1B5398C:1CD7C6C:6048ACBF&quot;</span><br><span class="line">    );</span><br><span class="line">    &quot;x-xss-protection&quot; &#x3D;     (</span><br><span class="line">        &quot;1; mode&#x3D;block&quot;</span><br><span class="line">    );</span><br><span class="line">&#125; &#125;</span><br><span class="line">文件存储地址: file:&#x2F;&#x2F;&#x2F;Users&#x2F;mac&#x2F;Library&#x2F;Developer&#x2F;CoreSimulator&#x2F;Devices&#x2F;7B01D53F-860F-4E45-8BE3-F023FFA74FAA&#x2F;data&#x2F;Containers&#x2F;Data&#x2F;Application&#x2F;5DC092B0-CA9C-4B65-9B40-6AD5C2038A91&#x2F;Documents&#x2F;iOSGestureDemo.html</span><br></pre></td></tr></table></figure>
+
+<h3 id="注意-1"><a href="#注意-1" class="headerlink" title="注意"></a>注意</h3><p>下面是引用自<a href="https://www.jianshu.com/p/d94cb6b58573" target="_blank" rel="noopener">iOS-网络编程(三)AFNetworking使用</a>的内容，能更好downloadTask中每个闭包的参数的作用：</p>
+<blockquote>
+<p>注意：</p>
+<ol>
+<li>下载文件需要获取NSURLSessionDownloadTask对象手动开启</li>
+<li>第一个block块：downloadProgress 有两个属性completedUnitCount（已经下载文件大小）、totalUnitCount（文件总大小）。</li>
+<li>第二个block块：需要返回一个url，表示想要将文件存储的地方。targetPath：表示临时存储地址在tmp临时文件中。response：响应头 可以拿到一些文件信息</li>
+<li>第三个block块：下载完成之后调用。response：响应头。filePath：文件存储地址，与第二个block块中返回的url是一个地址</li>
+</ol>
+</blockquote>
+<h2 id="AFNetworkReachabilityManager监听网络状态"><a href="#AFNetworkReachabilityManager监听网络状态" class="headerlink" title="AFNetworkReachabilityManager监听网络状态"></a>AFNetworkReachabilityManager监听网络状态</h2><p>AFNetworkReachabilityManager不能直接空初始化，如果要使用默认初始化就调用shared()单例初始化，还有其他初始化方式见链接：</p>
+<p><a href="https://www.jianshu.com/p/f0ca2f9c6496" target="_blank" rel="noopener">https://www.jianshu.com/p/f0ca2f9c6496</a></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用AFNetworkReachabilityManager监听网络状态</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">checkNetwork</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// 不能直接实例化</span></span><br><span class="line">    <span class="comment">// Returns the shared network reachability manager</span></span><br><span class="line">    <span class="keyword">let</span> manager = <span class="type">AFNetworkReachabilityManager</span>.shared()</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 函数调用一次就检测一次网络状态</span></span><br><span class="line">    manager.setReachabilityStatusChange &#123; (status) <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">switch</span> status &#123;</span><br><span class="line">        <span class="keyword">case</span> .unknown:</span><br><span class="line">            <span class="keyword">self</span>.stat = .unknown</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"网络状态未知"</span>)</span><br><span class="line">        <span class="keyword">case</span> .notReachable:</span><br><span class="line">            <span class="keyword">self</span>.stat = .notReachable</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"网络已断开"</span>)</span><br><span class="line">        <span class="keyword">case</span> .reachableViaWWAN:</span><br><span class="line">            <span class="keyword">self</span>.stat = .reachableViaWWAN</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"蜂窝网络"</span>)</span><br><span class="line">        <span class="keyword">case</span> .reachableViaWiFi:</span><br><span class="line">            <span class="keyword">self</span>.stat = .reachableViaWiFi</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"WiFi网络"</span>)</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 开始监听</span></span><br><span class="line">    manager.startMonitoring()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="利用监听器的思路"><a href="#利用监听器的思路" class="headerlink" title="利用监听器的思路"></a>利用监听器的思路</h3><p>声明一个全局Timer和全局stat，分别用于定时执行checkNetwork函数、保存网络状态</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> stat: <span class="type">AFNetworkReachabilityStatus!</span></span><br><span class="line"><span class="keyword">var</span> timer: <span class="type">Timer!</span></span><br></pre></td></tr></table></figure>
+
+<p>再初始化一个scheduledTimer用于定时执行checkNetwork</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定时检查网络情况</span></span><br><span class="line">timer = <span class="type">Timer</span>.scheduledTimer(withTimeInterval: <span class="number">2</span>, repeats: <span class="literal">true</span>) &#123; (timer) <span class="keyword">in</span></span><br><span class="line">        <span class="keyword">self</span>.checkNetwork()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这样，stat每两秒更新网络状态，我们可以根据stat保存的网络状态对调用接口的函数进行拦截，避免无效调用</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 根据网络状态判断是否能调用接口</span></span><br><span class="line"><span class="keyword">switch</span> stat &#123;</span><br><span class="line"><span class="keyword">case</span> .unknown, .notReachable:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"网络异常，不能向接口发起请求"</span>)</span><br><span class="line"><span class="keyword">default</span>:</span><br><span class="line">    postAFNetworking()</span><br><span class="line">    <span class="comment">// 接口调用结束后销毁定时器</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="string">"定时器已销毁"</span>)</span><br><span class="line">    timer.invalidate()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2021/03/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93AFNetworking%E7%9A%84%E6%A1%A5%E6%8E%A5%E4%B8%8E%E4%BD%BF%E7%94%A8/" title="sdman111无聊的博客">http://www.sdman.tech/2021/03/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93AFNetworking%E7%9A%84%E6%A1%A5%E6%8E%A5%E4%B8%8E%E4%BD%BF%E7%94%A8/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">iOS第三方库</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/20/UIScrollView/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">UIScrollView</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2021/03/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93AFNetworking%E7%9A%84%E6%A1%A5%E6%8E%A5%E4%B8%8E%E4%BD%BF%E7%94%A8/" class="leancloud_visitors" data-flag-title="第三方库AFNetworking的桥接与使用">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2021/03/10/第三方库AFNetworking的桥接与使用/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Swift桥接使用OC第三方库"><span class="toc-number">1.</span> <span class="toc-text">Swift桥接使用OC第三方库</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFNetworking简单使用流程"><span class="toc-number">2.</span> <span class="toc-text">AFNetworking简单使用流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#结构"><span class="toc-number">2.1.</span> <span class="toc-text">结构</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#get-post流程"><span class="toc-number">2.2.</span> <span class="toc-text">get&#x2F;post流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意"><span class="toc-number">2.3.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFNetworking进行文件下载"><span class="toc-number">3.</span> <span class="toc-text">AFNetworking进行文件下载</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#过程"><span class="toc-number">3.1.</span> <span class="toc-text">过程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#注意-1"><span class="toc-number">3.2.</span> <span class="toc-text">注意</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#AFNetworkReachabilityManager监听网络状态"><span class="toc-number">4.</span> <span class="toc-text">AFNetworkReachabilityManager监听网络状态</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#利用监听器的思路"><span class="toc-number">4.1.</span> <span class="toc-text">利用监听器的思路</span></a></li></ol></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2021/03/10/%E7%AC%AC%E4%B8%89%E6%96%B9%E5%BA%93AFNetworking%E7%9A%84%E6%A1%A5%E6%8E%A5%E4%B8%8E%E4%BD%BF%E7%94%A8/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2021 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">CentOS7</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">iOS第三方库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">iOS开发新人,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
