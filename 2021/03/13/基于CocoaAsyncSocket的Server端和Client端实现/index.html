@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="google-site-verification" content="KQswkfI4ciGQZUzoH4lQ94q3ykGAl9LkE7I_UFom0BM" />
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://www.sdman.tech">
+  <title>基于CocoaAsyncSocket的Server端和Client端实现 | sdman111无聊的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="仓库链接 建议还是直接看代码，配合CocoaAsyncSocket每个函数的描述还是比较容易明白的，有用的话施舍个小star  主要实现的是基于CocoaAsyncSocket中的TCP连接，是时候祭出Socket流服务这张图了： 客户端的实现相对来说比服务器端简单，服务器端需要额外在accept之后获取Client对象进行读写   坑中文乱码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="基于CocoaAsyncSocket的Server端和Client端实现">
+<meta property="og:url" content="http://www.sdman.tech/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/index.html">
+<meta property="og:site_name" content="sdman111无聊的博客">
+<meta property="og:description" content="仓库链接 建议还是直接看代码，配合CocoaAsyncSocket每个函数的描述还是比较容易明白的，有用的话施舍个小star  主要实现的是基于CocoaAsyncSocket中的TCP连接，是时候祭出Socket流服务这张图了： 客户端的实现相对来说比服务器端简单，服务器端需要额外在accept之后获取Client对象进行读写   坑中文乱码">
+<meta property="og:image" content="http://www.sdman.tech/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/socket.jpeg">
+<meta property="og:image" content="http://www.sdman.tech/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/Server.png">
+<meta property="og:image" content="http://www.sdman.tech/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/Client.png">
+<meta property="article:published_time" content="2021-03-13T15:46:37.000Z">
+<meta property="article:modified_time" content="2021-03-14T03:19:22.399Z">
+<meta property="article:author" content="sdman111">
+<meta property="article:tag" content="CocoaAsyncSocket">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://www.sdman.tech/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/socket.jpeg">
+  
+    <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/assert/sdman.jpeg">
+  
+  <link rel="stylesheet" type="text/css" href="/assets/./main.d64582.css">
+  <style type="text/css">
+  
+    #container.show {
+      background: linear-gradient(200deg,#a0cfe4,#e8c37e);
+    }
+  </style>
+  <script>function loadScript(e,t){d=document,o=d.createElement("script"),s=d.getElementsByTagName("head")[0].appendChild(o),o.setAttribute("src",e),t&&o.addEventListener("load",function(e){t(e)}),s.parentNode.insertBefore(o,s)}</script>
+  <script defer="defer" src="/assets/./main.d64582.js"></script>
+<meta name="generator" content="Hexo 4.2.1"></head>
+<body>
+  <div id="container" q-class="show:isCtnShow">
+    <canvas id="anm-canvas" class="anm-canvas"></canvas>
+    <div class="left-col" q-class="show:isShow">
+      
+<div class="overlay" style="background: #667199"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="" class="profilepic">
+			<img src="/assert/sdman.jpeg" class="js-avatar">
+		</a>
+		<hgroup>
+		  <h1 class="header-author"><a href="">sdman111</a></h1>
+		</hgroup>
+		
+		<p class="header-subtitle">SwiftUI天下第一</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/MessageBoard/">留言</a></li>
+	        
+				<li><a href="/aboutme/">关于</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+    		
+    			
+    			<a q-on="click: openSlider(e, 'innerArchive')" href="javascript:void(0)">所有文章</a>
+    			
+            
+    			
+    			<a q-on="click: openSlider(e, 'aboutme')" href="javascript:void(0)">关于我</a>
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+		        
+					<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+		        
+					<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col" q-class="show:isShow,hide:isShow|isFalse">
+      
+<nav id="mobile-nav">
+  	<div class="overlay js-overlay" style="background: #667199"></div>
+	<div class="btnctn js-mobile-btnctn">
+  		<div class="slider-trigger list" q-on="click: openSlider(e)"><i class="icon icon-sort"></i></div>
+	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<a href="/"><img src="/assert/sdman.jpeg" class="js-avatar"></a>
+			</div>
+			<hgroup>
+			  <h1 class="header-author js-header-author">sdman111</h1>
+			</hgroup>
+			
+			<p class="header-subtitle"><i class="icon icon-quo-left"></i>SwiftUI天下第一<i class="icon icon-quo-right"></i></p>
+			
+			
+			
+				
+			
+				
+			
+				
+			
+			
+			
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/sdman111" title="github"><i class="icon-github"></i></a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/2843513180/profile?rightmod=1&wvr=6&mod=personinfo&is_all=1" title="weibo"><i class="icon-weibo"></i></a>
+			        
+						<a class="weixin" target="_blank" href="/assert/%E6%88%91%E7%9A%84%E4%BA%8C%E7%BB%B4%E7%A0%81.jpg" title="weixin"><i class="icon-weixin"></i></a>
+			        
+						<a class="mail" target="_blank" href="/Myemail/Number/is/1356424371@qq.com" title="mail"><i class="icon-mail"></i></a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss"><i class="icon-rss"></i></a>
+			        
+				</div>
+			</nav>
+
+			<nav class="header-menu js-header-menu">
+				<ul style="width: 70%">
+				
+				
+					<li style="width: 33.333333333333336%"><a href="/">主页</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/MessageBoard/">留言</a></li>
+		        
+					<li style="width: 33.333333333333336%"><a href="/aboutme/">关于</a></li>
+		        
+				</ul>
+			</nav>
+		</header>				
+	</div>
+	<div class="mobile-mask" style="display:none" q-show="isShow"></div>
+</nav>
+
+      <div id="wrapper" class="body-wrap">
+        <div class="menu-l">
+          <div class="canvas-wrap">
+            <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
+          </div>
+          <div id="js-content" class="content-ll">
+            <article id="post-基于CocoaAsyncSocket的Server端和Client端实现" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      基于CocoaAsyncSocket的Server端和Client端实现
+    </h1>
+  
+
+        
+        <a href="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
+  	<time datetime="2021-03-13T15:46:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/sdman111/CocoaAsyncSocket_Server-Client.git" target="_blank" rel="noopener">仓库链接</a></p>
+<p>建议还是直接看代码，配合CocoaAsyncSocket每个函数的描述还是比较容易明白的，有用的话施舍个小star</p>
+<hr>
+<p>主要实现的是基于CocoaAsyncSocket中的TCP连接，是时候祭出Socket流服务这张图了：</p>
+<p>客户端的实现相对来说比服务器端简单，服务器端需要额外在accept之后获取Client对象进行读写</p>
+<img src="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/socket.jpeg" class="" title="基于CocoaAsyncSocket的Server端和Client端实现">
+
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><h3 id="中文乱码"><a href="#中文乱码" class="headerlink" title="中文乱码"></a>中文乱码</h3><a id="more"></a>
+
+<p>这是因为服务器端或者客户端其中一端用的不是utf8进行编码，解决这个问题最好就是两边在发送和接收消息的时候都使用utf8进行编码，能有效解决中文乱码问题。</p>
+<h3 id="服务器端clientSocket的使用"><a href="#服务器端clientSocket的使用" class="headerlink" title="服务器端clientSocket的使用"></a>服务器端clientSocket的使用</h3><p>服务器端调用accept接收到连接请求会调用didAcceptNewSocket回调函数，该回调函数给了sock(服务器端)和newSocket(连接到的客户端)，然后按照回调函数描述，需要保持这个newSocket的强引用，而保持强引用的作用在于发送消息和监听消息都是以这个socket为对象，而不是以服务器端socket为对象。</p>
+<h3 id="TextView实现类似于logs滚动刷新的效果"><a href="#TextView实现类似于logs滚动刷新的效果" class="headerlink" title="TextView实现类似于logs滚动刷新的效果"></a>TextView实现类似于logs滚动刷新的效果</h3><p>本来的思路是检测logs数组的count并及时进行reload，但因为学术不精所以选择了最笨的方法：覆盖显示。具体可见服务器端或者客户端中ViewController的updateTextView函数</p>
+<h2 id="Client端实现"><a href="#Client端实现" class="headerlink" title="Client端实现"></a>Client端实现</h2><p>第一件事使用cocopods导入CocoaAsyncSocket包，并在该类import</p>
+<h3 id="全局属性"><a href="#全局属性" class="headerlink" title="全局属性"></a>全局属性</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> serverPort: <span class="type">UInt16</span> = <span class="number">1236</span></span><br><span class="line"><span class="keyword">var</span> host = <span class="string">"192.168.1.133"</span></span><br><span class="line">换成自己的<span class="type">IP</span>地址和端口</span><br></pre></td></tr></table></figure>
+
+<h3 id="实例属性"><a href="#实例属性" class="headerlink" title="实例属性"></a>实例属性</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> serverSocket: <span class="type">GCDAsyncSocket?</span></span><br><span class="line"><span class="keyword">var</span> receive: <span class="type">String</span> = <span class="string">""</span></span><br><span class="line"><span class="comment">// 显示在TextView的消息日志</span></span><br><span class="line"><span class="keyword">var</span> messages: [<span class="type">String</span>] = [<span class="type">String</span>]()</span><br></pre></td></tr></table></figure>
+
+<h3 id="swift实现单例，保证管理该类的类对象始终唯一"><a href="#swift实现单例，保证管理该类的类对象始终唯一" class="headerlink" title="swift实现单例，保证管理该类的类对象始终唯一"></a>swift实现单例，保证管理该类的类对象始终唯一</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建单例</span></span><br><span class="line">    <span class="keyword">static</span> <span class="keyword">let</span> shared = <span class="type">WZYSocketClientManager</span>()</span><br><span class="line">    <span class="comment">// 加入了一个私有的初始化方法，让项目中的其他地方不能够通过 init 来生成自己的 类 实例</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</span><br><span class="line">        <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">        initSocket()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化Socket接口"><a href="#初始化Socket接口" class="headerlink" title="初始化Socket接口"></a>初始化Socket接口</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化Socket接口</span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">initSocket</span><span class="params">()</span></span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">       If you choose to provide a socket queue, the socket queue must not be a concurrent queue</span></span><br><span class="line"><span class="comment">       第二个参数不能是一个并发队列</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">// 在全局串行队列运行</span></span><br><span class="line">    serverSocket = <span class="type">GCDAsyncSocket</span>(delegate: <span class="keyword">self</span>, delegateQueue: <span class="type">DispatchQueue</span>.global(qos: .<span class="keyword">default</span>))</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="进行连接并根据连接状态进行处理"><a href="#进行连接并根据连接状态进行处理" class="headerlink" title="进行连接并根据连接状态进行处理"></a>进行连接并根据连接状态进行处理</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 判断连接状态</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">connect</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> connectStatus: <span class="type">Bool</span> = <span class="literal">false</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">do</span> &#123;</span><br><span class="line">        connectStatus = ((<span class="keyword">try</span> serverSocket?.connect(toHost: host, onPort: serverPort)) != <span class="literal">nil</span>)</span><br><span class="line">    &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(error)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> connectStatus</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="发送消息"><a href="#发送消息" class="headerlink" title="发送消息"></a>发送消息</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 发送消息--tag与read相同</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sendMessage</span><span class="params">(message: String)</span></span> &#123;</span><br><span class="line">    <span class="comment">// If the timeout value is negative, the write operation will not use a timeout.</span></span><br><span class="line">    <span class="comment">// timeout为负数则不考虑超时</span></span><br><span class="line">    serverSocket?.write(message.data(using: .utf8), withTimeout: -<span class="number">1</span>, tag: <span class="number">111</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="监听消息"><a href="#监听消息" class="headerlink" title="监听消息"></a>监听消息</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 监听最新消息--tag与write相同</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">pullMessage</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="comment">// timeout为负数则不考虑超时</span></span><br><span class="line">    <span class="comment">// 但只监听一次，需要多次调用</span></span><br><span class="line">    serverSocket?.readData(withTimeout: -<span class="number">1</span>, tag: <span class="number">111</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="回调函数"><a href="#回调函数" class="headerlink" title="回调函数"></a>回调函数</h3><p>客户端包括：didConnectToHost、didRead、didWriteDataWithTag、socketDidDisconnect</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//MARK: - socket连接过程的回调函数</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">WZYSocketClientManager</span>: <span class="title">GCDAsyncSocketDelegate</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// Connect之后的回调函数</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">socket</span><span class="params">(<span class="number">_</span> sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"连接成功, host: \(String(describing: sock.localHost)), port: \(sock.localPort)"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">       Called when a socket has completed reading the requested data into memory</span></span><br><span class="line"><span class="comment">       Socket读取完全部请求获得的数据到内存之后调用该回调函数</span></span><br><span class="line"><span class="comment">     </span></span><br><span class="line"><span class="comment">       服务端最好不要用纯文本发送？双向encode方式要一致？</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">socket</span><span class="params">(<span class="number">_</span> sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"Client读取Tag\(tag)完成"</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 用于给主vc显示接收到的消息</span></span><br><span class="line">        <span class="keyword">let</span> str = <span class="type">String</span>(data: data, encoding: <span class="type">String</span>.<span class="type">Encoding</span>.utf8)</span><br><span class="line">        receive = str ?? <span class="string">"解析错误"</span></span><br><span class="line">        <span class="comment">// 乱码与encoding方式有关，若编码解码都用的utf8就不会出现中文英文乱码</span></span><br><span class="line">        <span class="built_in">print</span>(receive)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> host = sock.connectedHost <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 写入消息数组</span></span><br><span class="line">        <span class="keyword">let</span> message =</span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        时间:\(currentTime())</span></span><br><span class="line"><span class="string">        主机:\(host):\(sock.connectedPort)</span></span><br><span class="line"><span class="string">        收到消息:\(receive)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        messages.append(message)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">       Called when a socket has completed writing the requested data. Not called if there is an error</span></span><br><span class="line"><span class="comment">       socket写入全部数据之后调用，如果出现错误则不调用</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">socket</span><span class="params">(<span class="number">_</span> sock: GCDAsyncSocket, didWriteDataWithTag tag: Int)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"Client写入Tag\(tag)完成"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">       Called when a socket disconnects with or without error</span></span><br><span class="line"><span class="comment">       socket断开连接后调用，无论是否因为error而引起的</span></span><br><span class="line"><span class="comment">       </span></span><br><span class="line"><span class="comment">       如果GCDAsyncSocket实例在它仍然连接的时候被释放，委托也没有被释放，那么这个方法会被调用，</span></span><br><span class="line"><span class="comment">       但sock参数将为nil。因为它不再可用。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">socketDidDisconnect</span><span class="params">(<span class="number">_</span> sock: GCDAsyncSocket, withError err: Error?)</span></span> &#123;</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">let</span> error = err &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"出现错误\(error)，断开连接"</span>)</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"未出现错误，主动断开连接"</span>)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="Server端实现"><a href="#Server端实现" class="headerlink" title="Server端实现"></a>Server端实现</h2><h3 id="全局属性-1"><a href="#全局属性-1" class="headerlink" title="全局属性"></a>全局属性</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> serverPort: <span class="type">UInt16</span> = <span class="number">1236</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="实例属性-1"><a href="#实例属性-1" class="headerlink" title="实例属性"></a>实例属性</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> serverSocket: <span class="type">GCDAsyncSocket?</span></span><br><span class="line"><span class="comment">// 把数据写向客户端，所有读写的回调函数都要使用clientSocket，在服务端accept成功后初始化</span></span><br><span class="line"><span class="comment">// 或者可以变为数组类型，保存多个连接，现在的缺陷就是只能处理一个客户端连接</span></span><br><span class="line"><span class="keyword">var</span> clientSocket: <span class="type">GCDAsyncSocket?</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 接收到的消息</span></span><br><span class="line"><span class="keyword">var</span> receive = <span class="string">""</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 显示在TextView的log日志</span></span><br><span class="line"><span class="keyword">var</span> logs: [<span class="type">String</span>] = [<span class="type">String</span>]()</span><br></pre></td></tr></table></figure>
+
+<h3 id="同样实现单例"><a href="#同样实现单例" class="headerlink" title="同样实现单例"></a>同样实现单例</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 创建单例</span></span><br><span class="line"><span class="keyword">static</span> <span class="keyword">let</span> shared = <span class="type">WZYSocketServerManager</span>()</span><br><span class="line"><span class="comment">// 加入了一个私有的初始化方法，让项目中的其他地方不能够通过 init 来生成自己的 MyManager 实例</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">override</span> <span class="keyword">init</span>() &#123;</span><br><span class="line">    <span class="keyword">super</span>.<span class="keyword">init</span>()</span><br><span class="line">    initSocket()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化服务器端Socket接口"><a href="#初始化服务器端Socket接口" class="headerlink" title="初始化服务器端Socket接口"></a>初始化服务器端Socket接口</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 初始化Socket接口</span></span><br><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">initSocket</span><span class="params">()</span></span> &#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">       If you choose to provide a socket queue, the socket queue must not be a concurrent queue</span></span><br><span class="line"><span class="comment">       第二个参数不能是一个并发队列</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">    <span class="comment">// 在全局串行队列运行</span></span><br><span class="line">    serverSocket = <span class="type">GCDAsyncSocket</span>(delegate: <span class="keyword">self</span>, delegateQueue: <span class="type">DispatchQueue</span>.global(qos: .<span class="keyword">default</span>))</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="accept完成服务器端的bind、listen和accept"><a href="#accept完成服务器端的bind、listen和accept" class="headerlink" title="accept完成服务器端的bind、listen和accept"></a>accept完成服务器端的bind、listen和accept</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 完成bind、listen和accept</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">accept</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">        <span class="keyword">var</span> acceptStatus: <span class="type">Bool</span> = <span class="literal">false</span></span><br><span class="line">        <span class="comment">// Tells the socket to begin listening and accepting connections on the given port</span></span><br><span class="line">        <span class="keyword">do</span> &#123;</span><br><span class="line">            acceptStatus = ((<span class="keyword">try</span> serverSocket?.accept(onPort: serverPort)) != <span class="literal">nil</span>)</span><br><span class="line">            logs.append(</span><br><span class="line">            <span class="string">"""</span></span><br><span class="line"><span class="string">            服务端已开启，等待客户端连接</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">            """</span></span><br><span class="line">            )</span><br><span class="line">            <span class="comment">// 触发didAcceptNewSocket回调函数</span></span><br><span class="line">        &#125; <span class="keyword">catch</span> &#123;</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">"貌似连接不上客户端: \(error)"</span>)</span><br><span class="line">            logs.append(</span><br><span class="line">            <span class="string">"""</span></span><br><span class="line"><span class="string">            貌似连接不上客户端</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">            """</span></span><br><span class="line">            )</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> acceptStatus</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="发送消息-1"><a href="#发送消息-1" class="headerlink" title="发送消息"></a>发送消息</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 发送消息--tag与read相同</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">sendMessage</span><span class="params">(message: String)</span></span> &#123;</span><br><span class="line">        <span class="comment">// If the timeout value is negative, the write operation will not use a timeout.</span></span><br><span class="line">        <span class="comment">// timeout为负数则不考虑超时</span></span><br><span class="line">        clientSocket?.write(message.data(using: .utf8), withTimeout: -<span class="number">1</span>, tag: <span class="number">110</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="监听消息-1"><a href="#监听消息-1" class="headerlink" title="监听消息"></a>监听消息</h3><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 监听最新消息--tag与write相同</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">pullMessage</span><span class="params">()</span></span> &#123;</span><br><span class="line">        <span class="comment">// timeout为负数则不考虑超时</span></span><br><span class="line">        <span class="comment">// 但只监听一次，需要多次调用</span></span><br><span class="line">        clientSocket?.readData(withTimeout: -<span class="number">1</span>, tag: <span class="number">110</span>)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="回调函数-1"><a href="#回调函数-1" class="headerlink" title="回调函数"></a>回调函数</h3><p>服务器端包括：didAcceptNewSocket、didWriteDataWithTag、didRead和socketDidDisconnect（客户端断开连接时触发）</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//MARK: - socket连接过程的回调函数</span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">WZYSocketServerManager</span>: <span class="title">GCDAsyncSocketDelegate</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">       Called when a socket accepts a connection</span></span><br><span class="line"><span class="comment">       当socket接受了一个Client连接时调用该回调函数</span></span><br><span class="line"><span class="comment">       You must retain the newSocket if you wish to handle the connection</span></span><br><span class="line"><span class="comment">       保持这个newSocket的强连接</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">socket</span><span class="params">(<span class="number">_</span> sock: GCDAsyncSocket, didAcceptNewSocket newSocket: GCDAsyncSocket)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 保持newSocket强引用</span></span><br><span class="line">        clientSocket = newSocket</span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> host = newSocket.localHost <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">        <span class="comment">// 打印并添加日志信息</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"成功连接Client: \(host): \(newSocket.localPort)"</span>)</span><br><span class="line">        logs.append(</span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        成功连接Client: \(host): \(newSocket.localPort)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        )</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// writeData触发</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">socket</span><span class="params">(<span class="number">_</span> sock: GCDAsyncSocket, didWriteDataWithTag tag: Int)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"Server写入Tag\(tag)完成"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// readData触发</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">socket</span><span class="params">(<span class="number">_</span> sock: GCDAsyncSocket, didRead data: Data, withTag tag: Int)</span></span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"Server读取Tag\(tag)完成"</span>)</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 解析数据</span></span><br><span class="line">        <span class="keyword">let</span> str = <span class="type">String</span>(data: data, encoding: <span class="type">String</span>.<span class="type">Encoding</span>.utf8)</span><br><span class="line">        receive = str ?? <span class="string">"解析错误"</span></span><br><span class="line">        <span class="built_in">print</span>(receive)</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">guard</span> <span class="keyword">let</span> host = sock.connectedHost <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">        </span><br><span class="line">        <span class="comment">// 写入日志数组</span></span><br><span class="line">        <span class="keyword">let</span> log =</span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        时间:\(currentTime())</span></span><br><span class="line"><span class="string">        主机:\(host):\(sock.connectedPort)</span></span><br><span class="line"><span class="string">        长度:\(NSData(data: data).length) 结果:\(receive)</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        logs.append(log)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">socketDidDisconnect</span><span class="params">(<span class="number">_</span> sock: GCDAsyncSocket, withError err: Error?)</span></span> &#123;</span><br><span class="line">        <span class="comment">// 写入日志数组</span></span><br><span class="line">        <span class="keyword">let</span> log =</span><br><span class="line">        <span class="string">"""</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        时间:\(currentTime()) 客户端断开连接</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">        """</span></span><br><span class="line">        logs.append(log)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>其实这个简单实现没什么好说的，就是IM即时通信的超级无敌简陋基础版，要成为合格的IM还需要实现断网重连、消息超时、消息分发、数据库结构设计、消息丢失、心跳处理等形成的即时通信体系。</p>
+<p>附两张效果图吧，具体还是去看完整代码比较好：</p>
+<img src="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/Server.png" class="" title="基于CocoaAsyncSocket的Server端和Client端实现">
+
+<img src="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/Client.png" class="" title="基于CocoaAsyncSocket的Server端和Client端实现">
+
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
+                      <span class="reward-type">支付宝</span>
+                    </div>
+                    
+                    
+                    <div class="reward-box-item">
+                      <img class="reward-img" src="/assert/微信收款码.jpg">
+                      <span class="reward-type">微信</span>
+                    </div>
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+            
+      
+        <div> 
+          <ul class="post-copyright">
+            <li>
+              <strong>本文作者：</strong>
+              sdman111
+            </li>
+            <li>
+              <strong>本文链接：</strong>
+              <a href="http://www.sdman.tech/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/" title="sdman111无聊的博客">http://www.sdman.tech/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/</a>
+            </li>
+            <li>
+              <strong>版权声明： </strong>
+              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
+            </li>
+          </ul>
+        </div>
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">CocoaAsyncSocket</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/03/10/URLSession%E7%BD%91%E7%BB%9C%E8%AF%B7%E6%B1%82/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">URLSession网络请求</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+  <br>
+  
+   
+  <span style="float:right;color:#0094d5" id="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/" class="leancloud_visitors" data-flag-title="基于CocoaAsyncSocket的Server端和Client端实现">
+      <span class="post-meta-item-text">本文阅读量 </span>
+      <span class="leancloud-visitors-count">8848</span>
+    </span>
+ 
+</nav>
+<script>
+  var mdhost = '';
+  var mdurl = '2021/03/13/基于CocoaAsyncSocket的Server端和Client端实现/'.replace('.html', '.md');
+  function mdpage() {
+    window.open(mdhost + "/" + mdurl);
+  }
+</script>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#坑"><span class="toc-number">1.</span> <span class="toc-text">坑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#中文乱码"><span class="toc-number">1.1.</span> <span class="toc-text">中文乱码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器端clientSocket的使用"><span class="toc-number">1.2.</span> <span class="toc-text">服务器端clientSocket的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TextView实现类似于logs滚动刷新的效果"><span class="toc-number">1.3.</span> <span class="toc-text">TextView实现类似于logs滚动刷新的效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Client端实现"><span class="toc-number">2.</span> <span class="toc-text">Client端实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#全局属性"><span class="toc-number">2.1.</span> <span class="toc-text">全局属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例属性"><span class="toc-number">2.2.</span> <span class="toc-text">实例属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#swift实现单例，保证管理该类的类对象始终唯一"><span class="toc-number">2.3.</span> <span class="toc-text">swift实现单例，保证管理该类的类对象始终唯一</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化Socket接口"><span class="toc-number">2.4.</span> <span class="toc-text">初始化Socket接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#进行连接并根据连接状态进行处理"><span class="toc-number">2.5.</span> <span class="toc-text">进行连接并根据连接状态进行处理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送消息"><span class="toc-number">2.6.</span> <span class="toc-text">发送消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听消息"><span class="toc-number">2.7.</span> <span class="toc-text">监听消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#回调函数"><span class="toc-number">2.8.</span> <span class="toc-text">回调函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Server端实现"><span class="toc-number">3.</span> <span class="toc-text">Server端实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#全局属性-1"><span class="toc-number">3.1.</span> <span class="toc-text">全局属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实例属性-1"><span class="toc-number">3.2.</span> <span class="toc-text">实例属性</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#同样实现单例"><span class="toc-number">3.3.</span> <span class="toc-text">同样实现单例</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#初始化服务器端Socket接口"><span class="toc-number">3.4.</span> <span class="toc-text">初始化服务器端Socket接口</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#accept完成服务器端的bind、listen和accept"><span class="toc-number">3.5.</span> <span class="toc-text">accept完成服务器端的bind、listen和accept</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#发送消息-1"><span class="toc-number">3.6.</span> <span class="toc-text">发送消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#监听消息-1"><span class="toc-number">3.7.</span> <span class="toc-text">监听消息</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#回调函数-1"><span class="toc-number">3.8.</span> <span class="toc-text">回调函数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">4.</span> <span class="toc-text">最后</span></a></li></ol>
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
+  
+
+  
+
+  
+
+  
+  
+  
+    <section id="comments">
+      <div id="vcomment"></div>
+<script async>
+    var notify = false == true ? true : false;
+    var verify = false == true ? true : false;
+    var visitor = true == true ? true : false;
+    var recordIP = true == true ? true : false;
+    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
+        new Valine({
+            el: '#vcomment',
+            notify: notify,
+            verify: verify,
+            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
+            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
+            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
+            avatar: '',
+            avatar_cdn: '',
+            pageSize: 12,
+            path: '/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/',
+            visitor: visitor,
+            recordIP: recordIP
+        });
+        if(window.location.hash){
+          var checkExist = setInterval(function() {
+            if (document.getElementById(window.location.hash.replace("#",""))) {
+              location.href = window.location.hash;
+              clearInterval(checkExist);
+            }
+          }, 250);
+        }
+    });
+</script>
+    </section>
+  
+
+
+          </div>
+        </div>
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019-2021 sdman111
+    		
+    	</div>
+      <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? "https://" : "http://");document.write(unescape("%3Cspan id='cnzz_stat_icon_1277851138'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s4.cnzz.com/z_stat.php%3Fid%3D1277851138%26online%3D1%26show%3Dline' type='text/javascript'%3E%3C/script%3E"));</script>
+      	<div class="footer-right">
+          
+      		enjoy your life here
+      	</div>      	
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		mathjax: false,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		toc_hide_index: false,
+		root: "/",
+		innerArchive: true,
+		showTags: false
+	}
+</script>
+
+
+<script>loadScript("/assets/slider.818ebb.js")</script>
+
+
+
+
+
+<script async>
+loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',function(){pangu.spacingPage();});
+</script>
+
+    
+<div class="tools-col" q-class="show:isShow,hide:isShow|isFalse" q-on="click:stop(e)">
+  <div class="tools-nav header-menu">
+    
+    
+      
+      
+      
+    
+      
+      
+      
+    
+    
+    <ul style="width: 70%">
+    
+    
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'innerArchive')"><a href="javascript:void(0)" q-class="active:innerArchive">所有文章</a></li>
+      
+        
+      
+      <li style="width: 50%" q-on="click: openSlider(e, 'aboutme')"><a href="javascript:void(0)" q-class="active:aboutme">关于我</a></li>
+      
+        
+    </ul>
+  </div>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all" q-show="innerArchive">
+        <div class="search-wrap">
+          <input class="search-ipt" q-model="search" type="text" placeholder="find something…">
+          <i class="icon-search icon" q-show="search|isEmptyStr"></i>
+          <i class="icon-close icon" q-show="search|isNotEmptyStr" q-on="click:clearChose(e)"></i>
+        </div>
+        <div class="widget tagcloud search-tag">
+          <p class="search-tag-wording">tag:</p>
+          <label class="search-switch">
+            <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
+          </label>
+          <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">OLED</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color1">Swift</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">CocoaAsyncSocket</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">USB</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">CentOS7</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">iOS第三方库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
+              </li>
+            
+            <div class="clearfix"></div>
+          </ul>
+        </div>
+        <ul class="search-ul">
+          <li class="search-li" q-repeat="items" q-show="isShow">
+            <a q-attr="href:path|urlformat" class="search-title"><i class="icon-quo-left icon"></i><span q-text="title"></span></a>
+            <p class="search-time">
+              <i class="icon-calendar icon"></i>
+              <span q-text="date|dateformat"></span>
+            </p>
+            <p class="search-tag">
+              <i class="icon-price-tags icon"></i>
+              <span q-repeat="tags" q-on="click:choseTag(e, name)" q-text="name|tagformat"></span>
+            </p>
+          </li>
+        </ul>
+    	</section>
+    
+
+    
+    
+    	<section class="tools-section tools-section-me" q-show="aboutme">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">iOS开发新人,此博客用于监督自己并把自己的知识汇成文章所用,如有错误请联系我,谢谢!</div>
+  	  	
+    	</section>
+    
+  </div>  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

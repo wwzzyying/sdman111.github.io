@@ -159,6 +159,92 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-基于CocoaAsyncSocket的Server端和Client端实现" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/">基于CocoaAsyncSocket的Server端和Client端实现</a>
+    </h1>
+  
+
+        
+        <a href="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
+  	<time datetime="2021-03-13T15:46:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/sdman111/CocoaAsyncSocket_Server-Client.git" target="_blank" rel="noopener">仓库链接</a></p>
+<p>建议还是直接看代码，配合CocoaAsyncSocket每个函数的描述还是比较容易明白的，有用的话施舍个小star</p>
+<hr>
+<p>主要实现的是基于CocoaAsyncSocket中的TCP连接，是时候祭出Socket流服务这张图了：</p>
+<p>客户端的实现相对来说比服务器端简单，服务器端需要额外在accept之后获取Client对象进行读写</p>
+<img src="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/socket.jpeg" class="" title="基于CocoaAsyncSocket的Server端和Client端实现">
+
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><h3 id="中文乱码"><a href="#中文乱码" class="headerlink" title="中文乱码"></a>中文乱码</h3>
+        
+          <a class="article-more-a" href="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/#more">More >></a>
+        
+      
+
+      
+            
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">CocoaAsyncSocket</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-URLSession网络请求" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -909,87 +995,6 @@
 
 
   
-    <article id="post-趟坑记录｜iOS应用间跳转" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/29/%E8%B6%9F%E5%9D%91%E8%AE%B0%E5%BD%95%EF%BD%9CiOS%E5%BA%94%E7%94%A8%E9%97%B4%E8%B7%B3%E8%BD%AC/">趟坑记录｜iOS应用间跳转</a>
-    </h1>
-  
-
-        
-        <a href="/2020/12/29/%E8%B6%9F%E5%9D%91%E8%AE%B0%E5%BD%95%EF%BD%9CiOS%E5%BA%94%E7%94%A8%E9%97%B4%E8%B7%B3%E8%BD%AC/" class="archive-article-date">
-  	<time datetime="2020-12-29T03:02:33.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-12-29</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <meta name="referrer" content="no-referrer" />
-
-<p>自己的软件需要进行苹果自带地图、高德地图和百度地图的跳转，但由于在模拟器上只能验证苹果自带地图的跳转，所以在做完苹果地图的验证之后就把高德和百度的跳转问题给遗留下来了。没想到就被当初无知的自己乱改属性列表给坑了一把。</p>
-        
-          <a class="article-more-a" href="/2020/12/29/%E8%B6%9F%E5%9D%91%E8%AE%B0%E5%BD%95%EF%BD%9CiOS%E5%BA%94%E7%94%A8%E9%97%B4%E8%B7%B3%E8%BD%AC/#more">More >></a>
-        
-      
-
-      
-            
-      
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/12/29/%E8%B6%9F%E5%9D%91%E8%AE%B0%E5%BD%95%EF%BD%9CiOS%E5%BA%94%E7%94%A8%E9%97%B4%E8%B7%B3%E8%BD%AC/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1093,15 +1098,15 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1113,11 +1118,15 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color1">Swift</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">NP问题</a>
+                <a href="javascript:void(0)" class="js-tag color2">CocoaAsyncSocket</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1129,15 +1138,15 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">数据结构</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1153,11 +1162,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
+                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">hexo</a>
+                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
               </li>
             
             <div class="clearfix"></div>

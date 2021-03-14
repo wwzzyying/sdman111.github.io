@@ -7,22 +7,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://www.sdman.tech">
-  <title>解决Hexo框架博客图片不显示的问题 | sdman111无聊的博客</title>
+  <title>Tag: CocoaAsyncSocket | sdman111无聊的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="第一种直接使用markdown语法![Alt Text](url)，url为图片在电脑硬盘的绝对地址，但hexo框架在显示markdown语法插入的图片会出现图片不会正常显示的现象，hexo s之后博客会显示下面那样：">
-<meta property="og:type" content="article">
-<meta property="og:title" content="解决Hexo框架博客图片不显示的问题">
-<meta property="og:url" content="http://www.sdman.tech/2019/07/23/%E8%A7%A3%E5%86%B3Hexo%E6%A1%86%E6%9E%B6%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="sdman111无聊的博客">
+<meta property="og:url" content="http://www.sdman.tech/tags/CocoaAsyncSocket/index.html">
 <meta property="og:site_name" content="sdman111无聊的博客">
-<meta property="og:description" content="第一种直接使用markdown语法![Alt Text](url)，url为图片在电脑硬盘的绝对地址，但hexo框架在显示markdown语法插入的图片会出现图片不会正常显示的现象，hexo s之后博客会显示下面那样：">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cly1g59qnquoyzj20nf01r746.jpg">
-<meta property="og:image" content="http://ww1.sinaimg.cn/large/a97c915cly1g59ssow4ywj20m80famxn.jpg">
-<meta property="article:published_time" content="2019-07-23T05:42:51.000Z">
-<meta property="article:modified_time" content="2019-08-26T15:46:38.000Z">
 <meta property="article:author" content="sdman111">
-<meta property="article:tag" content="hexo">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://ww1.sinaimg.cn/large/a97c915cly1g59qnquoyzj20nf01r746.jpg">
   
     <link rel="alternative" href="/atom.xml" title="sdman111无聊的博客" type="application/atom+xml">
   
@@ -165,299 +157,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-解决Hexo框架博客图片不显示的问题" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      解决Hexo框架博客图片不显示的问题
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2021" class="archive-year">2021</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/" class="archive-article-date">
+  	<time datetime="2021-03-13T15:46:37.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-03-13</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2021/03/13/%E5%9F%BA%E4%BA%8ECocoaAsyncSocket%E7%9A%84Server%E7%AB%AF%E5%92%8CClient%E7%AB%AF%E5%AE%9E%E7%8E%B0/">基于CocoaAsyncSocket的Server端和Client端实现</a>
     </h1>
   
 
-        
-        <a href="/2019/07/23/%E8%A7%A3%E5%86%B3Hexo%E6%A1%86%E6%9E%B6%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98/" class="archive-article-date">
-  	<time datetime="2019-07-23T05:42:51.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2019-07-23</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="第一种"><a href="#第一种" class="headerlink" title="第一种"></a>第一种</h2><p>直接使用markdown语法<code>![Alt Text](url)</code>，url为图片在电脑硬盘的绝对地址，但hexo框架在显示markdown语法插入的图片会出现图片不会正常显示的现象，<code>hexo s</code>之后博客会显示下面那样：</p>
-<p><img src="http://ww1.sinaimg.cn/large/a97c915cly1g59qnquoyzj20nf01r746.jpg" alt=""></p>
-<a id="more"></a>
-
-<h2 id="第二种"><a href="#第二种" class="headerlink" title="第二种"></a>第二种</h2><p>打开博客所在文件夹blog，找到<code>_config.yml</code>文件，修改<code>post_asset_folder: true</code></p>
-<p>每次执行<code>hexo new &quot;文件名&quot;</code>命令时，文件所在文件夹会同时创建一个与同名文件的文件夹，可以把文件所需资源放在此文件夹内。</p>
-<p>打开你的md文件，使用标签插件<code></code>来插入同名文件夹内的图片（！！！这是hexo3已写入核心代码的标签插件）</p>
-<p>当我使用标签插件插入图片成功后，奇怪的事发生了，在我的md文件内标签插件仅仅正常显示了两张图片，其他插入均失效了，然后使用markdown语法<code>![图片描述](/md文件夹名字/example.jpg)</code>也不能正常显示。</p>
-<p>如果你可以正常插入图片那可以不用看下去了</p>
-<h2 id="第三种"><a href="#第三种" class="headerlink" title="第三种"></a>第三种</h2><p>在blog/source目录下新建一个images目录，把所需插入的图片放进此目录，还是使用markdown语法<code>![图片描述](/images/example.jpg)</code>,感觉与第二种方法大同小异，依旧不能成功插入。下一个下一个</p>
-<h2 id="第四种"><a href="#第四种" class="headerlink" title="第四种"></a>第四种</h2><p>在博客坐在目录blog调用git bash</p>
-<p>调用命令<code>npm install https://github.com/CodeFalling/hexo-asset-image --save</code>等待片刻，完成安装后用<code>hexo</code>新建文章的时候会发现<code>_posts</code>目录下面会多出一个和文章名字一样的文件夹。图片就可以放在文件夹下面。</p>
-<p>但是需要修改插件内容，不然会出Bug。打开/node_modules/hexo-asset-image/index.js，替换成下列内容：</p>
-<pre><code>&apos;use strict&apos;;
-var cheerio = require(&apos;cheerio&apos;);
-
-// http://stackoverflow.com/questions/14480345/how-to-get-the-nth-occurrence-in-a-string
-function getPosition(str, m, i) {
-  return str.split(m, i).join(m).length;
-}
-
-var version = String(hexo.version).split(&apos;.&apos;);
-hexo.extend.filter.register(&apos;after_post_render&apos;, function(data){
-  var config = hexo.config;
-  if(config.post_asset_folder){
-      var link = data.permalink;
-  if(version.length &gt; 0 &amp;&amp; Number(version[0]) == 3)
-     var beginPos = getPosition(link, &apos;/&apos;, 1) + 1;
-  else
-     var beginPos = getPosition(link, &apos;/&apos;, 3) + 1;
-  // In hexo 3.1.1, the permalink of &quot;about&quot; page is like &quot;.../about/index.html&quot;.
-  var endPos = link.lastIndexOf(&apos;/&apos;) + 1;
-    link = link.substring(beginPos, endPos);
-var toprocess = [&apos;excerpt&apos;, &apos;more&apos;, &apos;content&apos;];
-for(var i = 0; i &lt; toprocess.length; i++){
-  var key = toprocess[i];
-
-  var $ = cheerio.load(data[key], {
-    ignoreWhitespace: false,
-    xmlMode: false,
-    lowerCaseTags: false,
-    decodeEntities: false
-  });
-
-  $(&apos;img&apos;).each(function(){
-if ($(this).attr(&apos;src&apos;)){
-  // For windows style path, we replace &apos;\&apos; to &apos;/&apos;.
-  var src = $(this).attr(&apos;src&apos;).replace(&apos;\\&apos;, &apos;/&apos;);
-  if(!/http[s]*.*|\/\/.*/.test(src) &amp;&amp;
-     !/^\s*\//.test(src)) {
-    // For &quot;about&quot; page, the first part of &quot;src&quot; can&apos;t be removed.
-    // In addition, to support multi-level local directory.
-    var linkArray = link.split(&apos;/&apos;).filter(function(elem){
-    return elem != &apos;&apos;;
-    });
-    var srcArray = src.split(&apos;/&apos;).filter(function(elem){
-    return elem != &apos;&apos; &amp;&amp; elem != &apos;.&apos;;
-    });
-    if(srcArray.length &gt; 1)
-    srcArray.shift();
-    src = srcArray.join(&apos;/&apos;);
-    $(this).attr(&apos;src&apos;, config.root + link + src);
-    console.info&amp;&amp;console.info(&quot;update link as:--&gt;&quot;+config.root + link + src);
-  }
-}else{
-  console.info&amp;&amp;console.info(&quot;no src attr, skipped...&quot;);
-  console.info&amp;&amp;console.info($(this));
-    }
-  });
-  data[key] = $.html();
-    }
-  }
-});</code></pre><p>然后，然后使用第二种方法的标签插件<code></code></p>
-<p>不出所料，又失败了。</p>
-<h2 id="第五种"><a href="#第五种" class="headerlink" title="第五种"></a>第五种</h2><p>使用图云，浏览器内安装“微博图床”扩展</p>
-<p><img src="http://ww1.sinaimg.cn/large/a97c915cly1g59ssow4ywj20m80famxn.jpg" alt=""></p>
-<p>选取电脑内的图片或者拖拽图片，生成Markdown连接，复制粘贴到md文件中，成功了！！！</p>
-<p>前面几个方法都不成功，只有图床能完整并且全部显示插入的图片。</p>
-<p>如果标签插件和安装插件都没有成功的话可以试一下图床扩展！</p>
-<hr>
-<p>markdown语法插入图片失败，控制台显示403的话可以在开头加入<strong><meta></strong>标签：<strong><meta name="referrer" content="no-referrer" /></strong></p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>请作者吃辣条<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assert/支付宝收款码.jpg">
-                      <span class="reward-type">支付宝</span>
-                    </div>
-                    
-                    
-                    <div class="reward-box-item">
-                      <img class="reward-img" src="/assert/微信收款码.jpg">
-                      <span class="reward-type">微信</span>
-                    </div>
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-            
-      
-        <div> 
-          <ul class="post-copyright">
-            <li>
-              <strong>本文作者：</strong>
-              sdman111
-            </li>
-            <li>
-              <strong>本文链接：</strong>
-              <a href="http://www.sdman.tech/2019/07/23/%E8%A7%A3%E5%86%B3Hexo%E6%A1%86%E6%9E%B6%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98/" title="sdman111无聊的博客">http://www.sdman.tech/2019/07/23/%E8%A7%A3%E5%86%B3Hexo%E6%A1%86%E6%9E%B6%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98/</a>
-            </li>
-            <li>
-              <strong>版权声明： </strong>
-              本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" rel="external nofollow" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明出处！
-            </li>
-          </ul>
-        </div>
-      
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color5">hexo</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">CocoaAsyncSocket</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
+        </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2019/08/02/%E7%AE%80%E5%8D%95%E7%9A%84%E5%AF%86%E7%A0%81%E5%BC%BA%E5%BA%A6%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E9%AA%8C%E8%AF%81%E5%AF%86%E7%A0%81/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          密码强度正则表达式实现检验用户密码格式以及强度
-        
-      </div>
-    </a>
   
   
-    <a href="/2019/07/22/%E5%88%9D%E6%AD%A5%E4%BA%86%E8%A7%A3USB-Type-A-B-C%E4%B8%89%E5%A4%A7%E6%A0%87%E5%87%86%E6%8E%A5%E5%8F%A3/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">初步了解USB Type-A,B,C三大标准接口</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-  <br>
-  
-   
-  <span style="float:right;color:#0094d5" id="/2019/07/23/%E8%A7%A3%E5%86%B3Hexo%E6%A1%86%E6%9E%B6%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98/" class="leancloud_visitors" data-flag-title="解决Hexo框架博客图片不显示的问题">
-      <span class="post-meta-item-text">本文阅读量 </span>
-      <span class="leancloud-visitors-count">8848</span>
-    </span>
- 
-</nav>
-<script>
-  var mdhost = '';
-  var mdurl = '2019/07/23/解决Hexo框架博客图片不显示的问题/'.replace('.html', '.md');
-  function mdpage() {
-    window.open(mdhost + "/" + mdurl);
-  }
-</script>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#第一种"><span class="toc-number">1.</span> <span class="toc-text">第一种</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第二种"><span class="toc-number">2.</span> <span class="toc-text">第二种</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第三种"><span class="toc-number">3.</span> <span class="toc-text">第三种</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第四种"><span class="toc-number">4.</span> <span class="toc-text">第四种</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#第五种"><span class="toc-number">5.</span> <span class="toc-text">第五种</span></a></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
-  
-  
-    <section id="comments">
-      <div id="vcomment"></div>
-<script async>
-    var notify = false == true ? true : false;
-    var verify = false == true ? true : false;
-    var visitor = true == true ? true : false;
-    var recordIP = true == true ? true : false;
-    loadScript('https://cdn.jsdelivr.net/npm/valine/dist/Valine.min.js',function(){
-        new Valine({
-            el: '#vcomment',
-            notify: notify,
-            verify: verify,
-            appId: 'qawjmMtP1rGwreOu8AM3ni2G-gzGzoHsz',
-            appKey: 'crTBhBwsCVsg6wGnhzgtc3Tv',
-            placeholder: '友情提醒，留下正确的邮箱地址可以第一时间获取评论反馈',
-            avatar: '',
-            avatar_cdn: '',
-            pageSize: 12,
-            path: '/2019/07/23/%E8%A7%A3%E5%86%B3Hexo%E6%A1%86%E6%9E%B6%E5%8D%9A%E5%AE%A2%E5%9B%BE%E7%89%87%E4%B8%8D%E6%98%BE%E7%A4%BA%E7%9A%84%E9%97%AE%E9%A2%98/',
-            visitor: visitor,
-            recordIP: recordIP
-        });
-        if(window.location.hash){
-          var checkExist = setInterval(function() {
-            if (document.getElementById(window.location.hash.replace("#",""))) {
-              location.href = window.location.hash;
-              clearInterval(checkExist);
-            }
-          }, 250);
-        }
-    });
-</script>
-    </section>
-  
+    
 
 
           </div>
@@ -482,9 +235,9 @@ if ($(this).attr(&apos;src&apos;)){
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: false,
