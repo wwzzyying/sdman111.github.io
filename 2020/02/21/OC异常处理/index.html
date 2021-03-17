@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="sdman111无聊的博客">
 <meta property="og:description" content="异常程序可以编译、链接、运行，当程序运行时，出于某些条件下，程序执行终止。 异常后果">
 <meta property="article:published_time" content="2020-02-21T08:15:28.000Z">
-<meta property="article:modified_time" content="2020-02-21T08:36:06.000Z">
+<meta property="article:modified_time" content="2021-03-17T11:37:51.477Z">
 <meta property="article:author" content="sdman111">
 <meta property="article:tag" content="Objective-C">
 <meta name="twitter:card" content="summary">
@@ -192,34 +192,21 @@
 <p>当发生异常时，执行@catch块，然后继续往下执行。</p>
 <p>当不发生异常时，执行@try块，然后略过@catch块，继续往下执行。</p>
 <ul>
-<li><p>@catch中一般写处理异常的代码；</p>
-</li>
-<li><pre><code>打印ex指向的对象的值，拿到异常原因。
-@catch(NSException *ex)
-{
-    NSLog(@&quot;%@&quot;,ex);
-}
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">- 无论@try块是否发生异常，@finally块都要执行；</span><br><span class="line"></span><br><span class="line">-</span><br></pre></td></tr></table></figure>
-C语言的异常无法处理
-int num1 = 10;
-int num2 = 0;
-int num3 = num1/num2;
-这时候try不起作用，运行时还是会发生异常然后崩溃。
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-</span><br></pre></td></tr></table></figure>
-@try...@catch不是万能的
-例如：
-@try
-{
-    Person *p1;
-    p1-&gt;_name = @&quot;xxx&quot;；
-}
-此时无法捕捉异常
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">-</span><br></pre></td></tr></table></figure>
-所以，处理异常更多是逻辑上的判断
-Person *p1;
-if(p1 != nil)
-    p1-&gt;_name = @&quot;xxx&quot;;</code></pre></li>
+<li>@catch中一般写处理异常的代码；</li>
 </ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">打印ex指向的对象的值，拿到异常原因。</span><br><span class="line">@catch(NSException *ex)</span><br><span class="line">&#123;</span><br><span class="line">	NSLog(@&quot;%@&quot;,ex);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>无论@try块是否发生异常，@finally块都要执行；</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">C语言的异常无法处理</span><br><span class="line">int num1 &#x3D; 10;</span><br><span class="line">int num2 &#x3D; 0;</span><br><span class="line">int num3 &#x3D; num1&#x2F;num2;</span><br><span class="line">这时候try不起作用，运行时还是会发生异常然后崩溃。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">@try...@catch不是万能的</span><br><span class="line">例如：</span><br><span class="line">@try</span><br><span class="line">&#123;</span><br><span class="line">	Person *p1;</span><br><span class="line">	p1-&gt;_name &#x3D; @&quot;xxx&quot;；</span><br><span class="line">&#125;</span><br><span class="line">此时无法捕捉异常</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">所以，处理异常更多是逻辑上的判断</span><br><span class="line">Person *p1;</span><br><span class="line">if(p1 !&#x3D; nil)</span><br><span class="line">	p1-&gt;_name &#x3D; @&quot;xxx&quot;;</span><br></pre></td></tr></table></figure>
+
+
+
 <hr>
 <p>参考</p>
 <p><a href="https://www.bilibili.com/video/av69033036?p=52" target="_blank" rel="noopener">传智播客 iOS开发基础班—Objective-C学习</a></p>
@@ -509,7 +496,7 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -517,15 +504,15 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -541,11 +528,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CocoaAsyncSocket</a>
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -561,15 +548,19 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">CocoaAsyncSocket</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">CentOS7</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -578,10 +569,6 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
               </li>
             
             <div class="clearfix"></div>

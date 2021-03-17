@@ -16,7 +16,7 @@
 <meta property="og:site_name" content="sdman111无聊的博客">
 <meta property="og:description" content="NSString类NSString是Foundation框架的一个类，是用来存储OC字符串的，而OC字符串本质上用 NSString对象 保存； 完整的创建NSString对象方式：">
 <meta property="article:published_time" content="2020-02-23T08:12:15.000Z">
-<meta property="article:modified_time" content="2020-02-23T09:08:18.000Z">
+<meta property="article:modified_time" content="2021-03-17T11:36:18.524Z">
 <meta property="article:author" content="sdman111">
 <meta property="article:tag" content="Objective-C">
 <meta name="twitter:card" content="summary">
@@ -193,42 +193,42 @@
 <li>%p打印指针变量的值；</li>
 <li>%@打印指针变量指向的对象。</li>
 </ul>
-<h2 id="NSString最常用的方法"><a href="#NSString最常用的方法" class="headerlink" title="NSString最常用的方法"></a>NSString最常用的方法</h2><h3 id="类方法"><a href="#类方法" class="headerlink" title="类方法"></a>类方法</h3><ol>
-<li><pre><code>+ (nullable instancetype)stringWithUTF8String:(const char *)nullTerminatedCString;
-把C的字符串转换为OC的字符串对象，返回值为当前类的对象。
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2.</span><br></pre></td></tr></table></figure>
-+ (instancetype)stringWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);
-一个或多个字符串对象拼接起来。
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### 对象方法</span><br><span class="line"></span><br><span class="line">1.</span><br></pre></td></tr></table></figure>
-length方法，返回值为NSUInteger(实际上是 unsigned long)
-用于求字符串长度。中英文字符串都可以，可以中英混合。
-为什么中文6个和英文6个长度都显示6呢？
-    -因为NSString的length方法返回一个UTF-16编码单元（码元）的个数，即大部分字符都以固定长度的字节 (2字节) 储存。调用时看看使用了多少个UTF-16编码的单元就得到长度了。
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">2.</span><br></pre></td></tr></table></figure>
-得到字符串指定下标的字符
-- (unichar)characterAtIndex:(NSUInteger)index;
-返回值是unichar，其实就是unsigned short，占两个字节；
-调用：
-    unichar ch = [str characterAtIndex:3];
-输出：
-    NSLog(@&quot;ch=%c&quot;,ch);小写c，输出char类型-英文
-    NSLog(@&quot;ch=%C&quot;,ch);大写C，输出unichar类型-可以显示中文
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">3.</span><br></pre></td></tr></table></figure>
-判断两个字符串的内容是否相同，不要用==去判断
-判断方式：
-- (BOOL)isEqualToString:(NSString *)aString;
-调用：
-    [str isEqualToString:str2];
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">4.</span><br></pre></td></tr></table></figure>
-比较字符串大小
-- (NSComparisonResult)compare:(NSString *)string;
-可以用int接收，因为返回值是一个枚举;
--1是小于，0是等于，1是大于。
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## 匿名对象</span><br><span class="line"></span><br><span class="line">**没有任何指针指向这个对象**。本来new方法创建对象后返回对象地址给指针变量，现在没有了这个变量。</span><br><span class="line"></span><br><span class="line">此时访问属性可以：</span><br><span class="line"></span><br><span class="line">&#96;[Person new]-&gt;_name &#x3D; 10;&#96;</span><br><span class="line"></span><br><span class="line">调用方法可以：</span><br><span class="line"></span><br><span class="line">&#96;[[Person new] sayHi];&#96;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">注意：</span><br><span class="line"></span><br><span class="line">- 匿名对象只能用一次；</span><br><span class="line">- 每次创建匿名对象都是不同的对象。</span><br></pre></td></tr></table></figure>
-[Person new]-&gt;_name = @&quot;xxx&quot;;
-[Person new]-&gt;_age = 18;
-[[Person new] sayHi]调用sayHi方法，sayHi方法本质上输出对象属性，但此时输出的分别是null和0，因为每一次new都是一个新的对象，属性不是此前赋值的@&quot;xxx&quot;和18.</code></pre></li>
-</ol>
+<h2 id="NSString最常用的方法"><a href="#NSString最常用的方法" class="headerlink" title="NSString最常用的方法"></a>NSString最常用的方法</h2><h3 id="类方法"><a href="#类方法" class="headerlink" title="类方法"></a>类方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ (nullable instancetype)stringWithUTF8String:(const char *)nullTerminatedCString;</span><br><span class="line">把C的字符串转换为OC的字符串对象，返回值为当前类的对象。</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">+ (instancetype)stringWithFormat:(NSString *)format, ... NS_FORMAT_FUNCTION(1,2);</span><br><span class="line">一个或多个字符串对象拼接起来。</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="对象方法"><a href="#对象方法" class="headerlink" title="对象方法"></a>对象方法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">length方法，返回值为NSUInteger(实际上是 unsigned long)</span><br><span class="line">用于求字符串长度。中英文字符串都可以，可以中英混合。</span><br><span class="line">为什么中文6个和英文6个长度都显示6呢？</span><br><span class="line">	-因为NSString的length方法返回一个UTF-16编码单元（码元）的个数，即大部分字符都以固定长度的字节 (2字节) 储存。调用时看看使用了多少个UTF-16编码的单元就得到长度了。</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">得到字符串指定下标的字符</span><br><span class="line">- (unichar)characterAtIndex:(NSUInteger)index;</span><br><span class="line">返回值是unichar，其实就是unsigned short，占两个字节；</span><br><span class="line">调用：</span><br><span class="line">	unichar ch &#x3D; [str characterAtIndex:3];</span><br><span class="line">输出：</span><br><span class="line">	NSLog(@&quot;ch&#x3D;%c&quot;,ch);小写c，输出char类型-英文</span><br><span class="line">	NSLog(@&quot;ch&#x3D;%C&quot;,ch);大写C，输出unichar类型-可以显示中文</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">判断两个字符串的内容是否相同，不要用&#x3D;&#x3D;去判断</span><br><span class="line">判断方式：</span><br><span class="line">- (BOOL)isEqualToString:(NSString *)aString;</span><br><span class="line">调用：</span><br><span class="line">	[str isEqualToString:str2];</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">比较字符串大小</span><br><span class="line">- (NSComparisonResult)compare:(NSString *)string;</span><br><span class="line">可以用int接收，因为返回值是一个枚举;</span><br><span class="line">-1是小于，0是等于，1是大于。</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="匿名对象"><a href="#匿名对象" class="headerlink" title="匿名对象"></a>匿名对象</h2><p><strong>没有任何指针指向这个对象</strong>。本来new方法创建对象后返回对象地址给指针变量，现在没有了这个变量。</p>
+<p>此时访问属性可以：</p>
+<p><code>[Person new]-&gt;_name = 10;</code></p>
+<p>调用方法可以：</p>
+<p><code>[[Person new] sayHi];</code></p>
+<p>注意：</p>
+<ul>
+<li>匿名对象只能用一次；</li>
+<li>每次创建匿名对象都是不同的对象。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[Person new]-&gt;_name &#x3D; @&quot;xxx&quot;;</span><br><span class="line">[Person new]-&gt;_age &#x3D; 18;</span><br><span class="line">[[Person new] sayHi]调用sayHi方法，sayHi方法本质上输出对象属性，但此时输出的分别是null和0，因为每一次new都是一个新的对象，属性不是此前赋值的@&quot;xxx&quot;和18.</span><br></pre></td></tr></table></figure>
+
+
+
 <h3 id="匿名对象用处"><a href="#匿名对象用处" class="headerlink" title="匿名对象用处"></a>匿名对象用处</h3><ul>
 <li><strong>某个对象的成员只使用一次，然后这个对象就不用了；</strong></li>
 <li><strong>如果方法的参数是一个对象，且专门给某个方法传递，且调用者不再使用这个对象，就可以传一个匿名对象。</strong></li>
@@ -373,7 +373,7 @@ length方法，返回值为NSUInteger(实际上是 unsigned long)
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#NSString类"><span class="toc-number">1.</span> <span class="toc-text">NSString类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NSString最常用的方法"><span class="toc-number">2.</span> <span class="toc-text">NSString最常用的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类方法"><span class="toc-number">2.1.</span> <span class="toc-text">类方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#匿名对象用处"><span class="toc-number">2.2.</span> <span class="toc-text">匿名对象用处</span></a></li></ol></li></ol>
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#NSString类"><span class="toc-number">1.</span> <span class="toc-text">NSString类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#NSString最常用的方法"><span class="toc-number">2.</span> <span class="toc-text">NSString最常用的方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#类方法"><span class="toc-number">2.1.</span> <span class="toc-text">类方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对象方法"><span class="toc-number">2.2.</span> <span class="toc-text">对象方法</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#匿名对象"><span class="toc-number">3.</span> <span class="toc-text">匿名对象</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#匿名对象用处"><span class="toc-number">3.1.</span> <span class="toc-text">匿名对象用处</span></a></li></ol></li></ol>
                     </div>
                 </span>
             </div>
@@ -523,7 +523,7 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -531,15 +531,15 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
+                <a href="javascript:void(0)" class="js-tag color4">iOS</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -555,11 +555,11 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color2">CocoaAsyncSocket</a>
+                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">像素排列</a>
+                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -575,15 +575,19 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">App Inventor</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color2">CocoaAsyncSocket</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">CentOS7</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -592,10 +596,6 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color5">hexo</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">SwiftUI</a>
               </li>
             
             <div class="clearfix"></div>
