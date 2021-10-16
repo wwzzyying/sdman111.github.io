@@ -159,6 +159,95 @@
           <div id="js-content" class="content-ll">
             
   
+    <article id="post-自定义转场动画" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/01/28/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/">自定义iOS转场动画</a>
+    </h1>
+  
+
+        
+        <a href="/2021/01/28/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/" class="archive-article-date">
+  	<time datetime="2021-01-28T03:16:06.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2021-01-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="构造流程"><a href="#构造流程" class="headerlink" title="构造流程"></a>构造流程</h2><blockquote>
+<p>To present a view controller using custom animations, do the following in an action method of your existing view controllers:</p>
+<ol>
+<li>Create the view controller that you want to present.</li>
+<li>Create your custom transitioning delegate object and assign it to the view controller’s <code>transitioningDelegate</code> property. The methods of your transitioning delegate should create and return your custom animator objects when asked.</li>
+<li>Call the <code>presentViewController:animated:completion:</code> method to present the view controller.</li>
+</ol>
+<p>When you call the <code>presentViewController:animated:completion:</code> method, UIKit initiates the presentation process. Presentations start during the next run loop iteration and continue until your custom animator calls the <code>completeTransition:</code> method. Interactive transitions allow you to process touch events while the transition is ongoing, but noninteractive transitions run for the duration specified by the animator object.</p>
+</blockquote>
+<p>第一步：获取已经创建好的所需要present的VC。</p>
+<p>第二步：创建一个遵循<code>UIViewControllerTransitioningDelegate</code>协议的类，并把该类对象赋值给需要present的VC（即第一步中的VC）的<code>transitioningDelegate</code>属性；遵循<code>UIViewControllerTransitioningDelegate</code>协议的这个类所需要实现的方法必须返回所创建的自定义动画对象animator object。</p>
+        
+          <a class="article-more-a" href="/2021/01/28/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/#more">More >></a>
+        
+      
+
+      
+            
+      
+
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">iOS</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2021/01/28/%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E5%8A%A8%E7%94%BB/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
     <article id="post-趟坑记录｜iOS应用间跳转" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -905,91 +994,6 @@
 
 
   
-    <article id="post-SEL-点语法" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/03/SEL-%E7%82%B9%E8%AF%AD%E6%B3%95/">SEL &amp; 点语法</a>
-    </h1>
-  
-
-        
-        <a href="/2020/03/03/SEL-%E7%82%B9%E8%AF%AD%E6%B3%95/" class="archive-article-date">
-  	<time datetime="2020-03-02T21:50:02.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2020-03-03</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>包括SEL，调用方法的本质，手动发送消息，点语法的本质。</p>
-<h2 id="SEL——selector选择器"><a href="#SEL——selector选择器" class="headerlink" title="SEL——selector选择器"></a>SEL——selector选择器</h2><p>是一个数据类型，一个类，SEL对象用于存储方法；</p>
-<p><strong>类是以Class对象保存在代码段中的，而类中的方法以SEL对象存储在Class类对象中；</strong></p>
-<p>存储方法的过程：</p>
-<p>1：先创建SEL对象；</p>
-<p>2：将方法的信息存储在这个SEL对象中；</p>
-<p>再将这个SEL对象作为类对象的属性。</p>
-        
-          <a class="article-more-a" href="/2020/03/03/SEL-%E7%82%B9%E8%AF%AD%E6%B3%95/#more">More >></a>
-        
-      
-
-      
-            
-      
-
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags icon"></i>
-		<ul class="article-tag-list">
-			 
-        		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">Objective-C</a>
-        		</li>
-      		
-		</ul>
-	</div>
-
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2020/03/03/SEL-%E7%82%B9%E8%AF%AD%E6%B3%95/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/3/">Next &amp;raquo;</a>
@@ -1085,7 +1089,7 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
+                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1093,19 +1097,19 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">Java</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">LCD</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">LeetCode</a>
               </li>
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color5">Java</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color2">Objective-C</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">闲聊</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -1141,19 +1145,19 @@ loadScript('https://cdn.jsdelivr.net/npm/pangu/dist/browser/pangu.min.js',functi
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">蓝桥杯</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">CentOS7</a>
+                <a href="javascript:void(0)" class="js-tag color5">汇编语言</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">iOS第三方库</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">CentOS7</a>
               </li>
              
               <li class="article-tag-list-item">
